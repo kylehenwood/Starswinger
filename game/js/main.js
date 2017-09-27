@@ -1,8 +1,6 @@
 // javascripts
 $(document).ready(function(){
-  viewportToggle();
   scoreUpdater();
-  busPosition();
 });
 
 
