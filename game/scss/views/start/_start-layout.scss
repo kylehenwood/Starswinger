@@ -1,0 +1,65 @@
+// Start layout
+
+/*
+      <div class="start-layout__logo"></div>
+      <div class="start-layout__start"></div>
+      <div class="start-layout__settings"></div>
+      <div class="start-layout__options"></div>
+      */
+
+
+.start-layout {
+  position: relative;
+  height: 100%;
+  width: 100%;
+}
+.start-layout__logo {}
+
+// start button
+.start-layout__start {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translateX(-50%);
+}
+.start-button {
+  cursor: pointer;
+  width: 240px;
+  height: 80px;
+  border-radius: 40px;
+  border: 4px solid white;
+  //box-shadow: inset 0 0 0 4px #333;
+  @include transition(all 400ms linear);
+  &:active {
+    background: black;
+  }
+}
+.start-button__text {
+  @extend noselect;
+  color: $white;
+  text-align: center;
+  line-height: 72px;
+  font-size: 32px;
+  font-weight: bold;
+  @include transition(all 400ms linear);
+}
+
+.start-button--active {
+  width: 80px;
+  background: $white!important;
+  transform: translateY(-50%);
+}
+
+.start-button--active {
+  .start-button__text {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+}
+
+.viewport--start {
+  background: $white;
+}
+
+.start-layout__settings {}
+.start-layout__options {}

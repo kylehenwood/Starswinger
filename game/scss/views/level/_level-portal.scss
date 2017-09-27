@@ -1,0 +1,38 @@
+
+// portal
+.level-portal {
+  position: relative;
+  height: 24px;
+  width: 24px;
+}
+.level-portal__eye {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: $white;
+  height: 100%;
+  width: 100%;
+  border-radius: 50%;
+  box-shadow: 0 0 8px 4px rgba($white,1);
+}
+
+.level-portal__pulse {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  animation: portalAnim 4s infinite ease-in;
+}
+
+.level-portal__pulse--1 {animation-delay: 0s;}
+.level-portal__pulse--2 {animation-delay: 1s;}
+.level-portal__pulse--3 {animation-delay: 2s;}
+.level-portal__pulse--4 {animation-delay: 3s;}
+
+
+@keyframes portalAnim {
+  0%   {box-shadow: 0 0 0 0 rgba($white,0.4);}
+  100% {box-shadow: 0 0 0 80px rgba($white,0);}
+}

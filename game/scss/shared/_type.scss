@@ -1,0 +1,148 @@
+// this will serve as a boilerplate typography style
+$font-family:"Open Sans",Open-Sans,helvetica,arial;
+$font-mono: consolas, monaco, courier, 'courier new';
+
+::-ms-clear  { width: 0; height: 0; }
+::-ms-reveal { width: 0; height: 0; }
+
+//-- font control
+// font-size
+// make a font with @font-family with these? bold:semibold bla bla
+
+$fontsize-h1: 2.4;
+$fontsize-h2: 2.0;
+$fontsize-h3: 1.8;
+$fontsize-h4: 1.6;
+$fontsize-h5: 1.4;
+
+.typography {
+  //max-width: 800px;
+  margin: 0 auto;
+  font-size: 20px;
+  @include font-size(1.4);
+  line-height: 1.4;
+}
+
+// font-size
+html { font-size: 62.5%; }
+body {
+  @include font-size(1.4);
+  font-family: $font-family;
+  line-height: 1.2;
+  color: $text-1;
+}
+
+// setting defaults
+body {text-rendering: optimizeLegibility;}
+body,
+input,
+button {-webkit-font-smoothing: antialiased;}
+
+blockquote {
+  border-left: 4px solid $grey-2;
+  padding: 0 0 0 24px;
+  //font-style: italic;
+  @include font-size(1.8);
+}
+
+h1 {@include font-size($fontsize-h1);}
+h2 {@include font-size($fontsize-h2);}
+h3 {@include font-size($fontsize-h3);}
+h4 {@include font-size($fontsize-h4);}
+h5 {@include font-size($fontsize-h5);}
+
+
+@media (max-width: $breakpoint-4){
+  h1,.alpha   {@include font-size(3.2);}
+  h2,.beta    {@include font-size(2.4);}
+  h3,.gamma   {@include font-size(2.0);}
+  h4,.delta   {@include font-size(1.8);}
+  h5,.epsilon {@include font-size(1.6);}
+  h6,.zeta    {@include font-size(1.6);}
+}
+
+h1,h2,h3,h4,h5,h6 {
+  line-height: 1.2;
+  font-family: $font-family;
+}
+
+em,
+.text-italic {
+  font-style:italic;
+}
+strong,
+.text-bold {
+  font-weight: bold;
+}
+.typography a {
+  color: $blue;
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+  &:hover,
+  &:active {
+    color: $red;
+  }
+}
+.link-primary {
+  color: $blue;
+  text-decoration: none;
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+  &:hover,
+  &:active {
+    color: $red;
+  }
+}
+
+// Text variables
+.text-blue {color: $color-azure-dark;}
+.text-purple {color: $color-byzantine}
+.text-red {color: $color-ember-dark;}
+.text-orange {color: $color-flame-dark;}
+.text-yellow {color: $yellow;}
+.text-green {color: $color-forest-dark;}
+.text-grey {color: $color-grey;}
+.text-white {color: $white;}
+.text-black {color: $black;}
+.text-dark {color: $text-1;}
+.text-light {color: $grey-2;}
+
+.text-center {text-align: center;}
+.text-right {text-align: right;}
+.text-left {text-align: left;}
+.text-italic {font-style: italic;}
+
+.text-break {
+  -ms-word-break: break-all;
+  word-break: break-word;
+  -webkit-hyphens: auto;
+  -moz-hyphens: auto;
+  hyphens: auto;
+}
+
+.text-ellipsis {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  display: block;
+}
+
+/*
+.text-mono {
+  font-family: $font-family-mono;
+  @include font-size($fontsize-code);
+}
+*/
+
+
+img {
+  display: block;
+  margin: 0 auto;
+  max-width: 100%;
+  height: auto;
+}
+
+
+.heading-size-1 {@include font-size($fontsize-h1);}
+.heading-size-2 {@include font-size($fontsize-h2);}
+.heading-size-3 {@include font-size($fontsize-h3);}
+.heading-size-4 {@include font-size($fontsize-h4);}
+.heading-size-5 {@include font-size($fontsize-h5);}

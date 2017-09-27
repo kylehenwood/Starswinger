@@ -1,0 +1,147 @@
+// score sidebar
+
+.score-sidebar {
+  display: none;
+  position: relative;
+  height: 100%;
+  padding: 48px 0;
+  background: $color-grey-lightest;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}
+
+.score-sidebar--show {
+  display: block;
+}
+
+.score-sidebar__header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 48px;
+  width: 100%;
+  padding: 16px;
+  line-height: 16px;
+  font-weight: bold;
+}
+.score-sidebar__body {
+  background: $white;
+  height: 100%;
+  overflow-y: scroll;
+  border-top: 1px solid $color-border;
+  border-bottom: 1px solid $color-border;
+}
+
+
+.score-sidebar__footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 48px;
+  width: 100%;
+  padding: 6px;
+  //background: $color-byzantine;
+}
+
+
+
+.score-more {
+  cursor: pointer;
+  height: 36px;
+  line-height: 16px;
+  padding: 10px;
+  width: 100%;
+  border-radius: 24px;
+  text-align: center;
+  color: $white;
+  font-weight: bold;
+  //background: $color-forest;
+  background: $color-azure;
+  &:hover {
+    //background: $color-forest-light;
+    background: $color-azure-light;
+  }
+  &:active {
+    //background: $color-forest-dark;
+    background: $color-azure-dark;
+  }
+}
+
+
+// score list
+.score-list {}
+.score-list__item {
+  border-bottom: 1px solid $color-border-light;
+}
+
+.score-item {
+  position: relative;
+  padding: 0 0 0 64px;
+  height: 64px;
+}
+
+.score-item__position {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 64px;
+  height: 64px;
+  line-height: 64px;
+  text-align: center;
+  font-weight: bold;
+}
+.score-item__result {}
+
+.score-result {
+  position: relative;
+  height: 64px;
+}
+.score-result__bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: rgba($color-azure,0.15);
+}
+.score-result__name {
+  position: absolute;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  padding: 16px;
+  font-weight: bold;
+  line-height: 32px;
+}
+.score-result__score {
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  right: 0;
+  padding: 16px;
+  font-weight: bold;
+  line-height: 32px;
+  font-size: 18px;
+}
+
+
+.button {}
+.button--36 {
+  border-radius: 24px;
+  line-height: 16px;
+  height: 36px;
+  padding: 8px;
+  border: 2px solid $color-border;
+}
+.button--blue {
+  border: 2px solid $color-border;
+  color: $text-grey;
+  &:hover {
+    color: $text-black;
+    border: 2px solid $color-azure;
+  }
+  &:active {
+    color: $white;
+    background: $color-azure;
+    border: 2px solid $color-azure;
+  }
+}

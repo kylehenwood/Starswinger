@@ -1,0 +1,50 @@
+// apply a natural box layout model to all elements
+*, *:before, *:after {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+// _responsive breakpoints
+$breakpoint-1: 1140px;
+$breakpoint-2: 980px;
+$breakpoint-3: 780px;
+$breakpoint-4: 440px;
+$breakpoint-5: 320px;
+
+// _shared imports
+@import "reset";
+
+// _shared imports
+@import "shared/_mixin";
+@import "shared/_color";
+
+@import "shared/_center";
+@import "shared/_type";
+@import "shared/_typography";
+@import "shared/_button";
+
+// chrome
+@import "chrome/_layout";
+@import "chrome/_layout-sidebar";
+
+
+//-- views
+@import "views/_viewport";
+
+//.level
+@import "views/level/_level-layout";
+@import "views/level/_level-portal";
+@import "views/level/_level-emitter";
+
+//.start
+@import "views/start/_start-layout";
+//@import "views/start/_start-general";
+
+
+//.pause
+@import "views/pause/_pause";
+
+
+//.score
+@import "views/score/_score";

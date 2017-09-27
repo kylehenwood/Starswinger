@@ -1,0 +1,170 @@
+// button creation
+.button {
+  @extend noselect;
+  @extend nowrap;
+  font-family: $font-family;
+  border: none;
+  margin: 0;
+  position: relative;
+  display: block;
+  line-height: 16px;
+  border-radius: 4px;
+  font-weight: bold;
+  cursor: pointer;
+  text-align: center;
+  outline: none;
+  text-decoration: none;
+  @include font-size(1.4);
+  &:focus {
+    //box-shadow:  0 0 0 2px rgba(255,255,255,0.2);
+  }
+  .icon-before.icon-16,
+  .icon-after.icon-16 {
+    position: absolute;
+  }
+}
+
+.button-block {
+  display: block;
+}
+
+$button-animation: 40ms ease-in-out;
+
+.button {
+  -webkit-transition:(-webkit-transform  $button-animation, box-shadow $button-animation, background $button-animation);
+  -moz-transition:(-moz-transform $button-animation, box-shadow $button-animation, background $button-animation);
+  -ms-transition:(-ms-transform $button-animation, box-shadow $button-animation, background $button-animation);
+  -o-transition:(-o-transform $button-animation, box-shadow $button-animation, background $button-animation);
+  transition:(transform $button-animation, box-shadow $button-animation, background $button-animation);
+}
+
+.button-32 {
+  height: 32px;
+  padding: 8px;
+  .button-text {@include font-size(1.4);}
+
+  &.button-before {padding-left: 32px;}
+  &.button-after {padding-right: 32px;}
+
+  .icon-after,
+  .icon-before {
+    top: 8px;
+  }
+  .icon-before {left: 8px;}
+  .icon-after {right: 8px;}
+}
+
+.button-36 {
+  height: 36px;
+  padding: 10px;
+  .button-text {@include font-size(1.4);}
+
+  &.button-before {padding-left: 40px;}
+  &.button-after {padding-right: 40px;}
+
+  .icon-after,
+  .icon-before {
+    top: 10px;
+  }
+  .icon-before {left: 12px;}
+  .icon-after {right: 12px;}
+}
+
+.button-40 {
+  height: 40px;
+  padding: 12px;
+  font-size: 14px;
+  .button-text {@include font-size(1.4);}
+
+  &.button-before {padding-left: 40px;}
+  &.button-after {padding-right: 40px;}
+
+  .icon-after,
+  .icon-before {
+    top: 12px;
+  }
+  .icon-before {left: 12px;}
+  .icon-after {right: 12px;}
+}
+
+
+// button color mixin
+@mixin button-color($button-text,$button-background) {
+  color: $button-text;
+  background: nth($button-background,1);
+  &:hover,&.is-hover {background: nth($button-background,2);}
+  &:active,&.is-active {background: nth($button-background,3);}
+}
+
+// social colors
+$facebook-button-background: $color-facebook,#5771a7,#344e86;
+$twitter-button-background: $color-twitter,#6db7ef,#4b97d1;
+$pinterest-button-background: $color-pinterest,#d14248,#b31d22;
+$googleplus-button-background: $color-googleplus,#df6657,#c24232;
+
+// button colors
+$button-background-blue: $color-azure,$color-azure-light,$color-azure-dark;
+$button-background-green: $color-forest,$color-forest-light,$color-forest-dark;
+$button-background-yellow: $color-lightning,$color-lightning-light,$color-lightning-dark;
+$button-background-purple: $color-byzantine,$color-byzantine-light,$color-byzantine-dark;
+$button-background-red: $color-ember,$color-ember-light,$color-ember-dark;
+$button-background-orange: $color-flame,$color-flame-light,$color-flame-dark;
+$button-background-plain:$color-grey-light,$color-grey-lighter,$color-grey;
+$button-background-subtle:none,$color-grey-lighter,$color-grey;
+
+$dark-button-background: rgba(000,000,000,0.2),rgba(000,000,000,0.3),rgba(000,000,000,0.4);
+
+
+// blue button
+.button-blue {
+  @include button-color($white,$button-background-blue);
+}
+// green button
+.button-green {
+  @include button-color($white,$button-background-green);
+}
+// yellow button
+.button-yellow {
+  @include button-color($white,$button-background-yellow);
+}
+// purple button
+.button-purple {
+  @include button-color($white,$button-background-purple);
+}
+// orange button
+.button-orange {
+  @include button-color($white,$button-background-orange);
+}
+// red button
+.button-red {
+  @include button-color($white,$button-background-red);
+}
+// plain button
+.button-plain {
+  @include button-color($text-1,$button-background-plain);
+}
+.button-subtle {
+  @include button-color($text-1,$button-background-subtle);
+}
+
+
+
+// dark button
+.button-dark {
+  @include button-color($white,$dark-button-background);
+}
+
+
+//-- social buttons
+.button-facebook {
+  @include button-color($white,$facebook-button-background);
+}
+.button-twitter {
+  @include button-color($white,$twitter-button-background);
+}
+.button-pinterest {
+  @include button-color($white,$pinterest-button-background);
+}
+.button-googleplus {
+  @include button-color($white,$googleplus-button-background);
+}

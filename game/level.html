@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+  <meta charset="UTF-8">
+  <title>GTMA-level</title>
+  <link rel="stylesheet" type="text/css" href="scss/style.css" />
+  <script type="text/javascript" src="js/vendor/jquery-1.9.0.min.js"></script>
+  <script type="text/javascript" src="js/vendor/modernizr-2.6.2.min.js"></script>
+  <script type="text/javascript" src="js/level-score.js"></script>
+  <script type="text/javascript" src="js/emitter.js"></script>
+  <script type="text/javascript" src="js/flashes.js"></script>
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,400,600' rel='stylesheet' type='text/css'>
+
+</head>
+
+<body class="layout layout--sidebar">
+
+<div class="layout__header">
+  <ul class="application-navigation clearfix">
+    <li class="application-navigation__item js-iphone4">iPhone 4</li>
+    <li class="application-navigation__item js-iphone5">iPhone 5</li>
+    <li class="application-navigation__item js-iphone6">iPhone 6</li>
+    <li class="application-navigation__item js-iphone6p">iPhone 6+</li>
+
+    <li class="application-navigation__item js-level-1">level 1</li>
+    <li class="application-navigation__item js-level-2">level 2</li>
+    <li class="application-navigation__item js-level-3">level 3</li>
+
+    <li class="application-navigation__item js-sidebar-trigger">Score Sidebar</li>
+
+  </ul>
+</div>
+
+
+<!-- score sidebar -->
+<div class="layout__sidebar">
+  <div class="score-sidebar js-score-sidebar">
+    <div class="score-sidebar__header">
+      HIGH SCORES: all time - last 30 days
+    </div>
+    <div class="score-sidebar__body">
+
+      <!-- level-score.js component -->
+      <ul class="score-list js-score-list">
+        <li class="score-list__item js-score-item">
+          <div class="score-item">
+            <div class="score-item__position js-score-position"></div>
+            <div class="score-item__result">
+              <div class="score-result">
+                <div class="score-result__name js-score-item-name"></div>
+                <div class="score-result__score js-score-item-score"></div>
+                <div class="score-result__bar js-score-item-bar"></div>
+              </div>
+            </div>
+          </div>
+        </li>
+      </ul>
+
+    </div>
+    <div class="score-sidebar__footer">
+      <a class="button button--36 button--blue">What</a>
+      <!--
+      <div class="score-more">
+        View more
+      </div>
+      -->
+    </div>
+  </div>
+</div>
+
+
+
+
+
+<!-- game level -->
+
+<div class="layout__container">
+
+  <div class="js-viewport viewport viewport--iphone4">
+
+    <div class="level-layout">
+
+      <!-- portal -->
+      <div class="level-layout__portal">
+        <div class="level-portal">
+          <div class="level-portal__eye"></div>
+          <div class="level-portal__pulse level-portal__pulse--1"></div>
+          <div class="level-portal__pulse level-portal__pulse--2"></div>
+          <div class="level-portal__pulse level-portal__pulse--3"></div>
+          <div class="level-portal__pulse level-portal__pulse--4"></div>
+        </div>
+      </div>
+
+      <!-- score -->
+      <div class="level-layout__score"></div>
+      <div class="level-layout__pause"></div>
+
+      <canvas class="level-layout__flashes js-flashes"></canvas>
+      <canvas class="level-layout__emitter js-emitter"></canvas>
+      <div class="level-layout__background"></div>
+    </div>
+  </div>
+</div>
+
+
+
+
+<!-- footer -->
+<div class="layout__footer">
+  <ul class="application-navigation clearfix">
+    <li>
+      <a class="application-navigation__item" href="start.html">Loading</a>
+    </li>
+    <li>
+      <a class="application-navigation__item" href="start.html">Menu</a>
+    </li>
+    <li>
+      <a class="application-navigation__item" href="start.html">Settings</a>
+    </li>
+    <li>
+      <a class="application-navigation__item" href="score.html">Scoreboard</a>
+    </li>
+    <li>
+      <a class="application-navigation__item application-navigation__item--active" href="level.html">Level</a>
+    </li>
+    <li>
+      <a class="application-navigation__item" href="start.html">Pause</a>
+    </li>
+    <li>
+      <a class="application-navigation__item" href="start.html">Credits</a>
+    </li>
+  </ul>
+</div>
+
+
+
+
+<script type="text/javascript" src="js/main.js"></script>
+
+</body>
+</html>

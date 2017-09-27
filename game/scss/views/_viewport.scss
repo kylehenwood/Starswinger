@@ -1,0 +1,71 @@
+// phone viewport sizes
+
+.viewport {
+  position: relative;
+  overflow: hidden;
+  margin: 0 auto;
+  width: 800px;
+  height: 700px;
+  background: #333;
+  border: 1px solid $black;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.5);
+  @include transition();
+}
+
+// apple viewports
+.viewport--iphone4 {
+  width: 960px;
+  height: 640px;
+}
+.viewport--iphone5 {
+  width: 1336px;
+  height: 640px;
+}
+.viewport--iphone6 {
+  width: 1704px;
+  height: 960px;
+}
+
+// totally nuts size-wise
+.viewport--iphone6p {
+  width: 2208px;
+  height: 1242px;
+}
+
+
+
+
+// -- navigation
+.application-navigation {
+  padding: 8px;
+  li {
+    float: left;
+    margin: 0 4px;
+  }
+}
+.application-navigation__item {
+  @extend noselect;
+  cursor: pointer;
+  display: block;
+  height: 32px;
+  border-radius: 16px;
+  padding: 6px 24px;
+  line-height: 16px;
+  font-weight: bold;
+  background-color: $background-1;
+  border: 2px solid $color-grey;
+  color: $text-1;
+  text-decoration: none;
+  &:hover,
+  &:active {
+    border-color: $blue;
+  }
+  &:active {
+    background-color: $color-grey;
+  }
+}
+.application-navigation__item--active {
+  color: $white!important;
+  border-color: $color-azure!important;
+  background: $color-azure!important;
+}

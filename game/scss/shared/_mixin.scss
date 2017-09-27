@@ -1,0 +1,115 @@
+// mixins
+
+@mixin transform($transform) {
+  -webkit-transform:($transform);
+     -moz-transform:($transform);
+      -ms-transform:($transform);
+       -o-transform:($transform);
+          transform:($transform);
+  //@extend animationperformance;
+}
+
+@mixin transition($transition: all 200ms linear) {
+  -webkit-transition:($transition);
+     -moz-transition:($transition);
+      -ms-transition:($transition);
+       -o-transition:($transition);
+          transition:($transition);
+  //@extend animationperformance;
+}
+
+// this is used soles for animation the transition property ONLY (the general all use case all works too)
+@mixin prefixtransform($speed:200ms,$easing:linear) {
+  -webkit-transition:(-webkit-transform $speed $easing);
+     -moz-transition:(-moz-transform $speed $easing);
+      -ms-transition:(-ms-transform $speed $easing);
+       -o-transition:(-o-transform $speed $easing);
+          transition:(transform $speed $easing);
+  //@extend animationperformance;
+}
+
+
+@mixin font-size($size) {
+  font-size: $size*10 + px;
+  font-size: $size + rem;
+}
+
+@mixin horizontalGradient($from,$to) {
+  /* fallback */
+  background-color: $to;
+
+  /* Safari 4-5, Chrome 1-9 */
+  background: -webkit-gradient(linear, left top, right top, from($from), to($to));
+
+  /* Safari 5.1, Chrome 10+ */
+  background: -webkit-linear-gradient(left, $from, $to);
+
+  /* Firefox 3.6+ */
+  background: -moz-linear-gradient(left, $from, $to);
+
+  /* IE 10 */
+  background: -ms-linear-gradient(left, $from, $to);
+
+  /* Opera 11.10+ */
+  background: -o-linear-gradient(left, $from, $to);
+}
+
+
+
+.clearfix {
+  &:after {
+    content: '';
+    display: block;
+    clear: both;
+  }
+}
+
+nowrap {
+  no: 0;
+}
+
+noselect,
+.noselect {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+
+
+// Responsive Breakpoints
+
+
+// Screen Breakpoints
+$pre-sidebar: 200px;
+
+$scrollbar-width: 20px;
+$screen-max: 1180px +$scrollbar-width + $pre-sidebar;
+$screen-med: 960px  +$scrollbar-width + $pre-sidebar;
+$screen-min: 840px  +$scrollbar-width + $pre-sidebar;
+$screen-mob: 640px;
+
+
+// Medium Screens
+@mixin screen-med {
+  @media screen and (max-width:$screen-med) {
+    @content;
+  }
+}
+
+// Small Screens
+@mixin screen-min {
+  @media (max-width: $screen-min) {
+    @content;
+  }
+}
+
+// Tiny Screens
+@mixin screen-mob {
+  @media (max-width: $screen-mob) {
+    @content;
+  }
+}

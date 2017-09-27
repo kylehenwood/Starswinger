@@ -1,0 +1,78 @@
+// level layout
+.level-layout {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  background-color: #2b4952
+  //background-color: purple;
+}
+
+// background
+.level-layout__background {
+  position: absolute;
+  z-index: 3;
+  width: 100%;
+  height: 100%;
+  background-image: url('../images/screen-level-2.png');
+  background-size: 1120px 640px;
+  background-position: center;
+}
+
+// score
+.level-layout__score {
+  z-index: 5;
+  position: absolute;
+  background: #1b272a;
+  top: 16px;
+  left: 16px;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: 3px solid $white;
+}
+
+// pause
+.level-layout__pause {
+  z-index: 5;
+  position: absolute;
+  background: $black;
+  top: 16px;
+  right: 16px;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: 3px solid $white;
+}
+
+// portal
+.level-layout__portal {
+  z-index: 10;
+  position: absolute;
+  top: 170px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+// emitter
+.level-layout__emitter {
+  z-index: 8;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.level-layout__starburst {
+  z-index: 6;
+}
+
+// emitter
+.level-layout__flashes {
+  z-index: 7;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}

@@ -1,0 +1,65 @@
+// Typography Stylesheet
+// Typography Block, add to content parent.
+.typography {
+  @include font-size(1.4);
+  line-height: 1.4;
+  a {
+    text-decoration: underline;
+  }
+  p {
+    margin: 4px 0 12px;
+    -webkit-hyphens: auto;
+    -moz-hyphens: auto;
+    hyphens: auto;
+    &:first-child {
+      margin-top: 0;
+    }
+  }
+  ol {
+    list-style: decimal;
+  }
+  ul {
+    list-style: disc;
+  }
+
+  ul, ol {
+    margin: 4px 0 16px;
+    padding: 0 0 0 20px;
+  }
+
+  h1 {margin: 32px 0 16px;}
+  h2 {margin: 24px 0 8px;}
+  h3 {margin: 24px 0 8px;}
+  h4 {margin: 24px 0 8px;}
+  h5 {margin: 16px 0 0;}
+  h6 {margin: 16px 0 0;}
+
+  h1, h2, h3, h4, h5, h6 {
+    font-weight: bold;
+    line-height: 1.2;
+
+    &:first-child {
+      margin-top: 0;
+    }
+  }
+
+  code {
+    padding: 2px 4px;
+    border-radius: 2px;
+    background: $background-1;
+    border: 1px solid $grey-1;
+  }
+
+  img {
+    max-width: 100%;
+    display: block;
+  }
+}
+
+.typography p:last-child,
+.typography a:last-child,
+.typography h4:last-child,
+.typography ul:last-child,
+.typography ol:last-child {
+  margin: 0;
+}

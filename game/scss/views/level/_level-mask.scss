@@ -1,0 +1,43 @@
+.level-layout__starburst {
+  position: absolute;
+  width: 1600px;
+  height: 1600px;
+  padding: 480px 320px;
+  top: -618px;
+  left: -320px;
+  animation: rotate 16s infinite linear;
+  transform-origin: center;
+  -webkit-mask-image: url("../images/level/starburst-mask.svg");
+  -webkit-mask-position: center;
+  -webkit-mask-size: cover;
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(359deg);
+  }
+}
+
+@keyframes rotate-counter {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(-359deg);
+  }
+}
+
+.starburst-background {
+  animation: rotate-counter 16s infinite linear;
+  width: 960px;
+  height: 640px;
+}
+
+.starburst-background__image {
+  background: rgba(0,0,50,0.32);
+  width: 960px;
+  height: 640px;
+}
