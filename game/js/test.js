@@ -46,14 +46,19 @@ function controls() {
   $(document).keydown(function(e) {
       switch(e.which) {
           case 37: // left
+          lastHook.val = selectedHook;
+          lastHook.reset = false;
           selectedHook -= 1;
           if (selectedHook <= 0) {selectedHook = 0;}
+          // if changed set lasthook val to selectedHook
           break;
 
           case 38: // up
           break;
 
           case 39: // right
+          lastHook.val = selectedHook;
+          lastHook.reset = false;
           selectedHook += 1;
           if (selectedHook >= starHooks.length-1) {selectedHook = starHooks.length-1}
           break;
@@ -101,8 +106,16 @@ function createHook(position) {
       hookCanvas.height = 64;
   var hookContext = hookCanvas.getContext('2d'); // Pass the context to draw the star
 
+  var star = {
+    x: 32,
+    y: 32,
+    size: 6,
+    strokeOffset: 16,
+    bounds: 64,
+    ring: 2
+  }
   // draw the hook
-  drawHook(hookContext,grappeled);
+  drawHook(hookContext,star,false);
 
   // each hook lives on a 5x10 - 1-50
   var positionX = gridPositions[position].positionX;
@@ -115,19 +128,16 @@ function createHook(position) {
   starHooks.push({
       layer:hookCanvas,
       ctx: hookContext,
+      star: star,
       x: positionX,
       y: positionY,
   });
 }
 
-function drawHook(layer,grappeled) {
-  var star = {
-    x: 32,
-    y: 32,
-    size: 6,
-    strokeOffset: 16,
-    bounds: 64
-  }
+function drawHook(layer,star,grappeled) {
+
+  // clear this canvas
+  layer.clearRect(0, 0, 64, 64);
 
   // circle
   layer.beginPath();
@@ -147,12 +157,32 @@ function drawHook(layer,grappeled) {
 
   if (grappeled == true) {
     // do things
+    var radius = 23;
+    var startAngle = 2 * Math.PI;
+    //var endAngle = ring * Math.PI
+    var counterClockwise = true;
+
+    star.ring += 0.02;
+    if (star.ring <= 0) {
+      star.ring = 2;
+    }
+    endAngle = star.ring * Math.PI
+
+    layer.beginPath();
+    layer.lineWidth = 3;
+    layer.strokeStyle = 'red';
+    layer.arc(star.x, star.y, radius, startAngle, endAngle, counterClockwise);
+    layer.stroke();
   }
 
   // visual bounds
   layer.beginPath();
   layer.lineWidth = 1;
-  layer.strokeStyle = 'red';
+  if (grappeled == true) {
+    layer.strokeStyle = 'lime';
+  } else {
+    layer.strokeStyle = 'red';
+  }
   layer.rect(star.x-(star.bounds/2),star.y-(star.bounds/2),star.bounds,star.bounds);
   layer.stroke();
 }
@@ -161,6 +191,11 @@ function drawHook(layer,grappeled) {
 //
 // RAF ----------------------------------------------------------------------------
 //
+var lastHook = {
+  reset: true,
+  val: null
+}
+
 
 function testing() {
   requestAnimationFrame(testing);
@@ -172,86 +207,38 @@ function testing() {
   canvas.ctx.drawImage(gridImage,0,0);
 
 
-  // find selected hook
-  var currentHook = selectedHook;
+  // find and animate selected hook
+  drawHook(starHooks[selectedHook].ctx,starHooks[selectedHook].star,true);
+
+  // reset last hook. (once)
+  if (lastHook.reset === false) {
+    drawHook(starHooks[lastHook.val].ctx,starHooks[lastHook.val].star,false);
+    lastHook.reset = true;
+  }
 
   // draw layers
   for (var i = 0; i < starHooks.length; i++) {
-    if ([i] != currentHook) { // otherwise it draws the ring twice
-      var layer = starHooks[i];
-      canvas.ctx.drawImage(layer.layer, layer.x, layer.y);
-    }
+    var layer = starHooks[i];
+    canvas.ctx.drawImage(layer.layer, layer.x, layer.y);
   }
-
-  // Currently hooked onto layer 1
-  // figure out how to update a layer you've hooked onto...
-  var grappled = starHooks[currentHook];
-
-  //starGrappel(grappled); // updates layer X
-  canvas.ctx.drawImage(grappled.layer, grappled.x, grappled.y);
-}
-
-
-var ring = 2;
-
-function starGrappel(grappled) {
-
-  //clear(grappled.layer)
-  // the idea is to animate the grappeled layer
-  var layer = grappled.ctx;
-  layer.clearRect(0, 0, 64, 64);
-
-  var star = {
-    x: 32,
-    y: 32,
-    size: 6,
-    strokeOffset: 16,
-    bounds: 64
-  }
-
-  layer.beginPath();
-  layer.arc(star.x, star.y, star.size, 0, Math.PI*2, true);
-  layer.closePath();
-  layer.fillStyle = 'white';
-  layer.fill();
-  layer.closePath();
-
-  // star stroke/progress
-  layer.beginPath();
-  layer.lineWidth = 1;
-  layer.strokeStyle = 'white';
-  layer.arc(star.x, star.y, star.size+star.strokeOffset, 0, Math.PI*2, true);
-  layer.closePath();
-  layer.stroke();
-
-  var radius = 23;
-  var startAngle = 2 * Math.PI;
-  //var endAngle = ring * Math.PI
-  var counterClockwise = true;
-
-  ring += 0.02;
-  if (ring <= 0) {
-    ring = 2;
-  }
-  endAngle = ring * Math.PI
-
-  layer.beginPath();
-  layer.lineWidth = 3;
-  layer.strokeStyle = 'red';
-  layer.arc(star.x, star.y, radius, startAngle, endAngle, counterClockwise);
-  layer.stroke();
-
-  // visual bounds
-  layer.beginPath();
-  layer.lineWidth = 1;
-  layer.strokeStyle = 'lime';
-  layer.rect(star.x-(star.bounds/2),star.y-(star.bounds/2),star.bounds,star.bounds);
-  layer.stroke();
 }
 
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+//------------------------------------------------------------------
 
 
 // create grid and render it as a canvas.
