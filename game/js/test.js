@@ -2,14 +2,12 @@
 
 $(document).ready(function(){
     setup();
-    //controls();
+    controls();
 
-    createHook();
-    createHook();
-    createHook();
+    drawGrid();
+    createPanel();
 
     // RAF
-    drawGrid();
     testing();
 });
 
@@ -42,14 +40,38 @@ function setup() {
 
 // controls
 var mouseState = null;
+var selectedHook = 0;
 function controls() {
+
+  $(document).keydown(function(e) {
+      switch(e.which) {
+          case 37: // left
+          selectedHook -= 1;
+          if (selectedHook <= 0) {selectedHook = 0;}
+          break;
+
+          case 38: // up
+          break;
+
+          case 39: // right
+          selectedHook += 1;
+          if (selectedHook >= starHooks.length-1) {selectedHook = starHooks.length-1}
+          break;
+
+          case 40: // down
+          break;
+
+          default: return; // exit this handler for other keys
+      }
+      e.preventDefault(); // prevent the default action (scroll / move caret)
+  });
   // mouse
-  $(document).on('mousedown', function(e) {
-    mouseState = 'down';
-  });
-  $(document).on('mouseup',function(e) {
-    mouseState = 'up';
-  });
+  // $(document).on('mousedown', function(e) {
+  //   mouseState = 'down';
+  // });
+  // $(document).on('mouseup',function(e) {
+  //   mouseState = 'up';
+  // });
 }
 
 
@@ -57,25 +79,48 @@ function controls() {
 // create mini canvas's of hooks
 var starHooks = [];
 
-function createHook() {
+function createPanel() {
+  // when a panel is created
+  var position = 0;
+
+  while (position < 50) {
+    // space out the stars by adding a random tile gap untill the tile is exceeded.
+    position += rand(8,16);
+    if (position <= 49) {
+      createHook(position);
+    }
+  }
+}
+
+
+// create a hook along with a canvas it is drawn on.
+function createHook(position) {
+  // create a mini canvas for a hook, and add it to an array of hooks.
   var hookCanvas = document.createElement('canvas');
       hookCanvas.width = 64;
       hookCanvas.height = 64;
   var hookContext = hookCanvas.getContext('2d'); // Pass the context to draw the star
 
   // draw the hook
-  drawHook(hookContext);
+  drawHook(hookContext,grappeled);
+
+  // each hook lives on a 5x10 - 1-50
+  var positionX = gridPositions[position].positionX;
+  var positionY = gridPositions[position].positionY;
+  // var positionX = 0;
+  // var positionY = 0;
+
+  console.log(positionX,positionY);
 
   starHooks.push({
       layer:hookCanvas,
       ctx: hookContext,
-      x: (rand(0,12)*64)-64, // put these on a 64px grid
-      y: (rand(0,4)*64)-64, // put these on a 64px grid + mark a square as filled
-      power: 2000
+      x: positionX,
+      y: positionY,
   });
 }
 
-function drawHook(layer) {
+function drawHook(layer,grappeled) {
   var star = {
     x: 32,
     y: 32,
@@ -100,6 +145,10 @@ function drawHook(layer) {
   layer.closePath();
   layer.stroke();
 
+  if (grappeled == true) {
+    // do things
+  }
+
   // visual bounds
   layer.beginPath();
   layer.lineWidth = 1;
@@ -108,10 +157,9 @@ function drawHook(layer) {
   layer.stroke();
 }
 
-//
+
 //
 // RAF ----------------------------------------------------------------------------
-//
 //
 
 function testing() {
@@ -120,29 +168,32 @@ function testing() {
   // Clear Canvas
   clear(canvas);
 
+  // draw grid
   canvas.ctx.drawImage(gridImage,0,0);
+
+
+  // find selected hook
+  var currentHook = selectedHook;
 
   // draw layers
   for (var i = 0; i < starHooks.length; i++) {
-    if ([i] != 0) {
+    if ([i] != currentHook) { // otherwise it draws the ring twice
       var layer = starHooks[i];
       canvas.ctx.drawImage(layer.layer, layer.x, layer.y);
     }
   }
 
-
   // Currently hooked onto layer 1
   // figure out how to update a layer you've hooked onto...
+  var grappled = starHooks[currentHook];
 
-  var grappled = starHooks[0];
-
-  starGrappel(grappled); // updates layer X
+  //starGrappel(grappled); // updates layer X
   canvas.ctx.drawImage(grappled.layer, grappled.x, grappled.y);
 }
 
 
-
 var ring = 2;
+
 function starGrappel(grappled) {
 
   //clear(grappled.layer)
@@ -196,14 +247,16 @@ function starGrappel(grappled) {
   layer.strokeStyle = 'lime';
   layer.rect(star.x-(star.bounds/2),star.y-(star.bounds/2),star.bounds,star.bounds);
   layer.stroke();
-
-
 }
+
+
+
 
 
 
 // create grid and render it as a canvas.
 var gridImage;
+var gridPositions = [];
 
 function drawGrid() {
   var gridCanvas = document.createElement('canvas');
@@ -218,13 +271,14 @@ function drawGrid() {
   var grid = {
     size: 64
   }
+
   var horizontal;
   var vertical;
   var positionX = 0;
   var positionY = 0;
   var order;
 
-  for (var i = 0; i < 12; i++) {
+  for (var i = 0; i < 10; i++) {
     if (order === true) {
       order = false;
     } else {
@@ -235,7 +289,6 @@ function drawGrid() {
   }
 
 }
-
 
 function drawCol(ctx,positionX,order) {
  var positionY = 0;
@@ -261,7 +314,26 @@ function drawSquare(ctx,color,size,positionX,positionY) {
   ctx.rect(positionX,positionY,size,size)
   ctx.fillStyle = color;
   ctx.fill();
+
+  // create an array for grid positions that i'll use to place hooks.
+  var position = {
+    positionX: positionX,
+    positionY: positionY
+  }
+  gridPositions.push(position);
 }
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
