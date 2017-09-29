@@ -805,7 +805,7 @@ html {
   width: 800px;
   height: 700px;
   background: #333;
-  border: 1px solid #000;
+  /*border: 1px solid #000;*/
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
   -webkit-transition: all 200ms linear;
   -moz-transition: all 200ms linear;

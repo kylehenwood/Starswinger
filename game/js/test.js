@@ -4,9 +4,11 @@ $(document).ready(function(){
     setup();
     controls();
 
-    drawGrid();
+    createGrid();
     createPanel();
 
+    // create game layer
+    drawGameSetup();
     // RAF
     testing();
 });
@@ -22,7 +24,6 @@ var canvas = {
     height: ''
 };
 
-
 // set canvas vars
 function setup() {
     // need to recall this on resize
@@ -30,8 +31,8 @@ function setup() {
     canvas.id = $('.js-starswinger');
     canvas.ctx = canvas.id[0].getContext("2d");
 
-    canvas.width = canvas.id.outerWidth();
-    canvas.height = canvas.id.outerHeight();
+    canvas.width = 960;
+    canvas.height = 640;
     canvas.id.attr({
         'width': canvas.width,
         'height': canvas.height
@@ -41,26 +42,24 @@ function setup() {
 // controls
 var mouseState = null;
 var selectedHook = 0;
+var lastHook = {
+  reset: true,
+  val: null // not required once star holds its own values
+}
+
 function controls() {
 
   $(document).keydown(function(e) {
       switch(e.which) {
           case 37: // left
-          lastHook.val = selectedHook;
-          lastHook.reset = false;
-          selectedHook -= 1;
-          if (selectedHook <= 0) {selectedHook = 0;}
-          // if changed set lasthook val to selectedHook
+          changeHook(-1);
           break;
 
           case 38: // up
           break;
 
           case 39: // right
-          lastHook.val = selectedHook;
-          lastHook.reset = false;
-          selectedHook += 1;
-          if (selectedHook >= starHooks.length-1) {selectedHook = starHooks.length-1}
+          changeHook(1);
           break;
 
           case 40: // down
@@ -81,17 +80,60 @@ function controls() {
 
 
 
+
+
+// swapping hooks
+function changeHook(direction) {
+  var currentHook = selectedHook;
+  var newHook = selectedHook + direction;
+  var hookCount = starHooks.length;
+
+
+  // check if star is alive
+  // if alive = false, attempt to jump to the next star (+direction again)
+
+
+  if (newHook < starHooks.length && newHook > -1) {
+
+    lastHook.val = currentHook;
+    lastHook.reset = false;
+    selectedHook = newHook;
+
+  } else {
+    // no hook exists - return nothing
+    return;
+  }
+}
+
+
+
+
 // create mini canvas's of hooks
 var starHooks = [];
+var gridPositions = [];
+var gridImage;
+var gridSize = {
+  rows: 4,
+  cols: 200,
+  square: 64
+}
 
 function createPanel() {
+  // create a canvas and draw the grid and stars on it.
+  // size
+  var panel = {
+      width: gridSize.cols*gridSize.square,
+      height: gridSize.rows*gridSize.square
+  }
+
   // when a panel is created
   var position = 0;
+  var availablePositions = gridSize.rows * gridSize.cols;
 
-  while (position < 50) {
+  while (position < availablePositions) {
     // space out the stars by adding a random tile gap untill the tile is exceeded.
     position += rand(8,16);
-    if (position <= 49) {
+    if (position < availablePositions) {
       createHook(position);
     }
   }
@@ -112,7 +154,8 @@ function createHook(position) {
     size: 6,
     strokeOffset: 16,
     bounds: 64,
-    ring: 2
+    ring: 2, // ring position / health
+    alive: true
   }
   // draw the hook
   drawHook(hookContext,star,false);
@@ -120,10 +163,6 @@ function createHook(position) {
   // each hook lives on a 5x10 - 1-50
   var positionX = gridPositions[position].positionX;
   var positionY = gridPositions[position].positionY;
-  // var positionX = 0;
-  // var positionY = 0;
-
-  console.log(positionX,positionY);
 
   starHooks.push({
       layer:hookCanvas,
@@ -135,6 +174,11 @@ function createHook(position) {
 }
 
 function drawHook(layer,star,grappeled) {
+
+  if (star.alive === false) {
+    // this star is dead, return false;
+    // return false;
+  }
 
   // clear this canvas
   layer.clearRect(0, 0, 64, 64);
@@ -155,109 +199,58 @@ function drawHook(layer,star,grappeled) {
   layer.closePath();
   layer.stroke();
 
+  var radius = 23;
+  var startAngle = 2 * Math.PI;
+  var endAngle;
+  //var endAngle = ring * Math.PI
+  var counterClockwise = true;
   if (grappeled == true) {
     // do things
-    var radius = 23;
-    var startAngle = 2 * Math.PI;
-    //var endAngle = ring * Math.PI
-    var counterClockwise = true;
-
-    star.ring += 0.02;
-    if (star.ring <= 0) {
+    star.ring -= 0.01;
+    if (star.ring <= 0 && star.alive === true) {
+      star.alive = false;
       star.ring = 2;
     }
-    endAngle = star.ring * Math.PI
-
-    layer.beginPath();
-    layer.lineWidth = 3;
-    layer.strokeStyle = 'red';
-    layer.arc(star.x, star.y, radius, startAngle, endAngle, counterClockwise);
-    layer.stroke();
   }
+  // gets updated by if hook grappeled = true
+  endAngle = star.ring * Math.PI;
+
+  layer.beginPath();
+  layer.lineWidth = 3;
+  layer.strokeStyle = 'red';
+  layer.arc(star.x, star.y, radius, startAngle, endAngle, counterClockwise);
+  layer.stroke();
+
 
   // visual bounds
   layer.beginPath();
-  layer.lineWidth = 1;
   if (grappeled == true) {
     layer.strokeStyle = 'lime';
+    layer.lineWidth = 2;
   } else {
     layer.strokeStyle = 'red';
+    layer.lineWidth = 1;
   }
   layer.rect(star.x-(star.bounds/2),star.y-(star.bounds/2),star.bounds,star.bounds);
+
+  if (star.alive === false) {
+    layer.fillStyle = 'red';
+    layer.fill();
+  }
   layer.stroke();
 }
 
 
-//
-// RAF ----------------------------------------------------------------------------
-//
-var lastHook = {
-  reset: true,
-  val: null
-}
-
-
-function testing() {
-  requestAnimationFrame(testing);
-
-  // Clear Canvas
-  clear(canvas);
-
-  // draw grid
-  canvas.ctx.drawImage(gridImage,0,0);
-
-
-  // find and animate selected hook
-  drawHook(starHooks[selectedHook].ctx,starHooks[selectedHook].star,true);
-
-  // reset last hook. (once)
-  if (lastHook.reset === false) {
-    drawHook(starHooks[lastHook.val].ctx,starHooks[lastHook.val].star,false);
-    lastHook.reset = true;
-  }
-
-  // draw layers
-  for (var i = 0; i < starHooks.length; i++) {
-    var layer = starHooks[i];
-    canvas.ctx.drawImage(layer.layer, layer.x, layer.y);
-  }
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//------------------------------------------------------------------
-
-
 // create grid and render it as a canvas.
-var gridImage;
-var gridPositions = [];
-
-function drawGrid() {
+function createGrid() {
   var gridCanvas = document.createElement('canvas');
-      gridCanvas.width = canvas.width;
-      gridCanvas.height = canvas.height;
+      gridCanvas.width = gridSize.cols*gridSize.square;
+      gridCanvas.height = gridSize.rows*gridSize.square;
   var gridContext = gridCanvas.getContext('2d');
   var ctx = gridContext;
 
+  // pass canvas to external variable so it can be used elsewhere as an image
   gridImage = gridCanvas;
-
-  // figure out how to draw a 5 column grid (vert) and repeat horizontally.
-  var grid = {
-    size: 64
-  }
 
   var horizontal;
   var vertical;
@@ -265,7 +258,7 @@ function drawGrid() {
   var positionY = 0;
   var order;
 
-  for (var i = 0; i < 10; i++) {
+  for (var i = 0; i < gridSize.cols; i++) {
     if (order === true) {
       order = false;
     } else {
@@ -274,7 +267,6 @@ function drawGrid() {
     drawCol(ctx,positionX,order);
     positionX += 64;
   }
-
 }
 
 function drawCol(ctx,positionX,order) {
@@ -283,13 +275,13 @@ function drawCol(ctx,positionX,order) {
  var order = order;
 
   // even or odd
-  for (var i = 0; i < 5; i++) {
+  for (var i = 0; i < gridSize.rows; i++) {
     if (order === true) {
       order = false;
       squareColor = 'rgba(0,0,0,0.05)';
     } else {
       order = true;
-      squareColor = 'rgba(0,0,0,0.15)';
+      squareColor = 'rgba(0,0,0,0.1)';
     }
     drawSquare(ctx,squareColor,64,positionX,positionY);
     positionY+=64;
@@ -312,6 +304,122 @@ function drawSquare(ctx,color,size,positionX,positionY) {
 
 
 
+
+//
+// RAF ----------------------------------------------------------------------------
+//
+
+var moveCanvas = {
+  currentPos: 0,
+  selectedPos: 0,
+  moveSpeed: 0,
+  interations: 20
+}
+
+function testing() {
+  requestAnimationFrame(testing);
+
+  // Clear Canvas
+  clear(canvas);
+
+
+  // create camera
+  // camera is a canvas.
+  //
+  // camera paints "GAME", offset by currently selected hook
+
+  updateGame();
+  canvas.ctx.drawImage(gamePanel.canvas,moveCanvas.currentPos,0);   // 0,0 to be changed based on selected hook
+
+  // make canvas move based on selected star
+  //moveCanvas -= 1;
+  //alert(starHooks[selectedHook].y);
+
+  // center point of canvas = 480
+
+  // move canvas is the position
+  moveCanvas.selectedPos = (starHooks[selectedHook].x-(canvas.width/2))*-1;
+
+
+
+
+  // get distance
+  // get time I want this to take
+
+  moveCanvas.moveSpeed = ((moveCanvas.selectedPos - moveCanvas.currentPos)/moveCanvas.interations);
+  moveCanvas.currentPos += moveCanvas.moveSpeed;
+
+
+
+
+
+}
+
+
+function updateGame() {
+  // updates the game canvas layer
+  // controls when there needs to be more panels created.
+  // animates the currently selected star
+  var gameCanvas = gamePanel.canvas;
+  var gameContext = gamePanel.context;
+
+  // clear
+  gameContext.clearRect(0, 0, gamePanel.canvas.width, gamePanel.canvas.height);
+
+
+  // draw grid
+  gameContext.drawImage(gridImage,0,0);
+
+  // find and animate selected hook
+  drawHook(starHooks[selectedHook].ctx,starHooks[selectedHook].star,true);
+
+  // reset last hook. (once)
+  if (lastHook.reset === false) {
+    drawHook(starHooks[lastHook.val].ctx,starHooks[lastHook.val].star,false);
+    //starHooks[lastHook.val].star.ring = 2;
+    lastHook.reset = true;
+  }
+
+  // draw each hook to this canvas.
+  for (var i = 0; i < starHooks.length; i++) {
+    var layer = starHooks[i];
+    gameContext.drawImage(layer.layer, layer.x, layer.y);
+  }
+}
+
+
+var gamePanel = {
+  canvas: '',
+  context: '',
+  posX:0,
+  posY:0
+}
+
+function drawGameSetup() {
+  // do not want to create a new canvas every fkin frame
+  var gameCanvas = document.createElement('canvas');
+      gameCanvas.width = gridSize.cols*gridSize.square;
+      gameCanvas.height = gridSize.rows*gridSize.square;
+  var gameContext = gameCanvas.getContext('2d');
+
+  gamePanel.canvas = gameCanvas;
+  gamePanel.context = gameContext;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//------------------------------------------------------------------
 
 
 
