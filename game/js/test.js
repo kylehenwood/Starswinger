@@ -113,8 +113,8 @@ var starHooks = [];
 var gridPositions = [];
 var gridImage;
 var gridSize = {
-  rows: 4,
-  cols: 200,
+  rows: 3,
+  cols: 100,
   square: 64
 }
 
@@ -313,8 +313,9 @@ var moveCanvas = {
   currentPos: 0,
   selectedPos: 0,
   moveSpeed: 0,
-  interations: 20
+  interations: 8
 }
+var character;
 
 function testing() {
   requestAnimationFrame(testing);
@@ -322,38 +323,48 @@ function testing() {
   // Clear Canvas
   clear(canvas);
 
-
-  // create camera
-  // camera is a canvas.
-  //
-  // camera paints "GAME", offset by currently selected hook
-
   updateGame();
   canvas.ctx.drawImage(gamePanel.canvas,moveCanvas.currentPos,0);   // 0,0 to be changed based on selected hook
 
-  // make canvas move based on selected star
-  //moveCanvas -= 1;
-  //alert(starHooks[selectedHook].y);
+  updateCharacter(canvas.ctx);
 
-  // center point of canvas = 480
+
 
   // move canvas is the position
-  moveCanvas.selectedPos = (starHooks[selectedHook].x-(canvas.width/2))*-1;
-
-
-
+  moveCanvas.selectedPos = (starHooks[selectedHook].x-(canvas.width/2)+32)*-1;
 
   // get distance
   // get time I want this to take
-
   moveCanvas.moveSpeed = ((moveCanvas.selectedPos - moveCanvas.currentPos)/moveCanvas.interations);
   moveCanvas.currentPos += moveCanvas.moveSpeed;
 
-
-
-
-
 }
+
+function updateCharacter(ctx) {
+
+  // draw rect
+  ctx.beginPath();
+  ctx.rect(480-200,200,400,300);
+  ctx.fillStyle = 'white';
+  ctx.fill();
+
+  // var lineX = starHooks[selectedHook].x+32 + moveCanvas.selectedPos;
+  var lineX = starHooks[selectedHook].x+32 + (moveCanvas.currentPos);
+  //var lineX = starHooks[selectedHook].x+32 + moveCanvas.selectedPos;
+  var lineY = starHooks[selectedHook].y+32;
+
+  // draw line
+  ctx.beginPath();
+  ctx.lineWidth = 2;
+  ctx.moveTo(canvas.width/2,400);
+  ctx.lineTo(lineX,lineY);
+  ctx.strokeStyle = 'cyan';
+  ctx.stroke();
+
+
+  // draw square at bottom of rect that slides from left to right with easing out on each swing
+}
+
 
 
 function updateGame() {
@@ -364,8 +375,10 @@ function updateGame() {
   var gameContext = gamePanel.context;
 
   // clear
-  gameContext.clearRect(0, 0, gamePanel.canvas.width, gamePanel.canvas.height);
+  //gameContext.clearRect(0, 0, gamePanel.canvas.width, gamePanel.canvas.height);
+  var cameraPosition = canvas.width-moveCanvas.currentPos;
 
+  gameContext.clearRect(0, 0, cameraPosition, canvas.height);
 
   // draw grid
   gameContext.drawImage(gridImage,0,0);
