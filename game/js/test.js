@@ -41,12 +41,9 @@ function setup() {
 
 // controls
 var mouseState = null;
-var selectedHook = 0;
-var lastHook = {
-  reset: true,
-  val: null // not required once star holds its own values
-}
-
+// holds the value of currently selected hook, on hook change
+// this value should be placed back into starhooks array.
+// while the new selected hook should be found here.
 function controls() {
 
   $(document).keydown(function(e) {
@@ -80,14 +77,27 @@ function controls() {
 
 
 
+var selectedHookTest;
+var lastHookTest;
+
+var selectedHook = 0;
+var currentHook;
+var newHook;
+var hookCount;
+var lastHook = {
+  reset: true,
+  val: null // not required once star holds its own values
+}
 
 
 // swapping hooks
 function changeHook(direction) {
-  var currentHook = selectedHook;
-  var newHook = selectedHook + direction;
-  var hookCount = starHooks.length;
+  currentHook = selectedHook;
+  newHook = selectedHook + direction;
+  hookCount = starHooks.length;
 
+  // save old hook, replace its values in starhooks array.
+  // set new hook
 
   // check if star is alive
   // if alive = false, attempt to jump to the next star (+direction again)
@@ -98,6 +108,12 @@ function changeHook(direction) {
     lastHook.val = currentHook;
     lastHook.reset = false;
     selectedHook = newHook;
+
+    // update last hook in array values
+    //starHooks[currentHook] = selectedHookTest;
+
+    // set newHook
+    //selectedHookTest = starHooks[newHook];
 
   } else {
     // no hook exists - return nothing
@@ -114,7 +130,7 @@ var gridPositions = [];
 var gridImage;
 var gridSize = {
   rows: 3,
-  cols: 100,
+  cols: 150,
   square: 64
 }
 
@@ -172,6 +188,7 @@ function createHook(position) {
       y: positionY,
   });
 }
+
 
 function drawHook(layer,star,grappeled) {
 
@@ -303,6 +320,35 @@ function drawSquare(ctx,color,size,positionX,positionY) {
 }
 
 
+// game panel setup
+var gamePanel = {
+  canvas: '',
+  context: '',
+  posX:0,
+  posY:0
+}
+
+function drawGameSetup() {
+  // do not want to create a new canvas every fkin frame
+  var gameCanvas = document.createElement('canvas');
+      gameCanvas.width = gridSize.cols*gridSize.square;
+      gameCanvas.height = gridSize.rows*gridSize.square;
+  var gameContext = gameCanvas.getContext('2d');
+
+  gamePanel.canvas = gameCanvas;
+  gamePanel.context = gameContext;
+}
+
+
+// character setup
+var characterTest;
+function characterSetup() {
+  characterTest.canvas = document.createElement('canvas');
+  characterTest.canvas.width = 400;
+  characterTest.canvas.height = 300;
+  characterTest.context = characterTest.canvas.getContext('2d');
+}
+
 
 
 //
@@ -315,6 +361,7 @@ var moveCanvas = {
   moveSpeed: 0,
   interations: 8
 }
+
 var character;
 
 function testing() {
@@ -323,14 +370,16 @@ function testing() {
   // Clear Canvas
   clear(canvas);
 
+  // update
   updateGame();
+
+  // draw
   canvas.ctx.drawImage(gamePanel.canvas,moveCanvas.currentPos,0);   // 0,0 to be changed based on selected hook
 
   updateCharacter(canvas.ctx);
 
-
-
   // move canvas is the position
+  // going into an array every frame is bad
   moveCanvas.selectedPos = (starHooks[selectedHook].x-(canvas.width/2)+32)*-1;
 
   // get distance
@@ -338,9 +387,16 @@ function testing() {
   moveCanvas.moveSpeed = ((moveCanvas.selectedPos - moveCanvas.currentPos)/moveCanvas.interations);
   moveCanvas.currentPos += moveCanvas.moveSpeed;
 
+  // paint UI
+  updateInterface();
 }
+var lineX;
+var lineY;
+var character;
 
 function updateCharacter(ctx) {
+
+  //ctx.drawImage();
 
   // draw rect
   ctx.beginPath();
@@ -348,10 +404,8 @@ function updateCharacter(ctx) {
   ctx.fillStyle = 'white';
   ctx.fill();
 
-  // var lineX = starHooks[selectedHook].x+32 + moveCanvas.selectedPos;
-  var lineX = starHooks[selectedHook].x+32 + (moveCanvas.currentPos);
-  //var lineX = starHooks[selectedHook].x+32 + moveCanvas.selectedPos;
-  var lineY = starHooks[selectedHook].y+32;
+  lineX = starHooks[selectedHook].x+32 + (moveCanvas.currentPos);
+  lineY = starHooks[selectedHook].y+32;
 
   // draw line
   ctx.beginPath();
@@ -362,10 +416,14 @@ function updateCharacter(ctx) {
   ctx.stroke();
 
 
+
+
   // draw square at bottom of rect that slides from left to right with easing out on each swing
 }
 
-
+function updateInterface() {
+  fpsCounter(canvas.ctx);
+}
 
 function updateGame() {
   // updates the game canvas layer
@@ -401,29 +459,27 @@ function updateGame() {
 }
 
 
-var gamePanel = {
-  canvas: '',
-  context: '',
-  posX:0,
-  posY:0
+
+
+// fps display
+var lastCalledTime;
+var fps;
+
+function fpsCounter(ctx) {
+
+  if(!lastCalledTime) {
+     lastCalledTime = performance.now();
+     fps = 0;
+     return;
+  }
+  delta = (performance.now() - lastCalledTime)/1000;
+  lastCalledTime = performance.now();
+  fps = Math.round(1/delta);
+
+  ctx.font = '24px lato';
+  ctx.fillText('FPS: '+fps, 16, 36);
+
 }
-
-function drawGameSetup() {
-  // do not want to create a new canvas every fkin frame
-  var gameCanvas = document.createElement('canvas');
-      gameCanvas.width = gridSize.cols*gridSize.square;
-      gameCanvas.height = gridSize.rows*gridSize.square;
-  var gameContext = gameCanvas.getContext('2d');
-
-  gamePanel.canvas = gameCanvas;
-  gamePanel.context = gameContext;
-}
-
-
-
-
-
-
 
 
 
@@ -433,73 +489,3 @@ function drawGameSetup() {
 
 
 //------------------------------------------------------------------
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// convert degrees into radians
-function toRad(deg) {
-    return deg * Math.PI/180;
-}
-
-// clear canvas function
-function clear(canvas) {
-    canvas.ctx.clearRect(0, 0, canvas.width, canvas.height);
-}
-
-// random function - no really
-function rand(min,max) {
-    var num = Math.random() * (max - min) + min;
-    return Math.ceil(num);
-}
-
-// Request Animation Frame Function
-(function() {
-    var lastTime = 0;
-    var vendors = ['webkit', 'moz'];
-    for(var x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
-        window.requestAnimationFrame = window[vendors[x]+'RequestAnimationFrame'];
-        window.cancelAnimationFrame =
-            window[vendors[x]+'CancelAnimationFrame'] || window[vendors[x]+'CancelRequestAnimationFrame'];
-    }
-
-    if (!window.requestAnimationFrame)
-        window.requestAnimationFrame = function(callback, element) {
-            var currTime = new Date().getTime();
-            var timeToCall = Math.max(0, 16 - (currTime - lastTime));
-            var id = window.setTimeout(function() { callback(currTime + timeToCall); },
-                timeToCall);
-            lastTime = currTime + timeToCall;
-            return id;
-        };
-
-    if (!window.cancelAnimationFrame)
-        window.cancelAnimationFrame = function(id) {
-            clearTimeout(id);
-        };
-}());
-
-// Resize Delay Function
-var waitForFinalEvent = (function () {
-    var timers = {};
-    return function (callback, ms, uniqueId) {
-        if (!uniqueId) {
-            uniqueId = "Don't call this twice without a uniqueId";
-        }
-        if (timers[uniqueId]) {
-            clearTimeout(timers[uniqueId]);
-        }
-        timers[uniqueId] = setTimeout(callback, ms);
-    };
-})();
