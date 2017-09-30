@@ -4,11 +4,13 @@ $(document).ready(function(){
     setup();
     controls();
 
+    // setup
     createGrid();
     createPanel();
-
-    // create game layer
     drawGameSetup();
+    characterSetup()
+
+
     // RAF
     testing();
 });
@@ -75,6 +77,11 @@ function controls() {
   // });
 }
 
+
+
+
+
+// ---------------------------------------------------------------
 
 
 var selectedHookTest;
@@ -171,7 +178,8 @@ function createHook(position) {
     strokeOffset: 16,
     bounds: 64,
     ring: 2, // ring position / health
-    alive: true
+    alive: true,
+    number: starHooks.length //position in array
   }
   // draw the hook
   drawHook(hookContext,star,false);
@@ -192,9 +200,15 @@ function createHook(position) {
 
 function drawHook(layer,star,grappeled) {
 
+  var saftey = false;
+
   if (star.alive === false) {
     // this star is dead, return false;
     // return false;
+  }
+
+  if(star.number === 0) {
+    saftey = true;
   }
 
   // clear this canvas
@@ -221,7 +235,7 @@ function drawHook(layer,star,grappeled) {
   var endAngle;
   //var endAngle = ring * Math.PI
   var counterClockwise = true;
-  if (grappeled == true) {
+  if (grappeled === true && saftey === false) {
     // do things
     star.ring -= 0.01;
     if (star.ring <= 0 && star.alive === true) {
@@ -241,13 +255,20 @@ function drawHook(layer,star,grappeled) {
 
   // visual bounds
   layer.beginPath();
-  if (grappeled == true) {
+  // gonna need a switch statement
+  if (grappeled === true) {
     layer.strokeStyle = 'lime';
     layer.lineWidth = 2;
   } else {
     layer.strokeStyle = 'red';
     layer.lineWidth = 1;
   }
+
+  if (saftey === true) {
+    layer.lineWidth = 3;
+    layer.strokeStyle = 'cyan';
+  }
+
   layer.rect(star.x-(star.bounds/2),star.y-(star.bounds/2),star.bounds,star.bounds);
 
   if (star.alive === false) {
@@ -341,12 +362,23 @@ function drawGameSetup() {
 
 
 // character setup
-var characterTest;
+var characterTest = {
+    canvas: null,
+    context: null,
+    positionY: null,
+    positionX: null
+}
+
+
+
 function characterSetup() {
   characterTest.canvas = document.createElement('canvas');
   characterTest.canvas.width = 400;
   characterTest.canvas.height = 300;
   characterTest.context = characterTest.canvas.getContext('2d');
+
+  characterTest.positionX = (canvas.width/2)-(characterTest.canvas.width/2);
+  characterTest.positionY = (gridSize.square*gridSize.rows);
 }
 
 
@@ -372,12 +404,14 @@ function testing() {
 
   // update
   updateGame();
+  updateCharacter();
 
   // draw
   canvas.ctx.drawImage(gamePanel.canvas,moveCanvas.currentPos,0);   // 0,0 to be changed based on selected hook
+  canvas.ctx.drawImage(characterTest.canvas,characterTest.positionX,characterTest.positionY);
 
-  updateCharacter(canvas.ctx);
-
+  // drawCharacter
+  drawRope(canvas.ctx);
   // move canvas is the position
   // going into an array every frame is bad
   moveCanvas.selectedPos = (starHooks[selectedHook].x-(canvas.width/2)+32)*-1;
@@ -390,41 +424,42 @@ function testing() {
   // paint UI
   updateInterface();
 }
-var lineX;
-var lineY;
+
 var character;
-
-function updateCharacter(ctx) {
-
+function updateCharacter() {
   //ctx.drawImage();
+  characterTest.context.clearRect(0,0,characterTest.canvas.width,characterTest.canvas.height);
+  characterTest.context.stroke();
 
   // draw rect
-  ctx.beginPath();
-  ctx.rect(480-200,200,400,300);
-  ctx.fillStyle = 'white';
-  ctx.fill();
+  characterTest.context.beginPath();
+  characterTest.context.rect(0,0,characterTest.canvas.width,characterTest.canvas.height);
+  characterTest.context.fillStyle = 'white';
+  characterTest.context.fill();
+  // draw square at bottom of rect that slides from left to right with easing out on each swing
+}
 
+
+// connects to the center of the canvas (currently)
+var lineX;
+var lineY;
+function drawRope(context) {
   lineX = starHooks[selectedHook].x+32 + (moveCanvas.currentPos);
   lineY = starHooks[selectedHook].y+32;
 
   // draw line
-  ctx.beginPath();
-  ctx.lineWidth = 2;
-  ctx.moveTo(canvas.width/2,400);
-  ctx.lineTo(lineX,lineY);
-  ctx.strokeStyle = 'cyan';
-  ctx.stroke();
-
-
-
-
-  // draw square at bottom of rect that slides from left to right with easing out on each swing
+  context.beginPath();
+  context.lineWidth = 2;
+  context.moveTo(canvas.width/2,400);
+  context.lineTo(lineX,lineY);
+  context.strokeStyle = 'cyan';
+  context.stroke();
 }
 
-function updateInterface() {
-  fpsCounter(canvas.ctx);
-}
 
+
+
+// paint game canvas & hooks + clear visible area
 function updateGame() {
   // updates the game canvas layer
   // controls when there needs to be more panels created.
@@ -461,12 +496,15 @@ function updateGame() {
 
 
 
+function updateInterface() {
+  fpsCounter(canvas.ctx);
+}
+
+
 // fps display
 var lastCalledTime;
 var fps;
-
 function fpsCounter(ctx) {
-
   if(!lastCalledTime) {
      lastCalledTime = performance.now();
      fps = 0;
@@ -476,16 +514,7 @@ function fpsCounter(ctx) {
   lastCalledTime = performance.now();
   fps = Math.round(1/delta);
 
+  ctx.fillStyle = 'white';
   ctx.font = '24px lato';
   ctx.fillText('FPS: '+fps, 16, 36);
-
 }
-
-
-
-
-
-
-
-
-//------------------------------------------------------------------
