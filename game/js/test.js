@@ -82,7 +82,7 @@ function controls() {
 
 
 // ---------------------------------------------------------------
-
+var gameScore = 0;
 
 var selectedHookTest;
 var lastHookTest;
@@ -232,17 +232,19 @@ function drawHook(layer,star,grappeled) {
 
   var radius = 23;
   var startAngle = 2 * Math.PI;
-  var endAngle;
-  //var endAngle = ring * Math.PI
+  var endAngle; //var endAngle = ring * Math.PI
   var counterClockwise = true;
-  if (grappeled === true && saftey === false) {
+
+  if (grappeled === true && saftey === false && star.alive === true) {
     // do things
+    gameScore += 1;
     star.ring -= 0.01;
     if (star.ring <= 0 && star.alive === true) {
       star.alive = false;
       star.ring = 2;
     }
   }
+
   // gets updated by if hook grappeled = true
   endAngle = star.ring * Math.PI;
 
@@ -368,15 +370,11 @@ var characterTest = {
     positionY: null,
     positionX: null
 }
-
-
-
 function characterSetup() {
   characterTest.canvas = document.createElement('canvas');
   characterTest.canvas.width = 400;
   characterTest.canvas.height = 300;
   characterTest.context = characterTest.canvas.getContext('2d');
-
   characterTest.positionX = (canvas.width/2)-(characterTest.canvas.width/2);
   characterTest.positionY = (gridSize.square*gridSize.rows);
 }
@@ -425,18 +423,54 @@ function testing() {
   updateInterface();
 }
 
-var character;
+
+
+
+
+// game character update
+var character = {
+  positionX: 0,
+  positionY: 80,
+  swingDirection: 'right'
+};
 function updateCharacter() {
+
+  var ctx = characterTest.context;
+  var canvasWidth = characterTest.canvas.width;
+  var canvasHeight = characterTest.canvas.height;
+
+  character.positionY = characterTest.canvas.height-64;
+
   //ctx.drawImage();
-  characterTest.context.clearRect(0,0,characterTest.canvas.width,characterTest.canvas.height);
-  characterTest.context.stroke();
+  ctx.clearRect(0,0,canvasWidth,canvasHeight);
+  ctx.stroke();
 
   // draw rect
-  characterTest.context.beginPath();
-  characterTest.context.rect(0,0,characterTest.canvas.width,characterTest.canvas.height);
-  characterTest.context.fillStyle = 'white';
-  characterTest.context.fill();
+  ctx.beginPath();
+  ctx.rect(0,0,characterTest.canvas.width,characterTest.canvas.height);
+  ctx.fillStyle = 'white';
+  ctx.fill();
+
   // draw square at bottom of rect that slides from left to right with easing out on each swing
+  ctx.beginPath();
+  ctx.rect(character.positionX,character.positionY,64,64);
+  ctx.fillStyle = 'black';
+  ctx.fill();
+
+
+  if (character.swingDirection === 'right') {
+    character.positionX += 4;
+  } else {
+    character.positionX -= 4;
+  }
+
+  if (character.positionX >= canvasWidth-64 && character.swingDirection === 'right') {
+    character.swingDirection = 'left';
+  }
+  if (character.positionX <= 0 && character.swingDirection === 'left') {
+    character.swingDirection = 'right';
+  }
+
 }
 
 
@@ -450,7 +484,10 @@ function drawRope(context) {
   // draw line
   context.beginPath();
   context.lineWidth = 2;
-  context.moveTo(canvas.width/2,400);
+  //context.moveTo(canvas.width/2,400);
+
+  context.moveTo(character.positionX+characterTest.positionX+32,character.positionY+characterTest.positionY+32);
+
   context.lineTo(lineX,lineY);
   context.strokeStyle = 'cyan';
   context.stroke();
@@ -459,16 +496,15 @@ function drawRope(context) {
 
 
 
-// paint game canvas & hooks + clear visible area
+// paint game canvas & hooks + clear visible area(not entire gameCanvas)
+// updates the game canvas layer
+// controls when there needs to be more panels created.
+// animates the currently selected star
 function updateGame() {
-  // updates the game canvas layer
-  // controls when there needs to be more panels created.
-  // animates the currently selected star
   var gameCanvas = gamePanel.canvas;
   var gameContext = gamePanel.context;
 
   // clear
-  //gameContext.clearRect(0, 0, gamePanel.canvas.width, gamePanel.canvas.height);
   var cameraPosition = canvas.width-moveCanvas.currentPos;
 
   gameContext.clearRect(0, 0, cameraPosition, canvas.height);
@@ -476,6 +512,8 @@ function updateGame() {
   // draw grid
   gameContext.drawImage(gridImage,0,0);
 
+
+  // Draw hooks
   // find and animate selected hook
   drawHook(starHooks[selectedHook].ctx,starHooks[selectedHook].star,true);
 
@@ -498,6 +536,7 @@ function updateGame() {
 
 function updateInterface() {
   fpsCounter(canvas.ctx);
+  scoreCounter(canvas.ctx);
 }
 
 
@@ -517,4 +556,10 @@ function fpsCounter(ctx) {
   ctx.fillStyle = 'white';
   ctx.font = '24px lato';
   ctx.fillText('FPS: '+fps, 16, 36);
+}
+
+function scoreCounter(ctx) {
+  ctx.fillStyle = 'white';
+  ctx.font = '24px lato';
+  ctx.fillText('SCORE: '+gameScore, canvas.width-200, 36);
 }
