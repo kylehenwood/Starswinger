@@ -84,7 +84,7 @@ function controls() {
 // ---------------------------------------------------------------
 var gameScore = 0;
 
-var selectedHookTest;
+var selectedHookTest; // ==
 var lastHookTest;
 
 var selectedHook = 0;
@@ -109,6 +109,8 @@ function changeHook(direction) {
   // check if star is alive
   // if alive = false, attempt to jump to the next star (+direction again)
 
+  // reposition / redraw swing trajectory
+
 
   if (newHook < starHooks.length && newHook > -1) {
 
@@ -120,8 +122,8 @@ function changeHook(direction) {
     //starHooks[currentHook] = selectedHookTest;
 
     // set newHook
-    //selectedHookTest = starHooks[newHook];
-
+    selectedHookTest = starHooks[newHook];
+    repositionSwing(starHooks[newHook]);
   } else {
     // no hook exists - return nothing
     return;
@@ -179,21 +181,27 @@ function createHook(position) {
     bounds: 64,
     ring: 2, // ring position / health
     alive: true,
-    number: starHooks.length //position in array
+    safe: false //position in array
   }
   // draw the hook
   drawHook(hookContext,star,false);
 
-  // each hook lives on a 5x10 - 1-50
-  var positionX = gridPositions[position].positionX;
-  var positionY = gridPositions[position].positionY;
+  // which stars should be safe?
+  if (starHooks.length === 0) {
+    star.safe = true;
+  }
 
+  if (starHooks.length === 20) {
+    star.safe = true;
+  }
+
+  // each hook lives on a 5x10 - 1-50
   starHooks.push({
       layer:hookCanvas,
       ctx: hookContext,
       star: star,
-      x: positionX,
-      y: positionY,
+      posX: gridPositions[position].positionX,
+      posY: gridPositions[position].positionY,
   });
 }
 
@@ -207,7 +215,7 @@ function drawHook(layer,star,grappeled) {
     // return false;
   }
 
-  if(star.number === 0) {
+  if(star.safe === true) {
     saftey = true;
   }
 
@@ -355,7 +363,8 @@ function drawGameSetup() {
   // do not want to create a new canvas every fkin frame
   var gameCanvas = document.createElement('canvas');
       gameCanvas.width = gridSize.cols*gridSize.square;
-      gameCanvas.height = gridSize.rows*gridSize.square;
+      //gameCanvas.height = gridSize.rows*gridSize.square;
+      gameCanvas.height = canvas.height;
   var gameContext = gameCanvas.getContext('2d');
 
   gamePanel.canvas = gameCanvas;
@@ -404,15 +413,19 @@ function testing() {
   updateGame();
   updateCharacter();
 
-  // draw
+  //DRAW ----------------------
+
+  // draw Game
   canvas.ctx.drawImage(gamePanel.canvas,moveCanvas.currentPos,0);   // 0,0 to be changed based on selected hook
-  canvas.ctx.drawImage(characterTest.canvas,characterTest.positionX,characterTest.positionY);
 
   // drawCharacter
-  drawRope(canvas.ctx);
+  //canvas.ctx.drawImage(characterTest.canvas,characterTest.positionX,characterTest.positionY);
+
+  //drawRope(canvas.ctx);
+
   // move canvas is the position
-  // going into an array every frame is bad
-  moveCanvas.selectedPos = (starHooks[selectedHook].x-(canvas.width/2)+32)*-1;
+  // going i0nto an array every frame is bad
+  moveCanvas.selectedPos = (starHooks[selectedHook].posX-(canvas.width/2)+32)*-1;
 
   // get distance
   // get time I want this to take
@@ -478,8 +491,8 @@ function updateCharacter() {
 var lineX;
 var lineY;
 function drawRope(context) {
-  lineX = starHooks[selectedHook].x+32 + (moveCanvas.currentPos);
-  lineY = starHooks[selectedHook].y+32;
+  lineX = starHooks[selectedHook].posX+32 + (moveCanvas.currentPos);
+  lineY = starHooks[selectedHook].posY+32;
 
   // draw line
   context.beginPath();
@@ -500,6 +513,7 @@ function drawRope(context) {
 // updates the game canvas layer
 // controls when there needs to be more panels created.
 // animates the currently selected star
+
 function updateGame() {
   var gameCanvas = gamePanel.canvas;
   var gameContext = gamePanel.context;
@@ -509,9 +523,15 @@ function updateGame() {
 
   gameContext.clearRect(0, 0, cameraPosition, canvas.height);
 
-  // draw grid
+  // Draw grid
   gameContext.drawImage(gridImage,0,0);
 
+
+  // Draw square and arc based on character position?
+  gameContext.beginPath();
+  gameContext.fillStyle = 'rgba(255,255,255,0.2)';
+  gameContext.rect(swing.positionX,swing.positionY,swing.height,swing.width);
+  gameContext.fill();
 
   // Draw hooks
   // find and animate selected hook
@@ -526,11 +546,23 @@ function updateGame() {
 
   // draw each hook to this canvas.
   for (var i = 0; i < starHooks.length; i++) {
-    var layer = starHooks[i];
-    gameContext.drawImage(layer.layer, layer.x, layer.y);
+    var hook = starHooks[i];
+    gameContext.drawImage(hook.layer, hook.posX, hook.posY);
   }
 }
 
+
+// swing path
+var swing = {
+  width: 400,
+  height: 400,
+  posX: 0,
+  posY: 0
+}
+function repositionSwing() {
+  swing.posX = selectedHook.posX;
+  console.log(swing.posX);
+}
 
 
 
