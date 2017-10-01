@@ -8,8 +8,11 @@ $(document).ready(function(){
     createGrid();
     createPanel();
     drawGameSetup();
-    characterSetup()
+    characterSetup();
 
+    // need to redo this
+    changeHook();
+    repositionSwing();
 
     // RAF
     testing();
@@ -103,6 +106,8 @@ function changeHook(direction) {
   newHook = selectedHook + direction;
   hookCount = starHooks.length;
 
+  selectedHookTest = starHooks[0];
+
   // save old hook, replace its values in starhooks array.
   // set new hook
 
@@ -110,7 +115,6 @@ function changeHook(direction) {
   // if alive = false, attempt to jump to the next star (+direction again)
 
   // reposition / redraw swing trajectory
-
 
   if (newHook < starHooks.length && newHook > -1) {
 
@@ -123,7 +127,8 @@ function changeHook(direction) {
 
     // set newHook
     selectedHookTest = starHooks[newHook];
-    repositionSwing(starHooks[newHook]);
+    repositionSwing();
+
   } else {
     // no hook exists - return nothing
     return;
@@ -411,7 +416,7 @@ function testing() {
 
   // update
   updateGame();
-  updateCharacter();
+  //updateCharacter();
 
   //DRAW ----------------------
 
@@ -421,7 +426,7 @@ function testing() {
   // drawCharacter
   //canvas.ctx.drawImage(characterTest.canvas,characterTest.positionX,characterTest.positionY);
 
-  //drawRope(canvas.ctx);
+  drawRope(canvas.ctx);
 
   // move canvas is the position
   // going i0nto an array every frame is bad
@@ -497,16 +502,14 @@ function drawRope(context) {
   // draw line
   context.beginPath();
   context.lineWidth = 2;
-  //context.moveTo(canvas.width/2,400);
-
-  context.moveTo(character.positionX+characterTest.positionX+32,character.positionY+characterTest.positionY+32);
+  //context.moveTo(newCharacter.currentPosX,newCharacter.posY)
+  context.moveTo(canvas.width/2,400);
+  //context.moveTo(character.positionX+characterTest.positionX+32,character.positionY+characterTest.positionY+32);
 
   context.lineTo(lineX,lineY);
   context.strokeStyle = 'cyan';
   context.stroke();
 }
-
-
 
 
 // paint game canvas & hooks + clear visible area(not entire gameCanvas)
@@ -527,11 +530,14 @@ function updateGame() {
   gameContext.drawImage(gridImage,0,0);
 
 
+
   // Draw square and arc based on character position?
   gameContext.beginPath();
   gameContext.fillStyle = 'rgba(255,255,255,0.2)';
-  gameContext.rect(swing.positionX,swing.positionY,swing.height,swing.width);
+  gameContext.rect(swing.posX,swing.posY,swing.height,swing.width);
   gameContext.fill();
+
+  swingCharacter(gameContext);
 
   // Draw hooks
   // find and animate selected hook
@@ -559,13 +565,72 @@ var swing = {
   posX: 0,
   posY: 0
 }
+// generate swing trajectory based on hook selection (fires on hook change)
 function repositionSwing() {
-  swing.posX = selectedHook.posX;
-  console.log(swing.posX);
+  swing.posX = selectedHookTest.posX-(swing.width/2)+32;
+  swing.posY = selectedHookTest.posY+32;
+
+  /*
+    Calculate distance between current character position and new hook,
+    draw triangle,
+    calculate hypotinuse of triangle, that will be the radius of arc
+    draw arc.
+  */
+  //alert(characterTest.positionX+','+characterTest.positionY);
+
+  // UPDATE SWING trajectory HERE
+
+
+  newCharacter.posX = selectedHookTest.posX+20;
+  newCharacter.posY = newCharacter.ropeLength;
+  //newCharacter.posY = selectedHookTest.posY + newCharacter.ropeLength;
+}
+
+var newCharacter = {
+  posY: null,
+  posX: null,
+  currentPosX: 0,
+  ropeLength: 400,
+  interations: 2
+}
+
+function swingCharacter(ctx) {
+
+  var charX = newCharacter.currentPosX;
+  var charY = newCharacter.posY;
+
+  newCharacter.currentPosX += ((newCharacter.posX - newCharacter.currentPosX)/24);
+
+  // moveCanvas.moveSpeed = ((moveCanvas.selectedPos - moveCanvas.currentPos)/moveCanvas.interations);
+  // moveCanvas.currentPos += moveCanvas.moveSpeed;
+  // if (newCharacter.currentPosX > newCharacter.posX) {
+  //   newCharacter.currentPosX-=2;
+  // }
+  // if (newCharacter.currentPosX < newCharacter.posX) {
+  //   newCharacter.currentPosX+=2;
+  // }
+
+
+  // draw character
+  ctx.beginPath();
+  ctx.rect(charX,charY,24,24);
+  ctx.fillStyle = 'white';
+  ctx.fill();
+
+  // triangle of calculations
+  ctx.beginPath();
+  ctx.moveTo(20,20);  // startPointX, startPointY
+  ctx.lineTo(20,100); // startPointY, HookX
+  ctx.lineTo(70,100); // HookX,HookY
+  ctx.closePath();    // hypotinuse
+  ctx.stroke();
 }
 
 
 
+
+
+// Interface --------------------
 function updateInterface() {
   fpsCounter(canvas.ctx);
   scoreCounter(canvas.ctx);

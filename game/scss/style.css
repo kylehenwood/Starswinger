@@ -651,6 +651,7 @@ html {
 
 .layout__container {
   position: absolute;
+  z-index: 2;
   top: 50%;
   left: 0;
   width: 100%;
