@@ -131,7 +131,6 @@ function changeHook(direction) {
   } else {
     // no hook exists - return nothing
     //selectedHookTest = starHooks[newHook];
-    repositionSwing();
     return;
   }
 }
@@ -566,12 +565,24 @@ function repositionSwing() {
   //alert(characterTest.positionX+','+characterTest.positionY);
 
   // UPDATE SWING trajectory HERE
+  trajectory.characterPosX = newCharacter.currentPosX+16;
+  trajectory.characterPosY = newCharacter.currentPosY+16;
+  trajectory.starPosX = selectedHookTest.posX+32;
+  trajectory.starPosY = selectedHookTest.posY+32;
 
+  // make the negative values positive
+  var triWidth = Math.abs(trajectory.starPosX-trajectory.characterPosX);
+  var triHeight = Math.abs(trajectory.starPosY-trajectory.characterPosY);
+
+  trajectory.hypotenuse = Math.hypot(triWidth,triHeight);
+
+  // needed when swinging exists
+  //newCharacter.ropeLength = trajectory.hypotenuse;
 
   // update character positions on hook change
   newCharacter.posX = selectedHookTest.posX+20;
-  //newCharacter.posY = newCharacter.ropeLength;
   newCharacter.posY = selectedHookTest.posY + newCharacter.ropeLength;
+  //newCharacter.posY = newCharacter.ropeLength;
 }
 var trajectory = {
   characterPosX: null,
@@ -585,19 +596,24 @@ var trajectory = {
 
 
 function drawTrajectory(ctx){
-  ctx.beginPath();
-  ctx.fillStyle = 'rgba(255,255,255,0.2)';
-  ctx.rect(swing.posX,swing.posY,swing.height,swing.width);
-  ctx.fill();
 
   // triangle of calculations
   ctx.strokeStyle = 'magenta';
+  ctx.lineWidth = 1;
   ctx.beginPath();
-  ctx.moveTo(newCharacter.posX+12,newCharacter.posY+12);  // startPointX, startPointY
-  ctx.lineTo(selectedHookTest.posX+32,newCharacter.posY+12); // startPointY, HookX
-  ctx.lineTo(selectedHookTest.posX+32,selectedHookTest.posY+32); // HookX,HookY
+  ctx.moveTo(trajectory.characterPosX,trajectory.characterPosY);  // startPointX, startPointY
+  ctx.lineTo(trajectory.starPosX,trajectory.characterPosY); // startPointY, HookX
+  ctx.lineTo(trajectory.starPosX,trajectory.starPosY); // HookX,HookY
   ctx.closePath();    // hypotinuse
   ctx.stroke();
+
+  // calculate hypotenuse === radius, draw circle on currentHook center
+  ctx.beginPath();
+  ctx.arc(trajectory.starPosX, trajectory.starPosY, trajectory.hypotenuse, 0, 2 * Math.PI, false);
+  ctx.lineWidth = 2;
+  ctx.strokeStyle = 'yellow';
+  ctx.stroke();
+
 }
 
 var newCharacter = {
@@ -606,12 +622,12 @@ var newCharacter = {
   currentPosX: 0,
   currentPosY: 0,
   ropeLength: 320,
-  interations: 2
+  interations: 16 // times it takes for the character to catch the hook
 }
 
 function swingCharacter(ctx) {
-  newCharacter.currentPosX += ((newCharacter.posX - newCharacter.currentPosX)/16);
-  newCharacter.currentPosY += ((newCharacter.posY - newCharacter.currentPosY)/16);
+  newCharacter.currentPosX += ((newCharacter.posX - newCharacter.currentPosX)/newCharacter.interations);
+  newCharacter.currentPosY += ((newCharacter.posY - newCharacter.currentPosY)/newCharacter.interations);
 
   var charX = newCharacter.currentPosX;
   var charY = newCharacter.currentPosY;
