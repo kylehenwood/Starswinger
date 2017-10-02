@@ -162,7 +162,7 @@ function createPanel() {
 
   while (position < availablePositions) {
     // space out the stars by adding a random tile gap untill the tile is exceeded.
-    position += rand(8,16);
+    position += rand(12,20);
     if (position < availablePositions) {
       createHook(position);
     }
@@ -440,55 +440,6 @@ function testing() {
 }
 
 
-
-
-
-// game character update
-var character = {
-  positionX: 0,
-  positionY: 80,
-  swingDirection: 'right'
-};
-function updateCharacter() {
-
-  var ctx = characterTest.context;
-  var canvasWidth = characterTest.canvas.width;
-  var canvasHeight = characterTest.canvas.height;
-
-  character.positionY = characterTest.canvas.height-64;
-
-  //ctx.drawImage();
-  ctx.clearRect(0,0,canvasWidth,canvasHeight);
-  ctx.stroke();
-
-  // draw rect
-  ctx.beginPath();
-  ctx.rect(0,0,characterTest.canvas.width,characterTest.canvas.height);
-  ctx.fillStyle = 'white';
-  ctx.fill();
-
-  // draw square at bottom of rect that slides from left to right with easing out on each swing
-  ctx.beginPath();
-  ctx.rect(character.positionX,character.positionY,64,64);
-  ctx.fillStyle = 'black';
-  ctx.fill();
-
-
-  if (character.swingDirection === 'right') {
-    character.positionX += 4;
-  } else {
-    character.positionX -= 4;
-  }
-
-  if (character.positionX >= canvasWidth-64 && character.swingDirection === 'right') {
-    character.swingDirection = 'left';
-  }
-  if (character.positionX <= 0 && character.swingDirection === 'left') {
-    character.swingDirection = 'right';
-  }
-
-}
-
 // paint game canvas & hooks + clear visible area(not entire gameCanvas)
 // updates the game canvas layer
 // controls when there needs to be more panels created.
@@ -505,8 +456,6 @@ function updateGame() {
 
   // Draw grid
   gameContext.drawImage(gridImage,0,0);
-
-
 
   // Draw square and arc based on character position?
   drawTrajectory(gameContext);
@@ -530,31 +479,88 @@ function updateGame() {
   }
 }
 
-// connects to the center of the canvas (currently)
+
+var swingDirection = 'right';
+var momentium = 0;
+var momentiumIncrease = 0.1;
+
+// draw the rope that connects character to hook
 function drawRope(context) {
-  lineX = selectedHookTest.posX+32;
-  lineY = selectedHookTest.posY+32;
+  var hookX = selectedHookTest.posX+32;
+  var hookY = selectedHookTest.posY+32;
+
+  var charX = newCharacter.currentPosX+(newCharacter.size/2);
+  var charY = newCharacter.currentPosY+(newCharacter.size/2);
+
   // draw line
   context.beginPath();
   context.lineWidth = 2;
-  context.moveTo(newCharacter.currentPosX+12,newCharacter.currentPosY+12);
+  context.moveTo(charX,charY);
 
-  context.lineTo(selectedHookTest.posX+32,selectedHookTest.posY+32);
+  context.lineTo(hookX,hookY);
   context.strokeStyle = 'cyan';
   context.stroke();
+  context.closePath();
+
+
+
+
+
+  // new rope
+  // I want to change the length of starY
+
+  var hypo = trajectory.hypotenuse; // length of the rope
+  //var height = (charY-hookY); // length of the triangle side
+  //var length = Math.sqrt(Math.pow(-hypo,2)-Math.pow(height,2));
+  var width = (charX-hookX) + momentium;
+  var widthProper = (charX-hookX);
+  var height = Math.sqrt(Math.pow(-hypo,2)-Math.pow(width,2));
+
+  //alertVal = width;
+
+  if (swingDirection === 'right') {
+    momentium = momentiumIncrease;
+    momentiumIncrease = momentiumIncrease+0.2;
+  } else {
+    //console.log('subtract');
+    momentium = momentiumIncrease;
+    momentiumIncrease = momentiumIncrease-0.2;
+  }
+
+
+  console.log(momentiumIncrease);
+  momentium += momentiumIncrease;
+
+  charX = alertVal;
+
+  //console.log(charY+','+hookY);
+  //console.log('HYPO:'+hypo+',Y:'+height+',X:'+xpos)
+
+  context.beginPath();
+  context.lineWidth = 2;
+  context.moveTo(hookX+width,height+hookY);
+
+  //-------------------------
+  context.lineTo(hookX,hookY);
+  context.strokeStyle = 'red';
+  context.stroke();
+  context.closePath();
+
+
+  // context.strokeStyle = 'magenta';
+  // context.lineWidth = 1;
+  // context.beginPath();
+  // context.moveTo(charX,charY+50);  // startPointX, startPointY
+  // context.lineTo(hookX,charY+50); // startPointY, HookX
+  // context.lineTo(hookX,hookY); // HookX,HookY
+  // context.closePath();    // hypotinuse
+  // context.stroke();
+
 }
 
-// swing path
-var swing = {
-  width: 400,
-  height: 400,
-  posX: 0,
-  posY: 0
-}
+
 // generate swing trajectory based on hook selection (fires on hook change)
 function repositionSwing() {
-  swing.posX = selectedHookTest.posX-(swing.width/2)+32;
-  swing.posY = selectedHookTest.posY+32;
 
   /*
     Calculate distance between current character position and new hook,
@@ -565,14 +571,14 @@ function repositionSwing() {
   //alert(characterTest.positionX+','+characterTest.positionY);
 
   // UPDATE SWING trajectory HERE
-  trajectory.characterPosX = newCharacter.currentPosX+16;
-  trajectory.characterPosY = newCharacter.currentPosY+16;
+  trajectory.characterPosX = newCharacter.currentPosX+(newCharacter.size/2);
+  trajectory.characterPosY = newCharacter.currentPosY+(newCharacter.size/2);
   trajectory.starPosX = selectedHookTest.posX+32;
   trajectory.starPosY = selectedHookTest.posY+32;
 
   // make the negative values positive
-  var triWidth = Math.abs(trajectory.starPosX-trajectory.characterPosX);
-  var triHeight = Math.abs(trajectory.starPosY-trajectory.characterPosY);
+  var triWidth = /*Math.abs*/(trajectory.starPosX-trajectory.characterPosX);
+  var triHeight = (trajectory.starPosY-trajectory.characterPosY);
 
   trajectory.hypotenuse = Math.hypot(triWidth,triHeight);
 
@@ -580,7 +586,7 @@ function repositionSwing() {
   //newCharacter.ropeLength = trajectory.hypotenuse;
 
   // update character positions on hook change
-  newCharacter.posX = selectedHookTest.posX+20;
+  newCharacter.posX = selectedHookTest.posX+(newCharacter.size/2);
   newCharacter.posY = selectedHookTest.posY + newCharacter.ropeLength;
   //newCharacter.posY = newCharacter.ropeLength;
 }
@@ -619,23 +625,37 @@ function drawTrajectory(ctx){
 var newCharacter = {
   posY: null,
   posX: null,
+  size: 24,
   currentPosX: 0,
-  currentPosY: 0,
+  currentPosY: 240,
+  gravity: 2, // force pulling character down
   ropeLength: 320,
   interations: 16 // times it takes for the character to catch the hook
 }
 
+
 function swingCharacter(ctx) {
-  newCharacter.currentPosX += ((newCharacter.posX - newCharacter.currentPosX)/newCharacter.interations);
-  newCharacter.currentPosY += ((newCharacter.posY - newCharacter.currentPosY)/newCharacter.interations);
+
+  // smooth animate to current position
+  //newCharacter.currentPosX += ((newCharacter.posX - newCharacter.currentPosX)/newCharacter.interations);
+  //newCharacter.currentPosY += ((newCharacter.posY - newCharacter.currentPosY)/newCharacter.interations);
+  //swing.momentium += 5;
 
   var charX = newCharacter.currentPosX;
-  var charY = newCharacter.currentPosY;
+  var charY = newCharacter.currentPosY;// += newCharacter.gravity;
+
+  // swing!
 
   // draw character
   ctx.beginPath();
-  ctx.rect(charX,charY,24,24);
+  ctx.rect(charX,charY,newCharacter.size,newCharacter.size);
   ctx.fillStyle = 'white';
+  ctx.fill();
+
+  // if character moved down(Y) 20px, what would be its new X?
+  ctx.beginPath();
+  ctx.rect(charX,charY+50,newCharacter.size,newCharacter.size);
+  ctx.fillStyle = 'orange';
   ctx.fill();
 }
 
@@ -643,12 +663,22 @@ function swingCharacter(ctx) {
 
 
 
+
 // Interface --------------------
+var alertVal = null;
+
 function updateInterface() {
+  canvas.ctx.textBaseline="middle";
   fpsCounter(canvas.ctx);
   scoreCounter(canvas.ctx);
+  valueIndicator(canvas.ctx);
 }
 
+function valueIndicator(ctx) {
+  ctx.fillStyle = 'white';
+  ctx.font = '24px lato';
+  ctx.fillText('Val: '+alertVal, 16, canvas.height-24);
+}
 
 // fps display
 var lastCalledTime;
@@ -665,11 +695,11 @@ function fpsCounter(ctx) {
 
   ctx.fillStyle = 'white';
   ctx.font = '24px lato';
-  ctx.fillText('FPS: '+fps, 16, 36);
+  ctx.fillText('FPS: '+fps, 16, 24);
 }
 
 function scoreCounter(ctx) {
   ctx.fillStyle = 'white';
   ctx.font = '24px lato';
-  ctx.fillText('SCORE: '+gameScore, canvas.width-200, 36);
+  ctx.fillText('SCORE: '+gameScore, canvas.width-200, 24);
 }
