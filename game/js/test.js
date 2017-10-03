@@ -92,7 +92,6 @@ var gameScore = 0;
 
 var selectedHookTest; // ==
 var lastHookTest;
-
 var selectedHook = 0;
 var currentHook;
 var newHook;
@@ -377,24 +376,6 @@ function drawGameSetup() {
 }
 
 
-// character setup
-var characterTest = {
-    canvas: null,
-    context: null,
-    positionY: null,
-    positionX: null
-}
-function characterSetup() {
-  characterTest.canvas = document.createElement('canvas');
-  characterTest.canvas.width = 400;
-  characterTest.canvas.height = 300;
-  characterTest.context = characterTest.canvas.getContext('2d');
-  characterTest.positionX = (canvas.width/2)-(characterTest.canvas.width/2);
-  characterTest.positionY = (gridSize.square*gridSize.rows);
-}
-
-
-
 //
 // RAF ----------------------------------------------------------------------------
 //
@@ -403,7 +384,7 @@ var moveCanvas = {
   currentPos: 0,
   selectedPos: 0,
   moveSpeed: 0,
-  interations: 8
+  interations: 16
 }
 
 var character;
@@ -422,9 +403,6 @@ function testing() {
 
   // draw Game
   canvas.ctx.drawImage(gamePanel.canvas,moveCanvas.currentPos,0);   // 0,0 to be changed based on selected hook
-
-  // drawCharacter
-  //canvas.ctx.drawImage(characterTest.canvas,characterTest.positionX,characterTest.positionY);
 
   // move canvas is the position
   // going i0nto an array every frame is bad
@@ -459,19 +437,19 @@ function updateGame() {
 
   // Draw square and arc based on character position?
   drawTrajectory(gameContext);
-  swingCharacter(gameContext);
   drawRope(gameContext);
+  swingCharacter(gameContext);
+
+
   // Draw hooks
   // find and animate selected hook
   drawHook(starHooks[selectedHook].ctx,starHooks[selectedHook].star,true);
-
   // reset last hook. (once)
   if (lastHook.reset === false) {
     drawHook(starHooks[lastHook.val].ctx,starHooks[lastHook.val].star,false);
-    //starHooks[lastHook.val].star.ring = 2;
+    //starHooks[lastHook.val].star.ring = 2; // reset the charge of a star
     lastHook.reset = true;
   }
-
   // draw each hook to this canvas.
   for (var i = 0; i < starHooks.length; i++) {
     var hook = starHooks[i];
@@ -480,95 +458,66 @@ function updateGame() {
 }
 
 
-var swingDirection = 'right';
-var momentium = 0;
-var momentiumIncrease = 0.1;
-
+var currentAngle = -90; //angle in degrees - also the starting position when you connect to a new star
+var momentiumIncrease = 0;
+var ropeX;
+var ropeY;
+var momentiumAngle;
+var swingDirection;
+var swingSpeed = 0.1;
 // draw the rope that connects character to hook
 function drawRope(context) {
   var hookX = selectedHookTest.posX+32;
   var hookY = selectedHookTest.posY+32;
 
-  var charX = newCharacter.currentPosX+(newCharacter.size/2);
-  var charY = newCharacter.currentPosY+(newCharacter.size/2);
 
-  // draw line
-  context.beginPath();
-  context.lineWidth = 2;
-  context.moveTo(charX,charY);
-
-  context.lineTo(hookX,hookY);
-  context.strokeStyle = 'cyan';
-  context.stroke();
-  context.closePath();
-
-
-
-
-
-  // new rope
-  // I want to change the length of starY
-
-  var hypo = trajectory.hypotenuse; // length of the rope
-  //var height = (charY-hookY); // length of the triangle side
-  //var length = Math.sqrt(Math.pow(-hypo,2)-Math.pow(height,2));
-  var width = (charX-hookX) + momentium;
-  var widthProper = (charX-hookX);
-  var height = Math.sqrt(Math.pow(-hypo,2)-Math.pow(width,2));
-
-  //alertVal = width;
-
-  if (swingDirection === 'right') {
-    momentium = momentiumIncrease;
-    momentiumIncrease = momentiumIncrease+0.2;
+  // additive swing;
+  if (momentiumAngle <= 0) {
+    momentiumIncrease+=swingSpeed;
   } else {
-    //console.log('subtract');
-    momentium = momentiumIncrease;
-    momentiumIncrease = momentiumIncrease-0.2;
+    momentiumIncrease-=swingSpeed;
   }
 
+  currentAngle += momentiumIncrease;
+  momentiumAngle = toRad(currentAngle);
 
-  console.log(momentiumIncrease);
-  momentium += momentiumIncrease;
 
-  charX = alertVal;
+  // length of the rope
+  var ropeLength = trajectory.hypotenuse;
+  // Adjacent Side (Y)
+  var sideY = Math.cos(momentiumAngle)*ropeLength;
+  // Oppisite side (X)
+  var sideX = Math.sin(momentiumAngle)*ropeLength;
 
-  //console.log(charY+','+hookY);
-  //console.log('HYPO:'+hypo+',Y:'+height+',X:'+xpos)
+  // calculate rope XY now I know the positions
+  ropeY = hookY + sideY;
+  ropeX = hookX + sideX;
+
+  // update character position to where the rope ends
+  newCharacter.currentPosX = ropeX;
+  newCharacter.currentPosY = ropeY;
+
+  // update swing direction
+  if (momentiumIncrease > 0) {
+    swingDirection = 'right';
+  } else {
+    swingDirection = 'left';
+  }
+  //console.log(swingDirection);
 
   context.beginPath();
   context.lineWidth = 2;
-  context.moveTo(hookX+width,height+hookY);
+  context.moveTo(newCharacter.currentPosX,newCharacter.currentPosY);
 
   //-------------------------
   context.lineTo(hookX,hookY);
   context.strokeStyle = 'red';
   context.stroke();
   context.closePath();
-
-
-  // context.strokeStyle = 'magenta';
-  // context.lineWidth = 1;
-  // context.beginPath();
-  // context.moveTo(charX,charY+50);  // startPointX, startPointY
-  // context.lineTo(hookX,charY+50); // startPointY, HookX
-  // context.lineTo(hookX,hookY); // HookX,HookY
-  // context.closePath();    // hypotinuse
-  // context.stroke();
-
 }
-
 
 // generate swing trajectory based on hook selection (fires on hook change)
 function repositionSwing() {
-
-  /*
-    Calculate distance between current character position and new hook,
-    draw triangle,
-    calculate hypotinuse of triangle, that will be the radius of arc
-    draw arc.
-  */
-  //alert(characterTest.positionX+','+characterTest.positionY);
 
   // UPDATE SWING trajectory HERE
   trajectory.characterPosX = newCharacter.currentPosX+(newCharacter.size/2);
@@ -577,18 +526,28 @@ function repositionSwing() {
   trajectory.starPosY = selectedHookTest.posY+32;
 
   // make the negative values positive
-  var triWidth = /*Math.abs*/(trajectory.starPosX-trajectory.characterPosX);
-  var triHeight = (trajectory.starPosY-trajectory.characterPosY);
+  var triWidth = trajectory.starPosX-trajectory.characterPosX;
+  var triHeight = trajectory.starPosY-trajectory.characterPosY;
 
   trajectory.hypotenuse = Math.hypot(triWidth,triHeight);
 
-  // needed when swinging exists
-  //newCharacter.ropeLength = trajectory.hypotenuse;
-
   // update character positions on hook change
-  newCharacter.posX = selectedHookTest.posX+(newCharacter.size/2);
-  newCharacter.posY = selectedHookTest.posY + newCharacter.ropeLength;
-  //newCharacter.posY = newCharacter.ropeLength;
+
+  // calculate new angle based on triangle
+  var adjacent = Math.abs(triHeight);
+  var angle = Math.acos(adjacent/trajectory.hypotenuse);
+
+  momentiumIncrease = 0;
+
+  console.log(newCharacter.posX);
+  if (trajectory.characterPosX < trajectory.starPosX) {
+      console.log('swingLeft');
+      currentAngle = toDeg(angle)*-1;
+  } else {
+      currentAngle = toDeg(angle);
+      console.log('swingRight');
+  }
+
 }
 var trajectory = {
   characterPosX: null,
@@ -608,8 +567,8 @@ function drawTrajectory(ctx){
   ctx.lineWidth = 1;
   ctx.beginPath();
   ctx.moveTo(trajectory.characterPosX,trajectory.characterPosY);  // startPointX, startPointY
-  ctx.lineTo(trajectory.starPosX,trajectory.characterPosY); // startPointY, HookX
   ctx.lineTo(trajectory.starPosX,trajectory.starPosY); // HookX,HookY
+  ctx.lineTo(trajectory.starPosX,trajectory.characterPosY); // startPointY, HookX
   ctx.closePath();    // hypotinuse
   ctx.stroke();
 
@@ -646,27 +605,24 @@ function swingCharacter(ctx) {
 
   // swing!
 
+  charX = ropeX-12;
+  charY = ropeY-12;
+
   // draw character
   ctx.beginPath();
   ctx.rect(charX,charY,newCharacter.size,newCharacter.size);
   ctx.fillStyle = 'white';
   ctx.fill();
-
   // if character moved down(Y) 20px, what would be its new X?
-  ctx.beginPath();
-  ctx.rect(charX,charY+50,newCharacter.size,newCharacter.size);
-  ctx.fillStyle = 'orange';
-  ctx.fill();
+
+
+
+
 }
 
 
 
-
-
-
 // Interface --------------------
-var alertVal = null;
-
 function updateInterface() {
   canvas.ctx.textBaseline="middle";
   fpsCounter(canvas.ctx);
@@ -677,7 +633,8 @@ function updateInterface() {
 function valueIndicator(ctx) {
   ctx.fillStyle = 'white';
   ctx.font = '24px lato';
-  ctx.fillText('Val: '+alertVal, 16, canvas.height-24);
+  //ctx.fillText('Val: '+momentiumAngle, 16, canvas.height-24);
+  ctx.fillText('Val: '+momentiumIncrease, 16, canvas.height-24);
 }
 
 // fps display
