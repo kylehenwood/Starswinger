@@ -815,7 +815,7 @@ html {
   transition: all 200ms linear; }
 
 .viewport--iphone4 {
-  width: 960px;
+  width: 1200px;
   height: 640px; }
 
 .viewport--iphone5 {

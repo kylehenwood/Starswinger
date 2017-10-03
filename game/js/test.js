@@ -13,7 +13,8 @@ $(document).ready(function(){
     // !todo remove this primitive method of setting start position.
     // set starting hook
     selectedHookTest = starHooks[0];
-
+    newCharacter.currentPosX = 20;
+    newCharacter.currentPosY = rand(50,320);
     // need to redo this
     changeHook();
     repositionSwing();
@@ -40,7 +41,7 @@ function setup() {
     canvas.id = $('.js-starswinger');
     canvas.ctx = canvas.id[0].getContext("2d");
 
-    canvas.width = 960;
+    canvas.width = 1200;
     canvas.height = 640;
     canvas.id.attr({
         'width': canvas.width,
@@ -384,7 +385,7 @@ var moveCanvas = {
   currentPos: 0,
   selectedPos: 0,
   moveSpeed: 0,
-  interations: 16
+  interations: 8
 }
 
 var character;
@@ -458,29 +459,28 @@ function updateGame() {
 }
 
 
-var currentAngle = -90; //angle in degrees - also the starting position when you connect to a new star
+var currentAngle; //angle in degrees - also the starting position when you connect to a new star
 var momentiumIncrease = 0;
-var ropeX;
-var ropeY;
 var momentiumAngle;
 var swingDirection;
-var swingSpeed = 0.1;
+var swingSpeed = 0.05;
 // draw the rope that connects character to hook
 function drawRope(context) {
   var hookX = selectedHookTest.posX+32;
   var hookY = selectedHookTest.posY+32;
 
 
-  // additive swing;
-  if (momentiumAngle <= 0) {
-    momentiumIncrease+=swingSpeed;
+  if(swingDirection === 'right' && momentiumAngle < 0 || swingDirection === 'left' && momentiumAngle > 0) {
+    //increase speed on downswing
+    // !todo - think of a way to make this work untill max angle == 90
+    //swingSpeed += 0.0001;
   } else {
-    momentiumIncrease-=swingSpeed;
+    swingSpeed = 0.05;
   }
 
-  currentAngle += momentiumIncrease;
-  momentiumAngle = toRad(currentAngle);
-
+  // different swing methods
+  additiveSwing();
+  // expoSwing();
 
   // length of the rope
   var ropeLength = trajectory.hypotenuse;
@@ -490,8 +490,8 @@ function drawRope(context) {
   var sideX = Math.sin(momentiumAngle)*ropeLength;
 
   // calculate rope XY now I know the positions
-  ropeY = hookY + sideY;
-  ropeX = hookX + sideX;
+  var ropeY = hookY + sideY;
+  var ropeX = hookX + sideX;
 
   // update character position to where the rope ends
   newCharacter.currentPosX = ropeX;
@@ -516,6 +516,21 @@ function drawRope(context) {
   context.closePath();
 }
 
+function expoSwing() {
+
+}
+
+function additiveSwing() {
+  if (momentiumAngle < 0) {
+    momentiumIncrease+=swingSpeed;
+  } else {
+    momentiumIncrease-=swingSpeed;
+  }
+  currentAngle += momentiumIncrease;
+  momentiumAngle = toRad(currentAngle);
+}
+
+
 // generate swing trajectory based on hook selection (fires on hook change)
 function repositionSwing() {
 
@@ -536,16 +551,25 @@ function repositionSwing() {
   // calculate new angle based on triangle
   var adjacent = Math.abs(triHeight);
   var angle = Math.acos(adjacent/trajectory.hypotenuse);
-
-  momentiumIncrease = 0;
+  var direction;
 
   console.log(newCharacter.posX);
   if (trajectory.characterPosX < trajectory.starPosX) {
       console.log('swingLeft');
+      direction = 'left';
       currentAngle = toDeg(angle)*-1;
   } else {
       currentAngle = toDeg(angle);
+      direction = 'right';
       console.log('swingRight');
+  }
+
+  if (direction ==='left' && swingDirection === 'left' || direction ==='right' && swingDirection === 'right') {
+    momentiumIncrease = 0;
+    // alert('reset');
+    // remove momentem if hook is oppisite to direction swining
+  } else {
+    // keep momentem if swinging in same direction
   }
 
 }
@@ -585,8 +609,8 @@ var newCharacter = {
   posY: null,
   posX: null,
   size: 24,
-  currentPosX: 0,
-  currentPosY: 240,
+  currentPosX: null,
+  currentPosY: null,
   gravity: 2, // force pulling character down
   ropeLength: 320,
   interations: 16 // times it takes for the character to catch the hook
@@ -595,29 +619,14 @@ var newCharacter = {
 
 function swingCharacter(ctx) {
 
-  // smooth animate to current position
-  //newCharacter.currentPosX += ((newCharacter.posX - newCharacter.currentPosX)/newCharacter.interations);
-  //newCharacter.currentPosY += ((newCharacter.posY - newCharacter.currentPosY)/newCharacter.interations);
-  //swing.momentium += 5;
-
-  var charX = newCharacter.currentPosX;
-  var charY = newCharacter.currentPosY;// += newCharacter.gravity;
-
-  // swing!
-
-  charX = ropeX-12;
-  charY = ropeY-12;
+  var charX = newCharacter.currentPosX-(newCharacter.size/2);
+  var charY = newCharacter.currentPosY-(newCharacter.size/2);// += newCharacter.gravity;
 
   // draw character
   ctx.beginPath();
   ctx.rect(charX,charY,newCharacter.size,newCharacter.size);
   ctx.fillStyle = 'white';
   ctx.fill();
-  // if character moved down(Y) 20px, what would be its new X?
-
-
-
-
 }
 
 
@@ -634,7 +643,7 @@ function valueIndicator(ctx) {
   ctx.fillStyle = 'white';
   ctx.font = '24px lato';
   //ctx.fillText('Val: '+momentiumAngle, 16, canvas.height-24);
-  ctx.fillText('Val: '+momentiumIncrease, 16, canvas.height-24);
+  ctx.fillText('momentum: '+momentiumIncrease, 16, canvas.height-24);
 }
 
 // fps display
