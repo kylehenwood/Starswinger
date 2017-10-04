@@ -13,8 +13,8 @@ $(document).ready(function(){
     // !todo remove this primitive method of setting start position.
     // set starting hook
     selectedHookTest = starHooks[0];
-    newCharacter.currentPosX = 20;
-    newCharacter.currentPosY = rand(50,320);
+    newCharacter.currentPosX = 50;
+    newCharacter.currentPosY = selectedHookTest.posY;
     // need to redo this
     changeHook();
     repositionSwing();
@@ -482,12 +482,15 @@ function drawRope(context) {
   additiveSwing();
   // expoSwing();
 
-  // length of the rope
+
+  //momentiumAngle = toRad(currentAngle);
+  //momentiumAngle = toRad(-90);
+
+  // Rope length and positions
   var ropeLength = trajectory.hypotenuse;
-  // Adjacent Side (Y)
   var sideY = Math.cos(momentiumAngle)*ropeLength;
-  // Oppisite side (X)
   var sideX = Math.sin(momentiumAngle)*ropeLength;
+
 
   // calculate rope XY now I know the positions
   var ropeY = hookY + sideY;
@@ -503,7 +506,6 @@ function drawRope(context) {
   } else {
     swingDirection = 'left';
   }
-  //console.log(swingDirection);
 
   context.beginPath();
   context.lineWidth = 2;
@@ -534,6 +536,9 @@ function additiveSwing() {
 // generate swing trajectory based on hook selection (fires on hook change)
 function repositionSwing() {
 
+  var hookX = selectedHookTest.posX+32;
+  var hookY = selectedHookTest.posY+32;
+
   // UPDATE SWING trajectory HERE
   trajectory.characterPosX = newCharacter.currentPosX+(newCharacter.size/2);
   trajectory.characterPosY = newCharacter.currentPosY+(newCharacter.size/2);
@@ -553,7 +558,7 @@ function repositionSwing() {
   var angle = Math.acos(adjacent/trajectory.hypotenuse);
   var direction;
 
-  console.log(newCharacter.posX);
+  //
   if (trajectory.characterPosX < trajectory.starPosX) {
       console.log('swingLeft');
       direction = 'left';
@@ -564,15 +569,36 @@ function repositionSwing() {
       console.log('swingRight');
   }
 
+  // I have a problem getting the correct ANGLE when the position of the swing is ABOVE the star...
+  // fix? increase or subtract an extra 90deg when character position falls into these regions.
+  if (trajectory.characterPosY < trajectory.starPosY) {
+    if (trajectory.characterPosX < trajectory.starPosX) {
+      // above left
+      currentAngle = -90-(90+currentAngle);
+    }
+    if (trajectory.characterPosX > trajectory.starPosX) {
+       // above right
+       currentAngle = 90+(90-currentAngle);
+    }
+  }
+
+
+
+  //currentAngle = -90-(90+currentAngle);
+
+  //momentiumAngle = toRad(currentAngle);
+
   if (direction ==='left' && swingDirection === 'left' || direction ==='right' && swingDirection === 'right') {
-    momentiumIncrease = 0;
+    //momentiumIncrease = 0;
+    momentiumIncrease = momentiumIncrease*-0.5;
     // alert('reset');
     // remove momentem if hook is oppisite to direction swining
   } else {
     // keep momentem if swinging in same direction
+    //momentiumIncrease = momentiumIncrease*-1;
   }
-
 }
+
 var trajectory = {
   characterPosX: null,
   characterPosY: null,
@@ -643,6 +669,10 @@ function valueIndicator(ctx) {
   ctx.fillStyle = 'white';
   ctx.font = '24px lato';
   //ctx.fillText('Val: '+momentiumAngle, 16, canvas.height-24);
+
+  var deg = Math.round(toDeg(momentiumAngle),2);
+
+  ctx.fillText('Angle: '+deg, 16, canvas.height-48);
   ctx.fillText('momentum: '+momentiumIncrease, 16, canvas.height-24);
 }
 
