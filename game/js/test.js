@@ -143,8 +143,8 @@ var starHooks = [];
 var gridPositions = [];
 var gridImage;
 var gridSize = {
-  rows: 3,
-  cols: 150,
+  rows: 5,
+  cols: 250,
   square: 64
 }
 
@@ -459,32 +459,40 @@ function updateGame() {
 }
 
 
+var maxAngle; // greatest angle of swing
+var maxAngleIncrement; // if swing angle isn't 90 deg, increase swing speed on down untill it is.
 var currentAngle; //angle in degrees - also the starting position when you connect to a new star
 var momentiumIncrease = 0;
 var momentiumAngle;
 var swingDirection;
-var swingSpeed = 0.05;
+var swingSpeed;
 // draw the rope that connects character to hook
+
 function drawRope(context) {
+
   var hookX = selectedHookTest.posX+32;
   var hookY = selectedHookTest.posY+32;
 
-
   if(swingDirection === 'right' && momentiumAngle < 0 || swingDirection === 'left' && momentiumAngle > 0) {
-    //increase speed on downswing
-    // !todo - think of a way to make this work untill max angle == 90
-    //swingSpeed += 0.0001;
+  //   //increase speed on downswing
+  //   // !todo - think of a way to make this work untill max angle == 90
+  //   //swingSpeed += 0.0001;
+  //   // somehow increase max angle to 90;
   } else {
     swingSpeed = 0.05;
   }
 
+  // update swing direction
+  if (momentiumIncrease > 0) {
+    swingDirection = 'right';
+  } else {
+    swingDirection = 'left';
+  }
+
+
   // different swing methods
   additiveSwing();
-  // expoSwing();
-
-
-  //momentiumAngle = toRad(currentAngle);
-  //momentiumAngle = toRad(-90);
+  //expoSwing();
 
   // Rope length and positions
   var ropeLength = trajectory.hypotenuse;
@@ -500,13 +508,6 @@ function drawRope(context) {
   newCharacter.currentPosX = ropeX;
   newCharacter.currentPosY = ropeY;
 
-  // update swing direction
-  if (momentiumIncrease > 0) {
-    swingDirection = 'right';
-  } else {
-    swingDirection = 'left';
-  }
-
   context.beginPath();
   context.lineWidth = 2;
   context.moveTo(newCharacter.currentPosX,newCharacter.currentPosY);
@@ -518,12 +519,34 @@ function drawRope(context) {
   context.closePath();
 }
 
+var expo = 0.05;
+var multiplier = 1;
+
 function expoSwing() {
 
+  if (momentiumAngle <= 0) {
+    // increase
+    if(multiplier < 10) {
+      multiplier += 0.05;
+    }
+    swingSpeed = expo*multiplier;
+    momentiumIncrease+=swingSpeed;
+  } else {
+    // decrease
+    if (multiplier > 1) {
+      multiplier -= 0.05;
+    }
+    swingSpeed = expo*multiplier;
+    momentiumIncrease-=swingSpeed;
+  }
+
+  currentAngle += momentiumIncrease;
+  momentiumAngle = toRad(currentAngle);
 }
 
+
 function additiveSwing() {
-  if (momentiumAngle < 0) {
+  if (momentiumAngle <= 0) {
     momentiumIncrease+=swingSpeed;
   } else {
     momentiumIncrease-=swingSpeed;
@@ -582,15 +605,12 @@ function repositionSwing() {
     }
   }
 
+  maxAngle = currentAngle;
 
-
-  //currentAngle = -90-(90+currentAngle);
-
-  //momentiumAngle = toRad(currentAngle);
-
+  // maintain momentium when switching between hooks when the swing direction is the same.
   if (direction ==='left' && swingDirection === 'left' || direction ==='right' && swingDirection === 'right') {
-    //momentiumIncrease = 0;
-    momentiumIncrease = momentiumIncrease*-0.5;
+    momentiumIncrease = 0;
+    //momentiumIncrease = momentiumIncrease*-0.5;
     // alert('reset');
     // remove momentem if hook is oppisite to direction swining
   } else {
@@ -672,8 +692,9 @@ function valueIndicator(ctx) {
 
   var deg = Math.round(toDeg(momentiumAngle),2);
 
-  ctx.fillText('Angle: '+deg, 16, canvas.height-48);
-  ctx.fillText('momentum: '+momentiumIncrease, 16, canvas.height-24);
+  ctx.fillText('Multi: '+multiplier, 16, canvas.height-48);
+  ctx.fillText('Angle: '+deg, 16, canvas.height-72);
+  ctx.fillText('Momentum: '+momentiumIncrease, 16, canvas.height-24);
 }
 
 // fps display
