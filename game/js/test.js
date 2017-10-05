@@ -10,6 +10,8 @@ $(document).ready(function(){
     drawGameSetup();
     //characterSetup();
 
+    mouseTestSetup();
+
     // !todo remove this primitive method of setting start position.
     // set starting hook
     selectedHookTest = starHooks[0];
@@ -21,6 +23,7 @@ $(document).ready(function(){
 
     // RAF
     testing();
+
 });
 
 
@@ -49,6 +52,56 @@ function setup() {
     });
 }
 
+
+var elements = [];
+var elem = null;
+
+// mouseTestSetup;
+function mouseTestSetup() {
+  elem = canvas.id;
+  elem.left = elem.offset().left;
+  elem.top = elem.offset().top;
+
+
+  elem.click(function(evt){
+    var x = evt.pageX - elem.left;
+    var y = evt.pageY - elem.top;
+    elements.forEach(function(element) {
+      //console.log(element);
+      if (y > element.posY && y < element.posY + element.size
+          && x > element.posX && x < element.posX + element.size) {
+          //alert('clicked on hook '+element.index);
+          changeHook('mouse',element.index);
+      }
+    });
+  });
+
+  // non jquery...
+  //elem.left = elem.offsetLeft;
+  //elem.top = elem.offsetTop;
+  // Add event listener for `click` events.
+  //elem.addEventListener('click', function(event) {
+  //}, false);
+
+  // Add element.
+  // elements.push({
+  //     colour: '#05EFFF',
+  //     width: 150,
+  //     height: 100,
+  //     top: 20,
+  //     left: 15
+  // });
+}
+
+function drawClicky() {
+  //console.log(elements.length);
+  elements.forEach(function(element) {
+    canvas.ctx.fillStyle = 'rgba(0,255,0,0.1)';
+    canvas.ctx.fillRect(element.posX+=moveCanvas.moveSpeed, element.posY, element.size, element.size);
+  });
+}
+
+
 // controls
 var mouseState = null;
 // holds the value of currently selected hook, on hook change
@@ -58,14 +111,14 @@ function controls() {
   $(document).keydown(function(e) {
       switch(e.which) {
           case 37: // left
-          changeHook(-1);
+          changeHook('key',-1);
           break;
 
           case 38: // up
           break;
 
           case 39: // right
-          changeHook(1);
+          changeHook('key',1);
           break;
 
           case 40: // down
@@ -104,34 +157,49 @@ var lastHook = {
 
 
 // swapping hooks
-function changeHook(direction) {
-  currentHook = selectedHook;
-  newHook = selectedHook + direction;
-  hookCount = starHooks.length;
+function changeHook(input,direction) {
 
-  // save old hook, replace its values in starhooks array.
-  // set new hook
+  // input can be string: 'mouse' or 'key'
 
-  // check if star is alive
-  // if alive = false, attempt to jump to the next star (+direction again)
-
-  // reposition / redraw swing trajectory
-
-  if (newHook < starHooks.length && newHook > -1) {
+  // mouse
+  if (input === 'mouse') {
+    index = direction;
+    lastHook = selectedHook;
+    newHook = index;
 
     lastHook.val = currentHook;
     lastHook.reset = false;
     selectedHook = newHook;
 
-    // update last hook in array values
-    //starHooks[currentHook] = selectedHookTest;
-    // set newHook
     selectedHookTest = starHooks[newHook];
     repositionSwing();
-  } else {
-    // no hook exists - return nothing
-    //selectedHookTest = starHooks[newHook];
-    return;
+  }
+
+  // key
+  if  (input === 'key') {
+    currentHook = selectedHook;
+    newHook = selectedHook + direction;
+
+    // save old hook, replace its values in starhooks array.
+    // set new hook
+
+    // check if star is alive
+    // if alive = false, attempt to jump to the next star (+direction again)
+
+    // reposition / redraw swing trajectory
+
+    if (newHook < starHooks.length && newHook > -1) {
+
+      lastHook.val = currentHook;
+      lastHook.reset = false;
+      selectedHook = newHook;
+
+      // update last hook in array values
+      //starHooks[currentHook] = selectedHookTest;
+      // set newHook
+      selectedHookTest = starHooks[newHook];
+      repositionSwing();
+    }
   }
 }
 
@@ -206,8 +274,18 @@ function createHook(position) {
       ctx: hookContext,
       star: star,
       posX: gridPositions[position].positionX,
-      posY: gridPositions[position].positionY,
+      posY: gridPositions[position].positionY
   });
+
+  var hookPosition = starHooks.length -1;
+
+  elements.push({
+    posX: gridPositions[position].positionX,
+    posY: gridPositions[position].positionY,
+    size: 64,
+    index: hookPosition
+  })
+
 }
 
 
@@ -413,6 +491,10 @@ function testing() {
   // get time I want this to take
   moveCanvas.moveSpeed = ((moveCanvas.selectedPos - moveCanvas.currentPos)/moveCanvas.interations);
   moveCanvas.currentPos += moveCanvas.moveSpeed;
+
+  // click event test.
+  // Render elements.
+  drawClicky();
 
   // paint UI
   updateInterface();
@@ -648,13 +730,12 @@ function drawTrajectory(ctx){
   ctx.lineWidth = 2;
   ctx.strokeStyle = 'yellow';
   ctx.stroke();
-
 }
 
 var newCharacter = {
   posY: null,
   posX: null,
-  size: 24,
+  size: 64,
   currentPosX: null,
   currentPosY: null,
   gravity: 2, // force pulling character down
@@ -692,8 +773,7 @@ function valueIndicator(ctx) {
 
   var deg = Math.round(toDeg(momentiumAngle),2);
 
-  ctx.fillText('Multi: '+multiplier, 16, canvas.height-48);
-  ctx.fillText('Angle: '+deg, 16, canvas.height-72);
+  ctx.fillText('Angle: '+deg, 16, canvas.height-48);
   ctx.fillText('Momentum: '+momentiumIncrease, 16, canvas.height-24);
 }
 
