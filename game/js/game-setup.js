@@ -16,29 +16,30 @@ function setup() {
     canvas.height = 640;
 
     // set canvas width and height.
-    canvas.id.setAttribute('width', canvas.height);
+    canvas.id.setAttribute('width', canvas.width);
     canvas.id.setAttribute('height', canvas.height);
 }
 
 
 var elements = [];
-var elem = null;
-
 // mouseTestSetup;
 function mouseTestSetup() {
-  elem = canvas.id;
-  elem.left = elem.offsetLeft;
-  elem.top = elem.offsetTop;
+  var elem = canvas.id;
+  var viewportOffset = elem.getBoundingClientRect();
+  // the problem...
+  elem.left = viewportOffset.left;
+  elem.top = viewportOffset.top;
 
+  console.log(elem.left)
 
   elem.addEventListener('click', function(event) {
-    var x = event.pageX - elem.left;
-    var y = event.pageY - elem.top;
+    var mouseX = event.pageX - elem.left;
+    var mouseY = event.pageY - elem.top;
+
     elements.forEach(function(element) {
-      //console.log(element);
-      if (y > element.posY && y < element.posY + element.size
-          && x > element.posX && x < element.posX + element.size) {
-          //alert('clicked on hook '+element.index);
+      if (mouseY > element.posY && mouseY < element.posY + element.size
+          && mouseX > element.posX && mouseX < element.posX + element.size) {
+          alert('clicked on hook '+element.index);
           changeHook('mouse',element.index);
       }
     });
@@ -61,6 +62,7 @@ function mouseTestSetup() {
   // });
 }
 
+// draw this on own canvas and render once as a group every frame, rather than loop
 function drawClicky() {
   //console.log(elements.length);
   elements.forEach(function(element) {
@@ -313,10 +315,12 @@ function drawGameSetup() {
   // do not want to create a new canvas every fkin frame
   var gameCanvas = document.createElement('canvas');
       gameCanvas.width = gridSize.cols*gridSize.square;
-      //gameCanvas.height = gridSize.rows*gridSize.square;
       gameCanvas.height = canvas.height;
   var gameContext = gameCanvas.getContext('2d');
 
   gamePanel.canvas = gameCanvas;
   gamePanel.context = gameContext;
+
+  console.log(gameCanvas.width);
+
 }

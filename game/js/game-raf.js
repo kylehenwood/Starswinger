@@ -97,6 +97,8 @@ var moveCanvas = {
   interations: 16
 }
 
+var cameraLock = null; // "character" or "hook"
+
 // requestAnimationFrame function
 function runGame() {
   requestAnimationFrame(runGame);
@@ -111,11 +113,15 @@ function runGame() {
   //DRAW ----------------------
 
   // draw Game
-  canvas.ctx.drawImage(gamePanel.canvas,moveCanvas.currentPos,0);   // 0,0 to be changed based on selected hook
+  //canvas.ctx.drawImage(gamePanel.canvas,moveCanvas.currentPos,0);   // 0,0 to be changed based on selected hook or character
+
+  //canvas.ctx.drawImage(gamePanel.canvas,moveCanvas.currentPos,0);
+  canvas.ctx.drawImage(gamePanel.canvas,moveCanvas.currentPos,0);
 
   // move canvas is the position
   // going i0nto an array every frame is bad
   moveCanvas.selectedPos = (selectedHookTest.posX-(canvas.width/2)+32)*-1;
+  //moveCanvas.selectedPos = (selectedHookTest.posX-(canvas.width*2))*-1;
 
   // get distance
   // get time I want this to take
@@ -348,6 +354,7 @@ var newCharacter = {
 }
 
 
+// draw character
 function swingCharacter(ctx) {
 
   var charX = newCharacter.currentPosX-(newCharacter.size/2);
