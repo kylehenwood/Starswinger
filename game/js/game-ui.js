@@ -38,5 +38,5 @@ function fpsCounter(ctx) {
 function scoreCounter(ctx) {
   ctx.fillStyle = 'white';
   ctx.font = '24px lato';
-  ctx.fillText('SCORE: '+gameScore, canvas.width-200, 24);
+  ctx.fillText('SCORE: '+gameUserInterface.score, canvas.width-200, 24);
 }

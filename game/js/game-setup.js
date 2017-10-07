@@ -181,7 +181,7 @@ function gameOverSetup() {
   gameOver.context.fillStyle = 'white';
   gameOver.context.font = '24px lato';
   gameOver.context.textAlign="center";
-  gameOver.context.fillText('GAME OVER: '+gameScore, canvas.width/2, canvas.height/2);
+  gameOver.context.fillText('GAME OVER: '+gameUserInterface.score, canvas.width/2, canvas.height/2);
 }
 
 // create grid and render it as a canvas.

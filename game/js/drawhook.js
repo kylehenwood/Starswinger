@@ -2,13 +2,12 @@ function drawHook(layer,star,grappeled) {
 
   var saftey = false;
 
-  if (star.alive === false) {
+  if (star.alive === false || gameOver.gameEnded === true) {
     // this star is dead, return false;
     // ungrappel
     // return false;
-    if (newCharacter.swinging === true) {
-      detach();
-    }
+    detach();
+    // UNSELECT THIS STAR
   }
 
   if(star.safe === true) {
@@ -43,7 +42,7 @@ function drawHook(layer,star,grappeled) {
 
   if (grappeled === true && saftey === false && star.alive === true) {
     // do things
-    gameScore += 1;
+    gameUserInterface.score += 1;
     star.ring -= 0.01;
     if (star.ring <= 0 && star.alive === true) {
       star.alive = false;

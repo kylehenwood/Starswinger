@@ -46,6 +46,8 @@ function runGame() {
   // Render elements.
   drawClicky();
 
+  drawDetail();
+
   // paint UI
   updateInterface();
   gameOver();
@@ -83,12 +85,13 @@ function updateGame() {
   // Draw hooks
   // find and animate selected hook
   drawHook(starHooks[selectedHook].ctx,starHooks[selectedHook].star,true);
+
   // reset last hook. (once)
   if (lastHook.reset === false) {
     drawHook(starHooks[lastHook.val].ctx,starHooks[lastHook.val].star,false);
-    //starHooks[lastHook.val].star.ring = 2; // reset the charge of a star
     lastHook.reset = true;
   }
+
   // draw each hook to this canvas.
   for (var i = 0; i < starHooks.length; i++) {
     var hook = starHooks[i];
@@ -102,6 +105,7 @@ function gameOver() {
     console.log('Game Over');
     // show score
     canvas.ctx.drawImage(gameOver.canvas,0,0);
+    gameOver.finalScore = gameUserInterface.score;
     gameOver.gameEnded = true;
   }
 }
@@ -117,7 +121,12 @@ function characterFalling(ctx) {
 }
 
 
-
+function drawDetail() {
+  // draw clouds at the bottom of screen.
+  canvas.ctx.rect(0,canvas.height-80,canvas.width,canvas.height);
+  canvas.ctx.fillStyle = 'rgba(255,255,255,0.2)';
+  canvas.ctx.fill();
+}
 
 
 

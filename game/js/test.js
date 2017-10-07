@@ -23,3 +23,18 @@
   // RAF
   runGame();
 }());
+
+
+
+
+// need to build a state engine or something
+/*
+  game.state = loading
+  game.state = intro
+  game.state = intro waiting (play now) + settings
+  game.state = settings (settings:controls:stats)
+  game.state = play
+  game.state = play.pause
+  game.state = play.pause.menu
+  game.state = gameOver
+*/
