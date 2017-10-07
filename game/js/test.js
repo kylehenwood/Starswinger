@@ -13,8 +13,8 @@
   // !todo remove this primitive method of setting start position.
   // set starting hook
   selectedHookTest = starHooks[0];
-  newCharacter.currentPosX = 50;
-  newCharacter.currentPosY = selectedHookTest.posY;
+  newCharacter.posX = 50;
+  newCharacter.posY = selectedHookTest.posY;
   // need to redo this
   changeHook();
   repositionSwing();

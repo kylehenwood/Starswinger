@@ -1,91 +1,3 @@
-
-
-function drawHook(layer,star,grappeled) {
-
-  var saftey = false;
-
-  if (star.alive === false) {
-    // this star is dead, return false;
-    // ungrappel
-    // return false;
-  }
-
-  if(star.safe === true) {
-    saftey = true;
-  }
-
-  // clear this canvas
-  layer.clearRect(0, 0, 64, 64);
-
-  // circle
-  layer.beginPath();
-  layer.arc(star.x, star.y, star.size, 0, Math.PI*2, true);
-  layer.closePath();
-  layer.fillStyle = 'white';
-  layer.fill();
-  layer.closePath();
-
-  // star stroke/progress
-  layer.beginPath();
-  layer.lineWidth = 1;
-  layer.strokeStyle = 'white';
-  layer.arc(star.x, star.y, star.size+star.strokeOffset, 0, Math.PI*2, true);
-  layer.closePath();
-  layer.stroke();
-
-  var radius = 23;
-  var startAngle = 2 * Math.PI;
-  var endAngle; //var endAngle = ring * Math.PI
-  var counterClockwise = true;
-
-  if (grappeled === true && saftey === false && star.alive === true) {
-    // do things
-    gameScore += 1;
-    star.ring -= 0.01;
-    if (star.ring <= 0 && star.alive === true) {
-      star.alive = false;
-      star.ring = 2;
-    }
-  }
-
-  // gets updated by if hook grappeled = true
-  endAngle = star.ring * Math.PI;
-
-  layer.beginPath();
-  layer.lineWidth = 3;
-  layer.strokeStyle = 'red';
-  layer.arc(star.x, star.y, radius, startAngle, endAngle, counterClockwise);
-  layer.stroke();
-
-
-  // visual bounds
-  layer.beginPath();
-  // gonna need a switch statement
-  if (grappeled === true) {
-    layer.strokeStyle = 'lime';
-    layer.lineWidth = 2;
-  } else {
-    layer.strokeStyle = 'red';
-    layer.lineWidth = 1;
-  }
-
-  if (saftey === true) {
-    layer.lineWidth = 3;
-    layer.strokeStyle = 'cyan';
-  }
-
-  layer.rect(star.x-(star.bounds/2),star.y-(star.bounds/2),star.bounds,star.bounds);
-
-  if (star.alive === false) {
-    layer.fillStyle = 'red';
-    layer.fill();
-  }
-  layer.stroke();
-}
-
-
-
-
 //
 // RAF ----------------------------------------------------------------------------
 //
@@ -93,11 +5,12 @@ function drawHook(layer,star,grappeled) {
 var moveCanvas = {
   currentPos: 0,
   selectedPos: 0,
+  characterPos: 0,
   moveSpeed: 0,
   interations: 16
 }
 
-var cameraLock = null; // "character" or "hook"
+var cameraMode = 'hook'; // "character" or "hook"
 
 // requestAnimationFrame function
 function runGame() {
@@ -108,26 +21,27 @@ function runGame() {
 
   // update
   updateGame();
-  //updateCharacter();
 
   //DRAW ----------------------
 
   // draw Game
-  //canvas.ctx.drawImage(gamePanel.canvas,moveCanvas.currentPos,0);   // 0,0 to be changed based on selected hook or character
-
-  //canvas.ctx.drawImage(gamePanel.canvas,moveCanvas.currentPos,0);
+  // 0,0 to be changed based on selected hook or character
   canvas.ctx.drawImage(gamePanel.canvas,moveCanvas.currentPos,0);
 
   // move canvas is the position
-  // going i0nto an array every frame is bad
   moveCanvas.selectedPos = (selectedHookTest.posX-(canvas.width/2)+32)*-1;
   //moveCanvas.selectedPos = (selectedHookTest.posX-(canvas.width*2))*-1;
 
   // get distance
   // get time I want this to take
-  moveCanvas.moveSpeed = ((moveCanvas.selectedPos - moveCanvas.currentPos)/moveCanvas.interations);
+  if (cameraMode === 'hook') {
+    moveCanvas.selectedPos = (selectedHookTest.posX-(canvas.width/2)+(selectedHookTest.size/2))*-1;
+    moveCanvas.moveSpeed = ((moveCanvas.selectedPos - moveCanvas.currentPos)/moveCanvas.interations);
+  } else {
+    moveCanvas.selectedPos = (newCharacter.posX-(canvas.width/2)+(newCharacter.size/2))*-1;
+    moveCanvas.moveSpeed = ((moveCanvas.selectedPos - moveCanvas.currentPos)/moveCanvas.interations);
+  }
   moveCanvas.currentPos += moveCanvas.moveSpeed;
-
   // click event test.
   // Render elements.
   drawClicky();
@@ -153,10 +67,17 @@ function updateGame() {
   // Draw grid
   gameContext.drawImage(gridImage,0,0);
 
-  // Draw square and arc based on character position?
-  drawTrajectory(gameContext);
-  drawRope(gameContext);
-  swingCharacter(gameContext);
+
+  // if character is grappeling a hook
+  if (newCharacter.swinging === true) {
+    drawTrajectory(gameContext);
+    drawRope(gameContext);
+  } else {
+    characterFalling(gameContext);
+  }
+
+  drawCharacter(gameContext);
+
 
   // Draw hooks
   // find and animate selected hook
@@ -172,7 +93,31 @@ function updateGame() {
     var hook = starHooks[i];
     gameContext.drawImage(hook.layer, hook.posX, hook.posY);
   }
+  gameOver();
 }
+
+
+// end game
+function gameOver() {
+  if (newCharacter.posY > canvas.height+newCharacter.size) {
+    console.log('Game Over');
+    // show score
+  }
+}
+
+var gravity = 0;
+var momentiumY;
+var momentiumX;
+
+function characterFalling(ctx) {
+  //gravity += 0.2;
+  newCharacter.posY += gravity;
+  newCharacter.posX += momentiumIncrease;
+}
+
+
+
+
 
 
 var maxAngle; // greatest angle of swing
@@ -181,14 +126,14 @@ var currentAngle; //angle in degrees - also the starting position when you conne
 var momentiumIncrease = 0;
 var momentiumAngle;
 var swingDirection;
-var swingSpeed = 0.05;
+var swingSpeed = 0.1;
 var maxSpeed = 2;
 // draw the rope that connects character to hook
 
 function drawRope(context) {
 
-  var hookX = selectedHookTest.posX+32;
-  var hookY = selectedHookTest.posY+32;
+  var hookX = selectedHookTest.posX+(selectedHookTest.size/2);
+  var hookY = selectedHookTest.posY+(selectedHookTest.size/2);
 
   if(swingDirection === 'right' && momentiumAngle < 0 || swingDirection === 'left' && momentiumAngle > 0) {
   //   //increase speed on downswing
@@ -219,12 +164,12 @@ function drawRope(context) {
   var ropeX = hookX + sideX;
 
   // update character position to where the rope ends
-  newCharacter.currentPosX = ropeX;
-  newCharacter.currentPosY = ropeY;
+  newCharacter.posX = ropeX;
+  newCharacter.posY = ropeY;
 
   context.beginPath();
   context.lineWidth = 2;
-  context.moveTo(newCharacter.currentPosX,newCharacter.currentPosY);
+  context.moveTo(newCharacter.posX,newCharacter.posY);
 
   //-------------------------
   context.lineTo(hookX,hookY);
@@ -250,17 +195,19 @@ function additiveSwing() {
 }
 
 
+
 // generate swing trajectory based on hook selection (fires on hook change)
 function repositionSwing() {
 
-  var hookX = selectedHookTest.posX+32;
-  var hookY = selectedHookTest.posY+32;
+  var hookX = selectedHookTest.posX+(selectedHookTest.size/2);
+  var hookY = selectedHookTest.posY+(selectedHookTest.size/2);
+
 
   // UPDATE SWING trajectory HERE
-  trajectory.characterPosX = newCharacter.currentPosX+(newCharacter.size/2);
-  trajectory.characterPosY = newCharacter.currentPosY+(newCharacter.size/2);
-  trajectory.starPosX = selectedHookTest.posX+32;
-  trajectory.starPosY = selectedHookTest.posY+32;
+  trajectory.characterPosX = newCharacter.posX;
+  trajectory.characterPosY = newCharacter.posY;
+  trajectory.starPosX = selectedHookTest.posX+(selectedHookTest.size/2);
+  trajectory.starPosY = selectedHookTest.posY+(selectedHookTest.size/2);
 
   // make the negative values positive
   var triWidth = trajectory.starPosX-trajectory.characterPosX;
@@ -277,13 +224,13 @@ function repositionSwing() {
 
   //
   if (trajectory.characterPosX < trajectory.starPosX) {
-      console.log('swingLeft');
+      //console.log('swingLeft');
       direction = 'left';
       currentAngle = toDeg(angle)*-1;
   } else {
       currentAngle = toDeg(angle);
       direction = 'right';
-      console.log('swingRight');
+      //console.log('swingRight');
   }
 
   // I have a problem getting the correct ANGLE when the position of the swing is ABOVE the star...
@@ -323,7 +270,6 @@ var trajectory = {
 
 
 function drawTrajectory(ctx){
-
   // triangle of calculations
   ctx.strokeStyle = 'magenta';
   ctx.lineWidth = 1;
@@ -342,23 +288,23 @@ function drawTrajectory(ctx){
   ctx.stroke();
 }
 
+
 var newCharacter = {
-  posY: null,
-  posX: null,
   size: 64,
   currentPosX: null,
   currentPosY: null,
   gravity: 2, // force pulling character down
   ropeLength: 320,
-  interations: 16 // times it takes for the character to catch the hook
+  interations: 16, // times it takes for the character to catch the hook
+  swinging: true
 }
 
 
 // draw character
-function swingCharacter(ctx) {
+function drawCharacter(ctx) {
 
-  var charX = newCharacter.currentPosX-(newCharacter.size/2);
-  var charY = newCharacter.currentPosY-(newCharacter.size/2);// += newCharacter.gravity;
+  var charX = newCharacter.posX-(newCharacter.size/2);
+  var charY = newCharacter.posY-(newCharacter.size/2);
 
   // draw character
   ctx.beginPath();

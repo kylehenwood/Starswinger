@@ -20,90 +20,6 @@ function setup() {
     canvas.id.setAttribute('height', canvas.height);
 }
 
-
-var elements = [];
-// mouseTestSetup;
-function mouseTestSetup() {
-  var elem = canvas.id;
-  var viewportOffset = elem.getBoundingClientRect();
-  // the problem...
-  elem.left = viewportOffset.left;
-  elem.top = viewportOffset.top;
-
-  console.log(elem.left)
-
-  elem.addEventListener('click', function(event) {
-    var mouseX = event.pageX - elem.left;
-    var mouseY = event.pageY - elem.top;
-
-    elements.forEach(function(element) {
-      if (mouseY > element.posY && mouseY < element.posY + element.size
-          && mouseX > element.posX && mouseX < element.posX + element.size) {
-          alert('clicked on hook '+element.index);
-          changeHook('mouse',element.index);
-      }
-    });
-  });
-
-  // non jquery...
-  //elem.left = elem.offsetLeft;
-  //elem.top = elem.offsetTop;
-  // Add event listener for `click` events.
-  //elem.addEventListener('click', function(event) {
-  //}, false);
-
-  // Add element.
-  // elements.push({
-  //     colour: '#05EFFF',
-  //     width: 150,
-  //     height: 100,
-  //     top: 20,
-  //     left: 15
-  // });
-}
-
-// draw this on own canvas and render once as a group every frame, rather than loop
-function drawClicky() {
-  //console.log(elements.length);
-  elements.forEach(function(element) {
-    canvas.ctx.fillStyle = 'rgba(0,255,0,0.1)';
-    canvas.ctx.fillRect(element.posX+=moveCanvas.moveSpeed, element.posY, element.size, element.size);
-  });
-}
-
-
-// controls
-// holds the value of currently selected hook, on hook change
-// this value should be placed back into starhooks array.
-// while the new selected hook should be found here.
-function controls() {
-  document.addEventListener('keydown', function(event) {
-  //$(document).keydown(function(e) {
-      switch(event.which) {
-          case 37: // left
-          changeHook('key',-1);
-          break;
-
-          case 38: // up
-          break;
-
-          case 39: // right
-          changeHook('key',1);
-          break;
-
-          case 40: // down
-          break;
-
-          default: return; // exit this handler for other keys
-      }
-      event.preventDefault(); // prevent the default action (scroll / move caret)
-  }, false);
-}
-
-
-
-
-
 // ---------------------------------------------------------------
 var gameScore = 0;
 var selectedHookTest; // ==
@@ -121,7 +37,11 @@ var lastHook = {
 function changeHook(input,direction) {
   // input can be string: 'mouse' or 'key'
   // mouse
+
   if (input === 'mouse') {
+
+    cameraMode = 'hook';
+
     index = direction;
     lastHook = selectedHook;
     newHook = index;
@@ -131,7 +51,10 @@ function changeHook(input,direction) {
     selectedHook = newHook;
 
     selectedHookTest = starHooks[newHook];
-    repositionSwing();
+    setTimeout(function(){
+      attach();
+      repositionSwing();
+    },200);
   }
 
   // key
@@ -189,7 +112,7 @@ function createPanel() {
 
   while (position < availablePositions) {
     // space out the stars by adding a random tile gap untill the tile is exceeded.
-    position += rand(12,20);
+    position += rand(18,28);
     if (position < availablePositions) {
       createHook(position);
     }
@@ -228,16 +151,19 @@ function createHook(position) {
       layer:hookCanvas,
       ctx: hookContext,
       star: star,
+      size: 64,
       posX: gridPositions[position].positionX,
       posY: gridPositions[position].positionY
   });
 
   var hookPosition = starHooks.length -1;
 
+  // clickable areas
+  var clickyBounds = 64;
   elements.push({
-    posX: gridPositions[position].positionX,
-    posY: gridPositions[position].positionY,
-    size: 64,
+    posX: gridPositions[position].positionX-clickyBounds,
+    posY: gridPositions[position].positionY-clickyBounds,
+    size: 64+(clickyBounds*2),
     index: hookPosition
   });
 }
@@ -321,6 +247,6 @@ function drawGameSetup() {
   gamePanel.canvas = gameCanvas;
   gamePanel.context = gameContext;
 
-  console.log(gameCanvas.width);
+  //console.log(gameCanvas.width);
 
 }
