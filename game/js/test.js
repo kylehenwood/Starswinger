@@ -4,6 +4,7 @@
   controls();
 
   // setup
+  gameOverSetup();
   createGrid();
   createPanel();
   drawGameSetup();

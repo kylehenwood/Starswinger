@@ -48,6 +48,7 @@ function runGame() {
 
   // paint UI
   updateInterface();
+  gameOver();
 }
 
 
@@ -93,15 +94,15 @@ function updateGame() {
     var hook = starHooks[i];
     gameContext.drawImage(hook.layer, hook.posX, hook.posY);
   }
-  gameOver();
 }
-
 
 // end game
 function gameOver() {
-  if (newCharacter.posY > canvas.height+newCharacter.size) {
+  if (newCharacter.posY > canvas.height+newCharacter.size || gameOver.gameEnded === true) {
     console.log('Game Over');
     // show score
+    canvas.ctx.drawImage(gameOver.canvas,0,0);
+    gameOver.gameEnded = true;
   }
 }
 
@@ -110,9 +111,9 @@ var momentiumY;
 var momentiumX;
 
 function characterFalling(ctx) {
-  //gravity += 0.2;
+  gravity += 0.4;
   newCharacter.posY += gravity;
-  newCharacter.posX += momentiumIncrease;
+  newCharacter.posX += (momentiumIncrease);
 }
 
 

@@ -15,6 +15,8 @@ function drawHook(layer,star,grappeled) {
     saftey = true;
   }
 
+  //alert ('connected shockwave');
+
   // clear this canvas
   layer.clearRect(0, 0, 64, 64);
 
