@@ -4,13 +4,9 @@
   <meta charset="UTF-8">
   <title>Starswinger</title>
   <link rel="stylesheet" type="text/css" href="scss/style.css" />
-  <script type="text/javascript" src="js/vendor/jquery-3.2.1.min.js"></script>
-  <!-- <script type="text/javascript" src="js/vendor/modernizr-2.6.2.min.js"></script>
-  <script type="text/javascript" src="js/level-score.js"></script> -->
-  <script type="text/javascript" src="js/test.js"></script>
-  <script type="text/javascript" src="js/functions.js"></script>
+  <!--<script type="text/javascript" src="js/vendor/jquery-3.2.1.min.js"></script>-->
+  <!-- <script type="text/javascript" src="js/vendor/modernizr-2.6.2.min.js"></script>-->
   <link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,400,600' rel='stylesheet' type='text/css'>
-
 </head>
 
 <body class="layout layout--sidebar">
@@ -83,7 +79,7 @@
       <div class="level-layout__pause"></div> -->
 
 
-      <canvas class="level-layout__emitter js-starswinger"></canvas>
+      <canvas id="js-starswinger"></canvas>
       <div class="level-layout__background"></div>
     </div>
   </div>
@@ -94,6 +90,14 @@
 
 <!-- footer -->
 <div class="layout__footer"></div>
+
+
+<!-- Start game -->
+<script type="text/javascript" src="js/functions.js"></script>
+<script type="text/javascript" src="js/game-ui.js"></script>
+<script type="text/javascript" src="js/game-setup.js"></script>
+<script type="text/javascript" src="js/game-raf.js"></script>
+<script type="text/javascript" src="js/test.js"></script>
 
 
 </body>
