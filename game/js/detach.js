@@ -3,6 +3,8 @@ function detach() {
   cameraMode = 'character';
   selectedHook = null;
   newCharacter.swinging = false;
+
+  // de select the selected hook;
 }
 
 

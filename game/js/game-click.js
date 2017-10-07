@@ -16,10 +16,8 @@ function mouseTestSetup() {
     elements.forEach(function(element) {
       if (mouseY > element.posY && mouseY < element.posY + element.size
           && mouseX > element.posX && mouseX < element.posX + element.size) {
-          //alert('clicked on hook '+element.index);
-          click = true;
-          detach();
-          changeHook('mouse',element.index);
+
+          changeHook(element.index);
       }
     });
 
@@ -28,6 +26,10 @@ function mouseTestSetup() {
     }
   });
 }
+
+
+
+
 
 // draw this on own canvas and render once as a group every frame, rather than loop
 function drawClicky() {
@@ -49,14 +51,14 @@ function controls() {
   //$(document).keydown(function(e) {
       switch(event.which) {
           case 37: // left
-          changeHook('key',-1);
+          //changeHook('key',-1);
           break;
 
           case 38: // up
           break;
 
           case 39: // right
-          changeHook('key',1);
+          //changeHook('key',1);
           break;
 
           case 32: // spacebar

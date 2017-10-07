@@ -5,9 +5,8 @@
 var moveCanvas = {
   currentPos: 0,
   selectedPos: 0,
-  characterPos: 0,
   moveSpeed: 0,
-  interations: 16
+  interations: 16 // how many frames till camera catches target
 }
 
 var cameraMode = 'hook'; // "character" or "hook"
@@ -23,14 +22,7 @@ function runGame() {
   updateGame();
 
   //DRAW ----------------------
-
-  // draw Game
-  // 0,0 to be changed based on selected hook or character
   canvas.ctx.drawImage(gamePanel.canvas,moveCanvas.currentPos,0);
-
-  // move canvas is the position
-  moveCanvas.selectedPos = (selectedHookTest.posX-(canvas.width/2)+32)*-1;
-  //moveCanvas.selectedPos = (selectedHookTest.posX-(canvas.width*2))*-1;
 
   // get distance
   // get time I want this to take
@@ -45,9 +37,7 @@ function runGame() {
   // click event test.
   // Render elements.
   drawClicky();
-
   drawDetail();
-
   // paint UI
   updateInterface();
   gameOver();
@@ -72,7 +62,7 @@ function updateGame() {
 
 
   // if character is grappeling a hook
-  if (newCharacter.swinging === true) {
+  if (newCharacter.swinging === true && selectedHookTest != null) {
     drawTrajectory(gameContext);
     drawRope(gameContext);
   } else {
@@ -84,12 +74,16 @@ function updateGame() {
 
   // Draw hooks
   // find and animate selected hook
-  drawHook(starHooks[selectedHook].ctx,starHooks[selectedHook].star,true);
 
-  // reset last hook. (once)
-  if (lastHook.reset === false) {
-    drawHook(starHooks[lastHook.val].ctx,starHooks[lastHook.val].star,false);
-    lastHook.reset = true;
+  if (selectedHookTest != null) {
+    drawHook(selectedHookTest.ctx,selectedHookTest.star,true);
+  }
+  // reset last hook. (remove the currently selected border etc)
+  if (lastHookTest != null) {
+    if (lastHookTest.selected === true) {
+      drawHook(lastHookTest.ctx,lastHookTest.star,false);
+      lastHookTest.selected = false;
+    }
   }
 
   // draw each hook to this canvas.
@@ -117,7 +111,7 @@ var momentiumX;
 function characterFalling(ctx) {
   gravity += 0.4;
   newCharacter.posY += gravity;
-  newCharacter.posX += (momentiumIncrease);
+  newCharacter.posX += momentiumIncrease;
 }
 
 
@@ -144,15 +138,6 @@ function drawRope(context) {
 
   var hookX = selectedHookTest.posX+(selectedHookTest.size/2);
   var hookY = selectedHookTest.posY+(selectedHookTest.size/2);
-
-  if(swingDirection === 'right' && momentiumAngle < 0 || swingDirection === 'left' && momentiumAngle > 0) {
-  //   //increase speed on downswing
-  //   // !todo - think of a way to make this work untill max angle == 90
-  //   //swingSpeed += 0.0001;
-  //   // somehow increase max angle to 90;
-  } else {
-    //swingSpeed = 0.02;
-  }
 
   // update swing direction
   if (momentiumIncrease > 0) {
@@ -191,14 +176,14 @@ function drawRope(context) {
 function additiveSwing() {
   if (momentiumAngle <= 0) {
     // set speed maximum
-    if (momentiumIncrease < 4) {
+    //if (momentiumIncrease < 4) {
         momentiumIncrease+=swingSpeed;
-    }
+    //}
   } else {
     // set speed maximum
-    if (momentiumIncrease > -4) {
+    //if (momentiumIncrease > -4) {
       momentiumIncrease-=swingSpeed;
-    }
+    //}
   }
   currentAngle += momentiumIncrease;
   momentiumAngle = toRad(currentAngle);

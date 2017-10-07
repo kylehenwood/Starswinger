@@ -16,8 +16,9 @@
   selectedHookTest = starHooks[0];
   newCharacter.posX = 50;
   newCharacter.posY = selectedHookTest.posY;
+
   // need to redo this
-  changeHook();
+  changeHook(0);
   repositionSwing();
 
   // RAF

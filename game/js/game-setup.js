@@ -21,68 +21,24 @@ function setup() {
 }
 
 // ---------------------------------------------------------------
-var gameScore = 0;
-var selectedHookTest; // ==
-var lastHookTest;
-var selectedHook = 0;
-var currentHook;
-var newHook;
-var hookCount;
-var lastHook = {
-  reset: true,
-  val: null // not required once star holds its own values
-}
 
 // swapping hooks
-function changeHook(input,direction) {
-  // input can be string: 'mouse' or 'key'
-  // mouse
+function changeHook(hookIndex) {
+  detach();
 
-  if (input === 'mouse') {
+  cameraMode = 'hook';
 
-    cameraMode = 'hook';
-
-    index = direction;
-    lastHook = selectedHook;
-    newHook = index;
-
-    lastHook.val = currentHook;
-    lastHook.reset = false;
-    selectedHook = newHook;
-
-    selectedHookTest = starHooks[newHook];
-    setTimeout(function(){
-      attach();
-      repositionSwing();
-    },200);
+  if (selectedHookTest != null) {
+    lastHookTest = selectedHookTest;
   }
 
-  // key
-  if  (input === 'key') {
-    currentHook = selectedHook;
-    newHook = selectedHook + direction;
+  selectedHookTest = starHooks[hookIndex];
+  selectedHookTest.selected = true;
 
-    // save old hook, replace its values in starhooks array.
-    // set new hook
-
-    // check if star is alive
-    // if alive = false, attempt to jump to the next star (+direction again)
-
-    // reposition / redraw swing trajectory
-
-    if (newHook < starHooks.length && newHook > -1) {
-
-      lastHook.val = currentHook;
-      lastHook.reset = false;
-      selectedHook = newHook;
-
-      // update last hook in array values
-      //starHooks[currentHook] = selectedHookTest;
-      // set newHook
-      selectedHookTest = starHooks[newHook];
-      repositionSwing();
-    }
-  }
+  setTimeout(function(){
+    attach();
+    repositionSwing();
+  },200);
 }
 
 
@@ -152,6 +108,7 @@ function createHook(position) {
       ctx: hookContext,
       star: star,
       size: 64,
+      selected: false,
       posX: gridPositions[position].positionX,
       posY: gridPositions[position].positionY
   });

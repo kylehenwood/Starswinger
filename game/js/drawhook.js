@@ -1,17 +1,16 @@
 function drawHook(layer,star,grappeled) {
 
-  var saftey = false;
+  var saftey = star.safe;
 
   if (star.alive === false || gameOver.gameEnded === true) {
     // this star is dead, return false;
     // ungrappel
     // return false;
     detach();
-    // UNSELECT THIS STAR
-  }
-
-  if(star.safe === true) {
-    saftey = true;
+    selectedHookTest = null;
+    return false;
+    // need to unselect this star, and disallow attempts to connect to it.
+    // must also set this star to dead, not attempt to draw it.
   }
 
   //alert ('connected shockwave');
@@ -40,8 +39,8 @@ function drawHook(layer,star,grappeled) {
   var endAngle; //var endAngle = ring * Math.PI
   var counterClockwise = true;
 
+  // drain star
   if (grappeled === true && saftey === false && star.alive === true) {
-    // do things
     gameUserInterface.score += 1;
     star.ring -= 0.01;
     if (star.ring <= 0 && star.alive === true) {

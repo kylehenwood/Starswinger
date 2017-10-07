@@ -9,3 +9,8 @@ var gameOver = {
 var gameUserInterface = {
   score: null
 }
+
+
+// Storing the selected hook
+var selectedHookTest;
+var lastHookTest;
