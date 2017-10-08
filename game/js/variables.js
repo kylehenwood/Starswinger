@@ -6,7 +6,7 @@ var gameOver = {
 }
 
 // which state is the game currently in.
-var gameState = "playGame";
+var gameState = 'playGame';
 
 var gameUserInterface = {
   score: null

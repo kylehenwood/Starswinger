@@ -12,9 +12,9 @@ function valueIndicator(ctx) {
   //ctx.fillText('Val: '+momentiumAngle, 16, canvas.height-24);
 
   var deg = Math.round(toDeg(momentiumAngle),2);
-
-  ctx.fillText('Angle: '+deg, 16, canvas.height-48);
-  ctx.fillText('Momentum: '+momentiumIncrease, 16, canvas.height-24);
+  ctx.textAlign="right";
+  ctx.fillText(deg+' :Angle', canvas.width-24, canvas.height-48);
+  ctx.fillText(Math.round(momentiumIncrease,2)+' :Momentum', canvas.width-16, canvas.height-24);
 }
 
 // fps display
@@ -31,12 +31,14 @@ function fpsCounter(ctx) {
   fps = Math.round(1/delta);
 
   ctx.fillStyle = 'white';
+  ctx.textAlign="left";
   ctx.font = '24px lato';
   ctx.fillText('FPS: '+fps, 16, 24);
 }
 
 function scoreCounter(ctx) {
   ctx.fillStyle = 'white';
+  ctx.textAlign="right";
   ctx.font = '24px lato';
-  ctx.fillText('SCORE: '+gameUserInterface.score, canvas.width-200, 24);
+  ctx.fillText('SCORE: '+gameUserInterface.score, canvas.width-16, 24);
 }

@@ -19,27 +19,36 @@ function runGame() {
   clear(canvas);
 
 
-  if (isPaused === false || gameState === 'gameOver') {
+  if (gameState === 'playGame') {
     updateGame();
   }
 
-  //DRAW ----------------------
+  // Draw canvases
+  // draw before move update as update game uses those numbers to clear canvas
   canvas.ctx.drawImage(gamePanel.canvas,moveCanvas.currentPos,cameraY);
   canvas.ctx.drawImage(clickAreas.canvas,0+moveCanvas.currentPos,cameraY);
 
-  // get distance
-  // get time I want this to take
-  if (cameraMode === 'hook') {
-    moveCanvas.selectedPos = (selectedHookTest.posX-(canvas.width/2)+(selectedHookTest.size/2))*-1;
-    moveCanvas.moveSpeed = ((moveCanvas.selectedPos - moveCanvas.currentPos)/moveCanvas.interations);
-  } else {
-    moveCanvas.selectedPos = (newCharacter.posX-(canvas.width/2)+(newCharacter.size/2))*-1;
-    moveCanvas.moveSpeed = ((moveCanvas.selectedPos - moveCanvas.currentPos)/moveCanvas.interations);
+  // pause icon
+  if (gameState === 'playGame') {
+    canvas.ctx.fillStyle = 'white';
+    canvas.ctx.fillRect(32,canvas.height-56,4,32);
+    canvas.ctx.fillRect(48,canvas.height-56,4,32);
+  }
+
+  // Move camera
+  if (gameState === 'playGame') {
+    // Move the camera position to either catch up to the character or selected hook.
+    if (cameraMode === 'hook') {
+      moveCanvas.selectedPos = (selectedHookTest.posX-(canvas.width/2)+(selectedHookTest.size/2))*-1;
+      moveCanvas.moveSpeed = ((moveCanvas.selectedPos - moveCanvas.currentPos)/moveCanvas.interations);
+    } else {
+      moveCanvas.selectedPos = (newCharacter.posX-(canvas.width/2)+(newCharacter.size/2))*-1;
+      moveCanvas.moveSpeed = ((moveCanvas.selectedPos - moveCanvas.currentPos)/moveCanvas.interations);
+    }
   }
 
   // update
-
-  if (cameraMode != 'gameOver') {
+  if (gameState === 'playGame' ) {
     moveCanvas.currentPos += moveCanvas.moveSpeed;
   }
 
@@ -51,12 +60,10 @@ function runGame() {
   updateInterface();
   gameOver();
 
-  if (isPaused === true) {
+  if (gameState === 'gamePaused') {
     canvas.ctx.drawImage(pauseCanvas.canvas,0,0);
   }
-
-  //console.log(allowClick);
-  console.log('cameraMode: '+cameraMode);
+  console.log(gameState);
 }
 
 

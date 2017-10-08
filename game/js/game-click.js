@@ -11,36 +11,55 @@ function mouseTestSetup() {
 
   // add event listener for clicks on canvas.
   elem.addEventListener('click', function(event) {
-
     // Temporary fix
-    if (gameState === "gameOver") {
-      return false;
-    }
-
     var mouseX = event.pageX - elem.left;
     var mouseY = event.pageY - elem.top;
-    var clickedSomething = false;
 
     // every click, check to see if click is over any of the elements in the elements array.
     // if yes, get the index of that element, and set the current hook to that
-
     if (gameState === "playGame") {
-      elements.forEach(function(element) {
-        if (mouseY > element.posY && mouseY < element.posY + element.size
-            && mouseX > element.posX+moveCanvas.currentPos && mouseX < element.posX+moveCanvas.currentPos + element.size) {
-
-            clickedSomething = true;
-            //console.log('clicked');
-            changeHook(element.index);
-        }
-      });
-
-      if (clickedSomething === false) {
-        //console.log('false click');
-        detach();
-      }
+      playClick(mouseX,mouseY);
     }
+    if (gameState === "gamePaused" || gameState === "playGame") {
+      pauseClick(mouseX,mouseY);
+    }
+    console.log(gameState);
   });
+}
+
+// GAMESTATE: PLAY
+// every click, check to see if click is over any of the elements in the elements array.
+// if yes, get the index of that element, and set the current hook to that
+function playClick(mouseX,mouseY) {
+  if (gameState === "playGame") {
+
+    // check to see if user clicked anything, if this stays false through all clicks, detach from hook.
+    var clickedSomething = false;
+
+    elements.forEach(function(element) {
+      if (mouseY > element.posY && mouseY < element.posY+element.size
+        && mouseX > element.posX+moveCanvas.currentPos && mouseX < element.posX+moveCanvas.currentPos+element.size) {
+        clickedSomething = true;
+        changeHook(element.index);
+      }
+    });
+    // paused button
+    if (mouseY > canvas.height-80 && mouseX < 80) {
+      clickedSomething = true;
+    }
+
+    if (clickedSomething === false) {
+      detach();
+    }
+  }
+}
+
+
+// GAMESTATE: PLAY || PAUSED
+function pauseClick(mouseX,mouseY) {
+  if (mouseY > canvas.height-80 && mouseX < 80) {
+    gamePause();
+  }
 }
 
 
@@ -90,14 +109,18 @@ function controls() {
           break;
 
           case 32: // spacebar
-          detach();
+          if (gameState === "playGame") {
+            detach();
+          }
           break;
 
           case 40: // down
           break;
 
           case 80: // P (pause)
-          gamePause();
+          if (gameState === "gamePaused" || gameState === "playGame") {
+            gamePause();
+          }
           break;
 
           default: return; // exit this handler for other keys
