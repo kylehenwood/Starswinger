@@ -4,22 +4,21 @@
   <meta charset="UTF-8">
   <title>Starswinger</title>
   <link rel="stylesheet" type="text/css" href="scss/style.css" />
-  <!--<script type="text/javascript" src="js/vendor/jquery-3.2.1.min.js"></script>-->
-  <!-- <script type="text/javascript" src="js/vendor/modernizr-2.6.2.min.js"></script>-->
   <link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,400,600' rel='stylesheet' type='text/css'>
 </head>
 
 <body class="layout layout--sidebar">
 
 <div class="layout__header">
-  <ul class="application-navigation clearfix">
+  <div class="application-navigation clearfix">
 
-    <li class="application-navigation__item js-level-1">intro</li>
-    <li class="application-navigation__item js-level-2">settings</li>
-    <li class="application-navigation__item js-level-3">play</li>
+    <a class="application-navigation__item" href="#game-intro">intro</a>
+    <a class="application-navigation__item" href="#game-settings">settings</a>
+    <a class="application-navigation__item" href="#game-play">play</a>
+    <a class="application-navigation__item" href="#game-over">game over</a>
 
-    <li class="application-navigation__item js-sidebar-trigger">Show highscores</li>
-  </ul>
+    <a class="application-navigation__item js-sidebar-trigger">Show highscores</a>
+  </div>
 </div>
 
 
@@ -103,6 +102,8 @@
 <script type="text/javascript" src="js/detach.js"></script>
 <script type="text/javascript" src="js/repositionSwing.js"></script>
 <script type="text/javascript" src="js/changeHook.js"></script>
+<script type="text/javascript" src="js/game-pause.js"></script>
+<script type="text/javascript" src="js/game-over.js"></script>
 <script type="text/javascript" src="js/test.js"></script>
 
 

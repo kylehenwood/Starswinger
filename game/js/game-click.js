@@ -9,6 +9,7 @@ function mouseTestSetup() {
   elem.left = viewportOffset.left;
   elem.top = viewportOffset.top;
 
+  // add event listener for clicks on canvas.
   elem.addEventListener('click', function(event) {
 
     // Temporary fix
@@ -22,19 +23,22 @@ function mouseTestSetup() {
 
     // every click, check to see if click is over any of the elements in the elements array.
     // if yes, get the index of that element, and set the current hook to that
-    elements.forEach(function(element) {
-      if (mouseY > element.posY && mouseY < element.posY + element.size
-          && mouseX > element.posX && mouseX < element.posX + element.size) {
 
-          clickedSomething = true;
-          //console.log('clicked');
-          changeHook(element.index);
+    if (gameState === "playGame") {
+      elements.forEach(function(element) {
+        if (mouseY > element.posY && mouseY < element.posY + element.size
+            && mouseX > element.posX+moveCanvas.currentPos && mouseX < element.posX+moveCanvas.currentPos + element.size) {
+
+            clickedSomething = true;
+            //console.log('clicked');
+            changeHook(element.index);
+        }
+      });
+
+      if (clickedSomething === false) {
+        //console.log('false click');
+        detach();
       }
-    });
-
-    if (clickedSomething === false) {
-      //console.log('false click');
-      detach();
     }
   });
 }
@@ -44,12 +48,24 @@ function mouseTestSetup() {
 
 
 // draw this on own canvas and render once as a group every frame, rather than loop
+var clickAreas = {
+  canvas: null,
+  context: null
+}
+
 function drawClicky() {
-  //console.log(elements.length);
+  var clickCanvas = document.createElement('canvas');
+      clickCanvas.width = gamePanel.canvas.width;
+      clickCanvas.height = gamePanel.canvas.height;
+  var clickContext = clickCanvas.getContext('2d'); // Pass the context to draw the star
+
+  clickAreas.canvas = clickCanvas;
+  clickAreas.context = clickContext;
+
   elements.forEach(function(element) {
-    element.posX+=moveCanvas.moveSpeed;
-    canvas.ctx.fillStyle = 'rgba(0,255,0,0.1)';
-    canvas.ctx.fillRect(element.posX, element.posY, element.size, element.size);
+    //element.posX+moveCanvas.currentPos;
+    clickContext.fillStyle = 'rgba(0,255,0,0.1)';
+    clickContext.fillRect(element.posX, element.posY, element.size, element.size);
   });
 }
 
@@ -78,6 +94,10 @@ function controls() {
           break;
 
           case 40: // down
+          break;
+
+          case 80: // P (pause)
+          gamePause();
           break;
 
           default: return; // exit this handler for other keys

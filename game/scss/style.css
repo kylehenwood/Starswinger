@@ -832,11 +832,10 @@ html {
 
 .application-navigation {
   padding: 8px; }
-  .application-navigation li {
-    float: left;
-    margin: 0 4px; }
-
+  
 .application-navigation__item {
+  float: left;
+  margin: 0 4px;
   cursor: pointer;
   display: block;
   height: 32px;

@@ -10,21 +10,22 @@ var moveCanvas = {
 }
 
 var cameraMode = 'hook'; // "character" or "hook"
+var cameraY = 0;
+
 
 // requestAnimationFrame function
 function runGame() {
   requestAnimationFrame(runGame);
-
-  // Clear Canvas
   clear(canvas);
 
-  // update
-  if (cameraMode != 'gameOver') {
+
+  if (isPaused === false || gameState === 'gameOver') {
     updateGame();
   }
 
   //DRAW ----------------------
-  canvas.ctx.drawImage(gamePanel.canvas,moveCanvas.currentPos,0);
+  canvas.ctx.drawImage(gamePanel.canvas,moveCanvas.currentPos,cameraY);
+  canvas.ctx.drawImage(clickAreas.canvas,0+moveCanvas.currentPos,cameraY);
 
   // get distance
   // get time I want this to take
@@ -36,20 +37,26 @@ function runGame() {
     moveCanvas.moveSpeed = ((moveCanvas.selectedPos - moveCanvas.currentPos)/moveCanvas.interations);
   }
 
+  // update
+
   if (cameraMode != 'gameOver') {
-    drawClicky();
     moveCanvas.currentPos += moveCanvas.moveSpeed;
   }
+
+
   // click event test.
   // Render elements.
   drawDetail();
   // paint UI
   updateInterface();
-
   gameOver();
 
+  if (isPaused === true) {
+    canvas.ctx.drawImage(pauseCanvas.canvas,0,0);
+  }
+
   //console.log(allowClick);
-  console.log('camerMode: '+cameraMode);
+  console.log('cameraMode: '+cameraMode);
 }
 
 
@@ -68,7 +75,6 @@ function updateGame() {
 
   // Draw grid
   gameContext.drawImage(gridImage,0,0);
-
 
   // if character is grappeling a hook
   if (newCharacter.swinging === true) {
@@ -98,7 +104,7 @@ function gameOver() {
   if (newCharacter.posY > canvas.height+(newCharacter.size/2) || gameOver.gameEnded === true) {
     //console.log('Game Over');
     //detach();
-
+    cameraY -= 1;
     cameraMode = "gameOver";
     gameState = "gameOver";
     // show score
@@ -196,18 +202,6 @@ function drawTrajectory(ctx){
   ctx.strokeStyle = 'yellow';
   ctx.stroke();
 }
-
-
-var newCharacter = {
-  size: 64,
-  currentPosX: null,
-  currentPosY: null,
-  gravity: 2, // force pulling character down
-  ropeLength: 320,
-  interations: 16, // times it takes for the character to catch the hook
-  swinging: true
-}
-
 
 // draw character
 function drawCharacter(ctx) {

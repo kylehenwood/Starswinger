@@ -6,7 +6,7 @@ var gameOver = {
 }
 
 // which state is the game currently in.
-var gameState = null;
+var gameState = "playGame";
 
 var gameUserInterface = {
   score: null
@@ -34,8 +34,19 @@ var momentiumX;
 var friction;
 
 var character = {
-  grappelDelay: 400 // ms (this should change based on the distance the character is from the hook)
+  grappelDelay:200 // ms (this should change based on the distance the character is from the hook)
 }
+
+var newCharacter = {
+  size: 64,
+  currentPosX: null,
+  currentPosY: null,
+  gravity: 2, // force pulling character down
+  ropeLength: 320,
+  interations: 16, // times it takes for the character to catch the hook
+  swinging: true
+}
+
 
 
 // Rope & angle

@@ -1,6 +1,6 @@
  // Starwizard star test
 (function() {
-  setup();
+  setupCanvas();
   controls();
 
   // setup
@@ -8,8 +8,10 @@
   createGrid();
   createPanel();
   drawGameSetup();
+  createPauseCanvas();
   //characterSetup();
   mouseTestSetup();
+  drawClicky(); // draw click area hotspots
 
   // !todo remove this primitive method of setting start position.
   // set starting hook
@@ -25,6 +27,7 @@
   runGame();
 }());
 
+// I want the game level & the game intro to co-exist.
 
 
 
