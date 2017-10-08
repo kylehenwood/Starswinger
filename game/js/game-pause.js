@@ -2,6 +2,7 @@
 // can only be triggered while gameState is "playing"
 
 var isPaused = false;
+var isResumed = true;
 var pauseCanvas = {
   canvas: null,
   context: null
@@ -14,20 +15,25 @@ function gamePause() {
     gameState = "gamePaused";
     //isPaused = true;
   } else {
-    resumeGame();
+    if (isResumed === true) {
+      resumeGame();
+      isResumed = false;
+    }
   }
 }
 
-//
+// resume game countdown
 var resumeCountdown = 3;
 
 function resumeGame() {
  setTimeout(function(){
    if (resumeCountdown > 0) {
      // update pause canvas
+     var overlay = 0.2*resumeCountdown;
+
      pauseCanvas.context.clearRect(0, 0, canvas.width, canvas.height);
      pauseCanvas.context.rect(0,0,canvas.width,canvas.height)
-     pauseCanvas.context.fillStyle = 'rgba(000,000,000,0.6)';
+     pauseCanvas.context.fillStyle = 'rgba(000,000,000,'+overlay+')';
      pauseCanvas.context.fill();
 
      // coundown text
@@ -40,14 +46,13 @@ function resumeGame() {
    } else {
      gameState = "playGame";
 
-     // reset pause screen
+     // Resume game & reset pause screen
+     isResumed = true;
      resumeCountdown = 3;
      drawPauseState();
    }
- },800);
+ },600);
 }
-
-// redraw the createPauseCanvas
 
 
 
@@ -58,9 +63,11 @@ function createPauseCanvas() {
   pauseCanvas.canvas.height = canvas.height;
   pauseCanvas.context = pauseCanvas.canvas.getContext('2d');
 
+  // draw default pause state on pause canvas
   drawPauseState();
 }
 
+// pause state
 function drawPauseState() {
   pauseCanvas.context.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -70,6 +77,7 @@ function drawPauseState() {
 
   pauseCanvas.context.fillStyle = 'white';
   pauseCanvas.context.font = '24px lato';
+  pauseCanvas.context.textBaseline="middle";
   pauseCanvas.context.textAlign="center";
-  pauseCanvas.context.fillText('PAUSED', canvas.width/2, canvas.height/2);
+  pauseCanvas.context.fillText('PAUSED (shortcut P)', canvas.width/2, canvas.height/2);
 }

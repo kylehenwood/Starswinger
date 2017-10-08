@@ -13,7 +13,7 @@ function valueIndicator(ctx) {
 
   var deg = Math.round(toDeg(momentiumAngle),2);
   ctx.textAlign="right";
-  ctx.fillText(deg+' :Angle', canvas.width-24, canvas.height-48);
+  ctx.fillText(deg+' :Angle', canvas.width-24, canvas.height-56);
   ctx.fillText(Math.round(momentiumIncrease,2)+' :Momentum', canvas.width-16, canvas.height-24);
 }
 

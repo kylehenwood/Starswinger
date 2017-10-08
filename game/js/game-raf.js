@@ -63,7 +63,7 @@ function runGame() {
   if (gameState === 'gamePaused') {
     canvas.ctx.drawImage(pauseCanvas.canvas,0,0);
   }
-  console.log(gameState);
+  //console.log(gameState);
 }
 
 
@@ -107,11 +107,34 @@ function updateGame() {
 }
 
 // end game
+var gameOverMoveSpeed = 0;
+var gameOverCurrent;
+var stage = 1;
+var once = true;
+
 function gameOver() {
   if (newCharacter.posY > canvas.height+(newCharacter.size/2) || gameOver.gameEnded === true) {
-    //console.log('Game Over');
-    //detach();
-    cameraY -= 1;
+    // console.log('Game Over');
+    // moveSpeed = ((selectedPos - currentPos)/interations);
+    // move up, once above canvas set position to below canvas and bring in.
+
+    if (cameraY > (-canvas.height) && stage === 1) {
+      gameOverMoveSpeed = (-canvas.height-cameraY)/10;
+      cameraY += gameOverMoveSpeed;
+    }
+    // little hackery as it takes forever to get exactly 0 through iterations.
+    if (cameraY <= ((canvas.height-4)*-1) && once === true) {
+      stage = 2;
+      cameraY = canvas.height;
+      once = false;
+    }
+    if (cameraY > 0 && stage === 2) {
+      gameOverMoveSpeed  = (0-cameraY)/24;
+      cameraY += gameOverMoveSpeed ;
+    }
+
+    console.log(cameraY);
+
     cameraMode = "gameOver";
     gameState = "gameOver";
     // show score
