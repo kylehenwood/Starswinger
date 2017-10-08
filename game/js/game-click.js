@@ -10,18 +10,30 @@ function mouseTestSetup() {
   elem.top = viewportOffset.top;
 
   elem.addEventListener('click', function(event) {
+
+    // Temporary fix
+    if (gameState === "gameOver") {
+      return false;
+    }
+
     var mouseX = event.pageX - elem.left;
     var mouseY = event.pageY - elem.top;
-    var click = false;
+    var clickedSomething = false;
+
+    // every click, check to see if click is over any of the elements in the elements array.
+    // if yes, get the index of that element, and set the current hook to that
     elements.forEach(function(element) {
       if (mouseY > element.posY && mouseY < element.posY + element.size
           && mouseX > element.posX && mouseX < element.posX + element.size) {
 
+          clickedSomething = true;
+          //console.log('clicked');
           changeHook(element.index);
       }
     });
 
-    if (click === false) {
+    if (clickedSomething === false) {
+      //console.log('false click');
       detach();
     }
   });

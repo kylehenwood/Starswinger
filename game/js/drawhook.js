@@ -1,16 +1,15 @@
-function drawHook(layer,star,grappeled) {
+function drawHook(layer,star,extra) {
 
   var saftey = star.safe;
+  var hookData = extra;
+
+  //console.log(hookData.selected);
 
   if (star.alive === false || gameOver.gameEnded === true) {
     // this star is dead, return false;
-    // ungrappel
-    // return false;
+    // ungrappel if selected
     detach();
-    selectedHookTest = null;
     return false;
-    // need to unselect this star, and disallow attempts to connect to it.
-    // must also set this star to dead, not attempt to draw it.
   }
 
   //alert ('connected shockwave');
@@ -40,16 +39,16 @@ function drawHook(layer,star,grappeled) {
   var counterClockwise = true;
 
   // drain star
-  if (grappeled === true && saftey === false && star.alive === true) {
+  if (newCharacter.swinging === true && saftey === false && star.alive === true) {
+    // drain star power & increase score
     gameUserInterface.score += 1;
     star.ring -= 0.01;
     if (star.ring <= 0 && star.alive === true) {
       star.alive = false;
-      star.ring = 2;
     }
   }
 
-  // gets updated by if hook grappeled = true
+  // gets updated when character is swinging from it
   endAngle = star.ring * Math.PI;
 
   layer.beginPath();
@@ -62,7 +61,7 @@ function drawHook(layer,star,grappeled) {
   // visual bounds
   layer.beginPath();
   // gonna need a switch statement
-  if (grappeled === true) {
+  if (hookData.selected === true) {
     layer.strokeStyle = 'lime';
     layer.lineWidth = 2;
   } else {

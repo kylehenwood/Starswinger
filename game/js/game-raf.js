@@ -19,7 +19,9 @@ function runGame() {
   clear(canvas);
 
   // update
-  updateGame();
+  if (cameraMode != 'gameOver') {
+    updateGame();
+  }
 
   //DRAW ----------------------
   canvas.ctx.drawImage(gamePanel.canvas,moveCanvas.currentPos,0);
@@ -33,14 +35,21 @@ function runGame() {
     moveCanvas.selectedPos = (newCharacter.posX-(canvas.width/2)+(newCharacter.size/2))*-1;
     moveCanvas.moveSpeed = ((moveCanvas.selectedPos - moveCanvas.currentPos)/moveCanvas.interations);
   }
-  moveCanvas.currentPos += moveCanvas.moveSpeed;
+
+  if (cameraMode != 'gameOver') {
+    drawClicky();
+    moveCanvas.currentPos += moveCanvas.moveSpeed;
+  }
   // click event test.
   // Render elements.
-  drawClicky();
   drawDetail();
   // paint UI
   updateInterface();
+
   gameOver();
+
+  //console.log(allowClick);
+  console.log('camerMode: '+cameraMode);
 }
 
 
@@ -62,7 +71,7 @@ function updateGame() {
 
 
   // if character is grappeling a hook
-  if (newCharacter.swinging === true && selectedHookTest != null) {
+  if (newCharacter.swinging === true) {
     drawTrajectory(gameContext);
     drawRope(gameContext);
   } else {
@@ -72,18 +81,9 @@ function updateGame() {
   drawCharacter(gameContext);
 
 
-  // Draw hooks
-  // find and animate selected hook
-
+  // Update selected hook if it exists
   if (selectedHookTest != null) {
-    drawHook(selectedHookTest.ctx,selectedHookTest.star,true);
-  }
-  // reset last hook. (remove the currently selected border etc)
-  if (lastHookTest != null) {
-    if (lastHookTest.selected === true) {
-      drawHook(lastHookTest.ctx,lastHookTest.star,false);
-      lastHookTest.selected = false;
-    }
+    drawHook(selectedHookTest.ctx,selectedHookTest.star,selectedHookTest);
   }
 
   // draw each hook to this canvas.
@@ -95,8 +95,12 @@ function updateGame() {
 
 // end game
 function gameOver() {
-  if (newCharacter.posY > canvas.height+newCharacter.size || gameOver.gameEnded === true) {
-    console.log('Game Over');
+  if (newCharacter.posY > canvas.height+(newCharacter.size/2) || gameOver.gameEnded === true) {
+    //console.log('Game Over');
+    //detach();
+
+    cameraMode = "gameOver";
+    gameState = "gameOver";
     // show score
     canvas.ctx.drawImage(gameOver.canvas,0,0);
     gameOver.finalScore = gameUserInterface.score;
@@ -104,12 +108,9 @@ function gameOver() {
   }
 }
 
-var gravity = 0;
-var momentiumY;
-var momentiumX;
-
+// when character is not attached, move it based on momentium and gravity
 function characterFalling(ctx) {
-  gravity += 0.4;
+  gravity += gravityIncrease;
   newCharacter.posY += gravity;
   newCharacter.posX += momentiumIncrease;
 }
@@ -122,20 +123,8 @@ function drawDetail() {
   canvas.ctx.fill();
 }
 
-
-
-var maxAngle; // greatest angle of swing
-var maxAngleIncrement; // if swing angle isn't 90 deg, increase swing speed on down untill it is.
-var currentAngle; //angle in degrees - also the starting position when you connect to a new star
-var momentiumIncrease = 0;
-var momentiumAngle;
-var swingDirection;
-var swingSpeed = 0.1;
-var maxSpeed = 2;
-// draw the rope that connects character to hook
-
+// Draw rope & calculate swing
 function drawRope(context) {
-
   var hookX = selectedHookTest.posX+(selectedHookTest.size/2);
   var hookY = selectedHookTest.posY+(selectedHookTest.size/2);
 
@@ -188,81 +177,6 @@ function additiveSwing() {
   currentAngle += momentiumIncrease;
   momentiumAngle = toRad(currentAngle);
 }
-
-
-
-// generate swing trajectory based on hook selection (fires on hook change)
-function repositionSwing() {
-
-  var hookX = selectedHookTest.posX+(selectedHookTest.size/2);
-  var hookY = selectedHookTest.posY+(selectedHookTest.size/2);
-
-
-  // UPDATE SWING trajectory HERE
-  trajectory.characterPosX = newCharacter.posX;
-  trajectory.characterPosY = newCharacter.posY;
-  trajectory.starPosX = selectedHookTest.posX+(selectedHookTest.size/2);
-  trajectory.starPosY = selectedHookTest.posY+(selectedHookTest.size/2);
-
-  // make the negative values positive
-  var triWidth = trajectory.starPosX-trajectory.characterPosX;
-  var triHeight = trajectory.starPosY-trajectory.characterPosY;
-
-  trajectory.hypotenuse = Math.hypot(triWidth,triHeight);
-
-  // update character positions on hook change
-
-  // calculate new angle based on triangle
-  var adjacent = Math.abs(triHeight);
-  var angle = Math.acos(adjacent/trajectory.hypotenuse);
-  var direction;
-
-  //
-  if (trajectory.characterPosX < trajectory.starPosX) {
-      //console.log('swingLeft');
-      direction = 'left';
-      currentAngle = toDeg(angle)*-1;
-  } else {
-      currentAngle = toDeg(angle);
-      direction = 'right';
-      //console.log('swingRight');
-  }
-
-  // I have a problem getting the correct ANGLE when the position of the swing is ABOVE the star...
-  // fix? increase or subtract an extra 90deg when character position falls into these regions.
-  if (trajectory.characterPosY < trajectory.starPosY) {
-    if (trajectory.characterPosX < trajectory.starPosX) {
-      // above left
-      currentAngle = -90-(90+currentAngle);
-    }
-    if (trajectory.characterPosX > trajectory.starPosX) {
-       // above right
-       currentAngle = 90+(90-currentAngle);
-    }
-  }
-
-  maxAngle = currentAngle;
-
-  // maintain momentium when switching between hooks when the swing direction is the same.
-  if (direction ==='left' && swingDirection === 'left' || direction ==='right' && swingDirection === 'right') {
-    // remove momentem if hook is oppisite to direction swining
-    momentiumIncrease = momentiumIncrease*0.5;
-  } else {
-    // keep momentem if swinging in same direction
-    momentiumIncrease = momentiumIncrease*1.2;
-  }
-}
-
-var trajectory = {
-  characterPosX: null,
-  characterPosY: null,
-  starPosX: null,
-  starPosY: null,
-  angle: null,
-  hypotenuse: null,
-  radius: null,
-};
-
 
 function drawTrajectory(ctx){
   // triangle of calculations

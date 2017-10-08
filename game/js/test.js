@@ -18,8 +18,8 @@
   newCharacter.posY = selectedHookTest.posY;
 
   // need to redo this
+  attach();
   changeHook(0);
-  repositionSwing();
 
   // RAF
   runGame();
