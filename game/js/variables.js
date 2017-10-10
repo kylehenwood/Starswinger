@@ -12,6 +12,7 @@ var gameUserInterface = {
   score: null
 }
 
+var testingBool = false;
 
 // Storing the selected hook
 var selectedHookTest;
@@ -24,7 +25,9 @@ var selectedHook = {
 }
 var hookGrappel = {
   launch: false,
-  time: null
+  time: null,
+  interations: null,
+  currentIteration: null
 }
 
 // Setup variables
@@ -39,13 +42,13 @@ var gridSize = {
 
 // character
 var gravity = 0;
-var gravityIncrease = 0.2;
+var gravityIncrease = 0.3;
 var momentiumY;
 var momentiumX;
 var friction;
 
 var character = {
-  grappelDelay:320, // ms (this should change based on the distance the character is from the hook)
+  grappelDelay:280, // ms (this should change based on the distance the character is from the hook)
   centerX: null,
   centerY: null,
 }

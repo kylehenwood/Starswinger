@@ -25,12 +25,18 @@ function changeHook(hookIndex) {
     selectedHook.centerX = selectedHookTest.posX+(selectedHookTest.size/2);
     selectedHook.centerY = selectedHookTest.posY+(selectedHookTest.size/2);
 
+    // calculate how many frames the grappel will need to reach hook.
+    var percent = (character.grappelDelay/1000);
+    var frames = 60*percent;
+    hookGrappel.interations = frames;
+    hookGrappel.currentIteration = 0;
+
     setTimeout(function(){
       if (gameState != 'gameOver') {
         attach();
         repositionSwing();
         allowClick = true;
-        //hookGrappel.launch = false;
+        hookGrappel.launch = false;
       }
     },character.grappelDelay);
   }
@@ -41,21 +47,23 @@ function changeHook(hookIndex) {
 // this is controlled by the game RAF engine, and the variable hookGrappel.launch
 function grappelLaunch(context) {
 
+  var increment = 0;
+  console.log(hookGrappel.interations);
 
- // find hypo between character and hook.
- // find % of hypo length depending on delay (200ms)
- // draw new triangle using characterXY + new Hypo + angle
+ if (increment < 1) {
+   increment = (hookGrappel.currentIteration/hookGrappel.interations);
+   hookGrappel.currentIteration += 1;
+ }
 
- // triangle 1
- // var triWidth = character.centerX-selectedHook.centerX;
- // var triHeight = character.centerY-selectedHook.centerY;
+ // regular sized triangle
  var triWidth = selectedHook.centerX-character.centerX;
  var triHeight = selectedHook.centerY-character.centerY;
  var triHypo = Math.hypot(triWidth,triHeight);
  var triAngle = Math.acos(triHeight/triHypo);
 
  // create small triangle by shrinking the hypotenuse
- var smallHypo = triHypo/2;
+ // gameOverMoveSpeed = (-canvas.height-cameraY)/10;
+ var smallHypo = triHypo*increment;
  var smallWidth = Math.sin(triAngle)*smallHypo;
  var smallHeight = Math.cos(triAngle)*smallHypo;
 
@@ -63,8 +71,8 @@ function grappelLaunch(context) {
  var ropeStartX = character.centerX;
  var ropeStartY = character.centerY;
 
-var ropeEndX = null;
  // if the character is on the right side of hook... else
+ var ropeEndX = null;
  if (character.centerX > selectedHook.centerX) {
    ropeEndX = character.centerX-smallWidth;
  } else {
@@ -75,30 +83,22 @@ var ropeEndX = null;
   // Draw line
   //-------------------------
   context.beginPath();
-  context.lineWidth = 4;
-  //context.moveTo(newCharacter.posX,newCharacter.posY);
+  context.lineWidth = 2;
   context.moveTo(character.centerX,character.centerY);
-  //context.moveTo(character.posX,character.posY);
-  //context.lineTo(selectedHook.centerX,selectedHook.centerY);
-  //context.moveTo(ropeStartX,ropeStartY);
   context.lineTo(ropeEndX,ropeEndY);
-  context.strokeStyle = 'blue';
+  context.strokeStyle = 'red';
   context.stroke();
   context.closePath();
 
-  //console.log(newCharacter.posX+','+newCharacter.posY);
-  //console.log(selectedHookTest.posX+','+selectedHookTest.posY);
-
-
   // small triangle
-  context.strokeStyle = 'gold';
-  context.lineWidth = 1;
-  context.beginPath();
-  context.moveTo(ropeStartX,ropeStartY);  // startPointX, startPointY
-  context.lineTo(ropeStartX+smallWidth,ropeStartY); // HookX,HookY
-  context.lineTo(ropeStartX+smallWidth,ropeStartY+smallHeight); // startPointY, HookX
-  context.closePath();    // hypotinuse
-  context.stroke();
+  // context.strokeStyle = 'gold';
+  // context.lineWidth = 1;
+  // context.beginPath();
+  // context.moveTo(ropeStartX,ropeStartY);  // startPointX, startPointY
+  // context.lineTo(ropeEndX,ropeStartY); // HookX,HookY
+  // context.lineTo(ropeEndX,ropeEndY); // startPointY, HookX
+  // context.closePath();    // hypotinuse
+  // context.stroke();
 }
 
 // fade last

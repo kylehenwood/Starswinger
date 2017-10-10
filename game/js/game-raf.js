@@ -86,7 +86,9 @@ function updateGame() {
 
   // if character is grappeling a hook
   if (newCharacter.swinging === true) {
-    drawTrajectory(gameContext);
+    if (testingBool == true) {
+      drawTrajectory(gameContext);
+    }
     drawRope(gameContext);
   } else {
     characterFalling(gameContext);

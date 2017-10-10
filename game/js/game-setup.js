@@ -40,7 +40,7 @@ function createPanel() {
     // set safe on stars.
     if (nextSafe <= 0) {
       safe = true;
-      nextSafe = 0;
+      nextSafe = 5;
     } else {
       safe = false;
       nextSafe -= 1;
