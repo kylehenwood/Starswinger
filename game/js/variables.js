@@ -15,6 +15,17 @@ var gameUserInterface = {
 
 // Storing the selected hook
 var selectedHookTest;
+var selectedHook = {
+  hook: null,
+  posX: null,
+  posY: null,
+  centerX: null,
+  centerY: null
+}
+var hookGrappel = {
+  launch: false,
+  time: null
+}
 
 // Setup variables
 var starHooks = [];
@@ -34,7 +45,9 @@ var momentiumX;
 var friction;
 
 var character = {
-  grappelDelay:200 // ms (this should change based on the distance the character is from the hook)
+  grappelDelay:320, // ms (this should change based on the distance the character is from the hook)
+  centerX: null,
+  centerY: null,
 }
 
 var newCharacter = {

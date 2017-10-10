@@ -4,8 +4,9 @@ function repositionSwing() {
   //console.log('reposition');
 
   // get the center point of the hook
-  var hookX = selectedHookTest.posX+(selectedHookTest.size/2);
-  var hookY = selectedHookTest.posY+(selectedHookTest.size/2);
+
+  var hookX = selectedHook.centerX;
+  var hookY = selectedHook.centerY;
 
   // get swing angle and rope length / draw a triangle.
   trajectory.characterPosX = newCharacter.posX;

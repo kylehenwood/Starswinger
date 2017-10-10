@@ -83,6 +83,7 @@ function updateGame() {
   // Draw grid
   gameContext.drawImage(gridImage,0,0);
 
+
   // if character is grappeling a hook
   if (newCharacter.swinging === true) {
     drawTrajectory(gameContext);
@@ -92,6 +93,12 @@ function updateGame() {
   }
 
   drawCharacter(gameContext);
+
+  // launch grappel from character to hook
+  if(hookGrappel.launch === true) {
+    grappelLaunch(gamePanel.context);
+  }
+
 
 
   // Update selected hook if it exists
@@ -133,7 +140,7 @@ function gameOver() {
       cameraY += gameOverMoveSpeed ;
     }
 
-    console.log(cameraY);
+    //console.log(cameraY);
 
     cameraMode = "gameOver";
     gameState = "gameOver";
@@ -154,6 +161,7 @@ function characterFalling(ctx) {
 
 function drawDetail() {
   // draw clouds at the bottom of screen.
+  canvas.ctx.beginPath();
   canvas.ctx.rect(0,canvas.height-80,canvas.width,canvas.height);
   canvas.ctx.fillStyle = 'rgba(255,255,255,0.2)';
   canvas.ctx.fill();
@@ -161,8 +169,9 @@ function drawDetail() {
 
 // Draw rope & calculate swing
 function drawRope(context) {
-  var hookX = selectedHookTest.posX+(selectedHookTest.size/2);
-  var hookY = selectedHookTest.posY+(selectedHookTest.size/2);
+
+  var hookX = selectedHook.centerX;
+  var hookY = selectedHook.centerY;
 
   // update swing direction
   if (momentiumIncrease > 0) {
@@ -238,6 +247,12 @@ function drawCharacter(ctx) {
 
   var charX = newCharacter.posX-(newCharacter.size/2);
   var charY = newCharacter.posY-(newCharacter.size/2);
+
+  // update character positions
+  character.posX = newCharacter.posX-(newCharacter.size/2);
+  character.posY = newCharacter.posY-(newCharacter.size/2);
+  character.centerX = newCharacter.posX;
+  character.centerY = newCharacter.posY;
 
   // draw character
   ctx.beginPath();

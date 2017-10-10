@@ -23,7 +23,7 @@ function mouseTestSetup() {
     if (gameState === "gamePaused" || gameState === "playGame") {
       pauseClick(mouseX,mouseY);
     }
-    console.log(gameState);
+    //console.log(gameState);
   });
 }
 

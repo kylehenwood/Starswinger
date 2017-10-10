@@ -32,6 +32,8 @@ function resumeGame() {
      var overlay = 0.2*resumeCountdown;
 
      pauseCanvas.context.clearRect(0, 0, canvas.width, canvas.height);
+
+     pauseCanvas.context.beginPath();
      pauseCanvas.context.rect(0,0,canvas.width,canvas.height)
      pauseCanvas.context.fillStyle = 'rgba(000,000,000,'+overlay+')';
      pauseCanvas.context.fill();
@@ -51,7 +53,7 @@ function resumeGame() {
      resumeCountdown = 3;
      drawPauseState();
    }
- },600);
+ },400);
 }
 
 
@@ -71,6 +73,7 @@ function createPauseCanvas() {
 function drawPauseState() {
   pauseCanvas.context.clearRect(0, 0, canvas.width, canvas.height);
 
+  pauseCanvas.context.beginPath();
   pauseCanvas.context.rect(0,0,canvas.width,canvas.height)
   pauseCanvas.context.fillStyle = 'rgba(000,000,000,0.6)';
   pauseCanvas.context.fill();

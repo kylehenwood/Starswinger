@@ -4,8 +4,9 @@ function gameOverSetup() {
   gameOver.canvas.height = canvas.height;
   gameOver.context = gameOver.canvas.getContext('2d');
 
+  gameOver.context.beginPath();
   gameOver.context.rect(0,0,canvas.width,canvas.height)
-  gameOver.context.fillStyle = 'rgba(000,000,000,0.6)';
+  gameOver.context.fillStyle = 'rgba(000,000,000,0.2)';
   gameOver.context.fill();
 
   gameOver.context.fillStyle = 'white';

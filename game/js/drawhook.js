@@ -56,10 +56,9 @@ function drawHook(layer,star,extra) {
   layer.strokeStyle = 'red';
   layer.arc(star.x, star.y, radius, startAngle, endAngle, counterClockwise);
   layer.stroke();
-
+  layer.closePath();
 
   // visual bounds
-  layer.beginPath();
   // gonna need a switch statement
   if (hookData.selected === true) {
     layer.strokeStyle = 'lime';
@@ -68,12 +67,12 @@ function drawHook(layer,star,extra) {
     layer.strokeStyle = 'red';
     layer.lineWidth = 1;
   }
-
   if (saftey === true) {
     layer.lineWidth = 3;
     layer.strokeStyle = 'cyan';
   }
 
+  layer.beginPath();
   layer.rect(star.x-(star.bounds/2),star.y-(star.bounds/2),star.bounds,star.bounds);
 
   if (star.alive === false) {
