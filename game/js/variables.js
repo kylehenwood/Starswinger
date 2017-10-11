@@ -18,7 +18,7 @@ var gameUserInterface = {
   score: null
 }
 
-var testingBool = true;
+var testingBool = false;
 
 // Storing the selected hook
 var selectedHookTest;
@@ -54,7 +54,7 @@ var momentiumX;
 var friction;
 
 var character = {
-  grappelDelay:280, // ms (this should change based on the distance the character is from the hook)
+  grappelDelay:240, // ms (this should change based on the distance the character is from the hook)
   centerX: null,
   centerY: null,
 }

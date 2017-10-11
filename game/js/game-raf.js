@@ -124,36 +124,32 @@ function updateGame() {
 }
 
 // end game
-//var gameOverMoveSpeed = 0;
-//var gameOverCurrent;
-//var stage = 1;
-//var once = true;
+var gameOverMoveSpeed = 0;
+var gameOverCurrent;
+var stage = 1;
+var once = true;
 
 
 function gameOver() {
-  // console.log('Game Over');
-  // moveSpeed = ((selectedPos - currentPos)/interations);
-  // move up, once above canvas set position to below canvas and bring in.
-  //momentiumY = null;
-  //momentiumX = null;
+  //console.log('Game Over');
 
   // detach();
-  // if (cameraY > (-canvas.height) && stage === 1) {
-  //   gameOverMoveSpeed = (-canvas.height-cameraY)/10;
-  //   cameraY += gameOverMoveSpeed;
-  // }
-  // // little hackery as it takes forever to get exactly 0 through iterations.
-  // if (cameraY <= ((canvas.height-4)*-1) && once === true) {
-  //   stage = 2;
-  //   cameraY = canvas.height;
-  //   once = false;
-  // }
-  // if (cameraY > 0 && stage === 2) {
-  //   gameOverMoveSpeed  = (0-cameraY)/24;
-  //   cameraY += gameOverMoveSpeed ;
-  // }
+  if (cameraY+canvas.height > 0 && stage === 1) {
+    gameOverMoveSpeed = (canvas.height-cameraY)/10;
+    cameraY += gameOverMoveSpeed;
+  }
+  // little hackery as it takes forever to get exactly 0 through iterations.
+  if (cameraY <= ((canvas.height-4)*-1) && once === true) {
+    stage = 2;
+    cameraY = canvas.height;
+    once = false;
+  }
+  if (cameraY > 0 && stage === 2) {
+    gameOverMoveSpeed  = (0-cameraY)/24;
+    cameraY += gameOverMoveSpeed ;
+  }
 
-  //console.log(cameraY);
+  console.log(cameraY);
 
   //cameraMode = "gameOver";
   gameState = "gameOver";
@@ -258,12 +254,6 @@ function drawCharacter(ctx) {
 
   var charX = newCharacter.posX-(newCharacter.size/2);
   var charY = newCharacter.posY-(newCharacter.size/2);
-
-  // update character positions
-  character.posX = newCharacter.posX-(newCharacter.size/2);
-  character.posY = newCharacter.posY-(newCharacter.size/2);
-  character.centerX = newCharacter.posX;
-  character.centerY = newCharacter.posY;
 
   // draw character
   ctx.beginPath();

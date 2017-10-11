@@ -6,8 +6,6 @@ function changeHook(hookIndex) {
   // save hook data into temp var
   var scoutHook = starHooks[hookIndex];
 
-  console.log(scoutHook)
-
   // check to see if star is dead, if yes perform no action
   if (scoutHook.star.alive === false) {
     return false;
@@ -96,15 +94,17 @@ function grappelLaunch(context) {
   context.stroke();
   context.closePath();
 
-  // small triangle
-  // context.strokeStyle = 'gold';
-  // context.lineWidth = 1;
-  // context.beginPath();
-  // context.moveTo(ropeStartX,ropeStartY);  // startPointX, startPointY
-  // context.lineTo(ropeEndX,ropeStartY); // HookX,HookY
-  // context.lineTo(ropeEndX,ropeEndY); // startPointY, HookX
-  // context.closePath();    // hypotinuse
-  // context.stroke();
+  if (testingBool === true) {
+    //small triangle
+    context.strokeStyle = 'gold';
+    context.lineWidth = 1;
+    context.beginPath();
+    context.moveTo(ropeStartX,ropeStartY);  // startPointX, startPointY
+    context.lineTo(ropeEndX,ropeStartY); // HookX,HookY
+    context.lineTo(ropeEndX,ropeEndY); // startPointY, HookX
+    context.closePath();    // hypotinuse
+    context.stroke();
+  }
 }
 
 // fade last
