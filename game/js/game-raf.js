@@ -221,14 +221,14 @@ function drawRope(context) {
 function additiveSwing() {
   if (momentiumAngle <= 0) {
     // set speed maximum
-    //if (momentiumIncrease < 4) {
+    if (momentiumIncrease < 4) {
         momentiumIncrease+=swingSpeed;
-    //}
+    }
   } else {
     // set speed maximum
-    //if (momentiumIncrease > -4) {
+    if (momentiumIncrease > -4) {
       momentiumIncrease-=swingSpeed;
-    //}
+    }
   }
   currentAngle += momentiumIncrease;
   momentiumAngle = toRad(currentAngle);
