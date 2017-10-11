@@ -135,6 +135,10 @@ function controls() {
           case 40: // down
           break;
 
+          case 82 && 17: // ctrl + r
+          location.reload();
+          break;
+
           case 82: // R (restart)
           if (gameState === "gamePaused" || gameState === "playGame" || gameState === "gameOver") {
             restartGame();
