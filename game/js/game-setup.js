@@ -25,8 +25,8 @@ function gameSetup(){
   drawClicky();
 
   // set starting hook
-  newCharacter.posX = 50;
-  newCharacter.posY = 0;
+  newCharacter.posX = 240;
+  newCharacter.posY = 40;
 
   // set starting hook
   changeHook(0);
@@ -60,7 +60,11 @@ function createPanel() {
       nextSafe -= 1;
     }
     // space out the stars by adding a random tile gap untill the tile is exceeded.
-    position += rand(18,28);
+    if (position === 0) {
+      position = 46;
+    } else {
+      position += rand(18,28);
+    }
     if (position < availablePositions) {
       createHook(position,safe);
     }

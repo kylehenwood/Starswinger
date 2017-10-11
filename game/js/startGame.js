@@ -33,4 +33,13 @@ function clearVariables() {
   swingSpeed = 0.1;
   maxSpeed = 2;
 
+
+  gameUserInterface.score = 0;
+
+  // reset game over
+  gameOverMoveSpeed = 0;
+  gameOverCurrent;
+  stage = 1;
+  once = true;
+
 }
