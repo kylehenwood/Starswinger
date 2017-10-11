@@ -1,7 +1,13 @@
+var canvas = {
+    id: '',
+    ctx: '',
+    width: '',
+    height: ''
+}
+
 var gameOver = {
   canvas: null,
   context: null,
-  gameEnded: null,
   finalScore: null
 }
 
@@ -12,7 +18,7 @@ var gameUserInterface = {
   score: null
 }
 
-var testingBool = false;
+var testingBool = true;
 
 // Storing the selected hook
 var selectedHookTest;
@@ -57,7 +63,6 @@ var newCharacter = {
   size: 64,
   currentPosX: null,
   currentPosY: null,
-  gravity: 2, // force pulling character down
   ropeLength: 320,
   interations: 16, // times it takes for the character to catch the hook
   swinging: true
@@ -69,7 +74,7 @@ var newCharacter = {
 var maxAngle; // greatest angle of swing
 var maxAngleIncrement; // if swing angle isn't 90 deg, increase swing speed on down untill it is.
 var currentAngle; //angle in degrees - also the starting position when you connect to a new star
-var momentiumIncrease = 0;
+let momentiumIncrease = 0;
 var momentiumAngle;
 var swingDirection;
 var swingSpeed = 0.1;

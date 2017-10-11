@@ -1,4 +1,5 @@
-var starConnected = false;
+// connected to star[0] at game start
+var starConnected = true;
 
 // detach from hook.
 function detach() {
@@ -6,10 +7,10 @@ function detach() {
   if (starConnected === true) {
     starConnected = false;
   } else {
-    return false;
+    return;
   }
 
-  //console.log("detach");
+  console.log("detach");
   cameraMode = 'character';
   newCharacter.swinging = false;
 
@@ -19,7 +20,7 @@ function detach() {
     drawHook(selectedHookTest.ctx,selectedHookTest.star,selectedHookTest);
     selectedHookTest = null;
   }
-}
+} 
 
 
 
@@ -29,10 +30,11 @@ function attach() {
   if (starConnected === false) {
     starConnected = true;
   } else {
-    return false;
+    return;
   }
+
   if (selectedHookTest != null) {
-    //console.log("attach");
+    console.log("attach");
     gravity = 0;
     cameraMode = 'hook';
     selectedHookTest.selected = true;

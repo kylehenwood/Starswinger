@@ -6,6 +6,8 @@ function changeHook(hookIndex) {
   // save hook data into temp var
   var scoutHook = starHooks[hookIndex];
 
+  console.log(scoutHook)
+
   // check to see if star is dead, if yes perform no action
   if (scoutHook.star.alive === false) {
     return false;
@@ -13,7 +15,10 @@ function changeHook(hookIndex) {
 
   if (allowClick === true) {
     allowClick = false;
-    detach();
+    // detach from hook if already attached to one
+    //if (selectedHookTest != null) {
+      detach();
+    //}
 
     // set global variables
     selectedHookTest = scoutHook;
@@ -25,7 +30,7 @@ function changeHook(hookIndex) {
     selectedHook.centerX = selectedHookTest.posX+(selectedHookTest.size/2);
     selectedHook.centerY = selectedHookTest.posY+(selectedHookTest.size/2);
 
-    // calculate how many frames the grappel will need to reach hook.
+    // calculate how many frames the grappel will need to reach hook @60fps.
     var percent = (character.grappelDelay/1000);
     var frames = 60*percent;
     hookGrappel.interations = frames;
@@ -35,20 +40,21 @@ function changeHook(hookIndex) {
       if (gameState != 'gameOver') {
         attach();
         repositionSwing();
-        allowClick = true;
         hookGrappel.launch = false;
       }
+      allowClick = true;
     },character.grappelDelay);
   }
 }
-
 
 // Progressively draw line from character to hook
 // this is controlled by the game RAF engine, and the variable hookGrappel.launch
 function grappelLaunch(context) {
 
   var increment = 0;
-  console.log(hookGrappel.interations);
+  swingDirection = null;
+  swingSpeed = 0.1;
+  //console.log('grappel launch!');
 
  if (increment < 1) {
    increment = (hookGrappel.currentIteration/hookGrappel.interations);

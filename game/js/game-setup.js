@@ -1,12 +1,4 @@
 // Setup
-var canvas = {
-    id: '',
-    ctx: '',
-    width: '',
-    height: ''
-};
-
-// set canvas vars
 function setupCanvas() {
     // need to recall this on resize
     canvas.id = document.getElementById('js-starswinger');
@@ -21,10 +13,32 @@ function setupCanvas() {
 }
 
 // ---------------------------------------------------------------
+function gameSetup(){
 
+  // create a grid canvas and push the positions of each square to an array called "elements"
+  createGrid();
+
+  // create a panel which I draw/place stars positions fitting that of the grid element positions.
+  createPanel();
+
+  // draw click area hotspots
+  drawClicky();
+
+  // set starting hook
+  newCharacter.posX = 50;
+  newCharacter.posY = 0;
+
+  // set starting hook
+  changeHook(0);
+
+}
+
+
+
+
+// create a canvas and draw the grid and stars/hooks on it.
+// size
 function createPanel() {
-  // create a canvas and draw the grid and stars on it.
-  // size
   var panel = {
       width: gridSize.cols*gridSize.square,
       height: gridSize.rows*gridSize.square
@@ -176,7 +190,4 @@ function drawGameSetup() {
 
   gamePanel.canvas = gameCanvas;
   gamePanel.context = gameContext;
-
-  //console.log(gameCanvas.width);
-
 }

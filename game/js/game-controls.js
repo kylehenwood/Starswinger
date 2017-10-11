@@ -23,6 +23,9 @@ function mouseTestSetup() {
     if (gameState === "gamePaused" || gameState === "playGame") {
       pauseClick(mouseX,mouseY);
     }
+    if (gameState === "gameOver") {
+      gameOverClick(mouseX,mouseY);
+    }
     //console.log(gameState);
   });
 }
@@ -63,6 +66,21 @@ function pauseClick(mouseX,mouseY) {
 }
 
 
+
+// !todo
+var gameOverElements = [];
+var gameOverElement = {
+  name: 'restartButton',
+  //action: restart(),
+  posX: null,
+  posY: null,
+  width: null,
+  height: null
+}
+
+function gameOverClick(mouseX,mouseY) {
+  restartGame();
+}
 
 
 
@@ -115,6 +133,12 @@ function controls() {
           break;
 
           case 40: // down
+          break;
+
+          case 82: // R (restart)
+          if (gameState === "gamePaused" || gameState === "playGame" || gameState === "gameOver") {
+            restartGame();
+          }
           break;
 
           case 80: // P (pause)

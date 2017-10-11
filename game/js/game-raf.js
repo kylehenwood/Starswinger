@@ -19,6 +19,7 @@ function runGame() {
   clear(canvas);
 
 
+  // update game canvas
   if (gameState === 'playGame') {
     updateGame();
   }
@@ -45,10 +46,7 @@ function runGame() {
       moveCanvas.selectedPos = (newCharacter.posX-(canvas.width/2)+(newCharacter.size/2))*-1;
       moveCanvas.moveSpeed = ((moveCanvas.selectedPos - moveCanvas.currentPos)/moveCanvas.interations);
     }
-  }
-
-  // update
-  if (gameState === 'playGame' ) {
+    // update
     moveCanvas.currentPos += moveCanvas.moveSpeed;
   }
 
@@ -58,12 +56,21 @@ function runGame() {
   drawDetail();
   // paint UI
   updateInterface();
-  gameOver();
+
+  // if character is below the screen, or game state is :gameOver"
+  if (newCharacter.posY > canvas.height+(newCharacter.size/2) || gameState === 'gameOver') {
+    gameOver();
+  }
+
 
   if (gameState === 'gamePaused') {
     canvas.ctx.drawImage(pauseCanvas.canvas,0,0);
   }
+
+  //console.log(starConnected);
   //console.log(gameState);
+  //console.log(starHooks.length);
+  //console.log(selectedHookTest);
 }
 
 
@@ -102,6 +109,7 @@ function updateGame() {
   }
 
 
+  // this is where I draw hooks to the game canvas.
 
   // Update selected hook if it exists
   if (selectedHookTest != null) {
@@ -116,41 +124,42 @@ function updateGame() {
 }
 
 // end game
-var gameOverMoveSpeed = 0;
-var gameOverCurrent;
-var stage = 1;
-var once = true;
+//var gameOverMoveSpeed = 0;
+//var gameOverCurrent;
+//var stage = 1;
+//var once = true;
+
 
 function gameOver() {
-  if (newCharacter.posY > canvas.height+(newCharacter.size/2) || gameOver.gameEnded === true) {
-    // console.log('Game Over');
-    // moveSpeed = ((selectedPos - currentPos)/interations);
-    // move up, once above canvas set position to below canvas and bring in.
+  // console.log('Game Over');
+  // moveSpeed = ((selectedPos - currentPos)/interations);
+  // move up, once above canvas set position to below canvas and bring in.
+  //momentiumY = null;
+  //momentiumX = null;
 
-    if (cameraY > (-canvas.height) && stage === 1) {
-      gameOverMoveSpeed = (-canvas.height-cameraY)/10;
-      cameraY += gameOverMoveSpeed;
-    }
-    // little hackery as it takes forever to get exactly 0 through iterations.
-    if (cameraY <= ((canvas.height-4)*-1) && once === true) {
-      stage = 2;
-      cameraY = canvas.height;
-      once = false;
-    }
-    if (cameraY > 0 && stage === 2) {
-      gameOverMoveSpeed  = (0-cameraY)/24;
-      cameraY += gameOverMoveSpeed ;
-    }
+  // detach();
+  // if (cameraY > (-canvas.height) && stage === 1) {
+  //   gameOverMoveSpeed = (-canvas.height-cameraY)/10;
+  //   cameraY += gameOverMoveSpeed;
+  // }
+  // // little hackery as it takes forever to get exactly 0 through iterations.
+  // if (cameraY <= ((canvas.height-4)*-1) && once === true) {
+  //   stage = 2;
+  //   cameraY = canvas.height;
+  //   once = false;
+  // }
+  // if (cameraY > 0 && stage === 2) {
+  //   gameOverMoveSpeed  = (0-cameraY)/24;
+  //   cameraY += gameOverMoveSpeed ;
+  // }
 
-    //console.log(cameraY);
+  //console.log(cameraY);
 
-    cameraMode = "gameOver";
-    gameState = "gameOver";
-    // show score
-    canvas.ctx.drawImage(gameOver.canvas,0,0);
-    gameOver.finalScore = gameUserInterface.score;
-    gameOver.gameEnded = true;
-  }
+  //cameraMode = "gameOver";
+  gameState = "gameOver";
+  // show score
+  canvas.ctx.drawImage(gameOver.canvas,0,0);
+  gameOver.finalScore = gameUserInterface.score;
 }
 
 // when character is not attached, move it based on momentium and gravity

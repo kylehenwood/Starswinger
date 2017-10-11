@@ -1,30 +1,21 @@
  // Starwizard star test
 (function() {
   setupCanvas();
-  controls();
 
+  controls();
+  mouseTestSetup();
   // setup
   gameOverSetup();
-  createGrid();
-  createPanel();
-  drawGameSetup();
   createPauseCanvas();
-  //characterSetup();
-  mouseTestSetup();
-  drawClicky(); // draw click area hotspots
 
-  // !todo remove this primitive method of setting start position.
-  // set starting hook
-  selectedHookTest = starHooks[0];
-  newCharacter.posX = 50;
-  newCharacter.posY = selectedHookTest.posY;
-
-  // need to redo this
-  attach();
-  changeHook(0);
+  // create game canvas element
+  drawGameSetup();
+  startGame();
 
   // RAF
   runGame();
+
+
 }());
 
 // I want the game level & the game intro to co-exist.

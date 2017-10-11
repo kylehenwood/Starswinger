@@ -5,11 +5,11 @@ function drawHook(layer,star,extra) {
 
   //console.log(hookData.selected);
 
-  if (star.alive === false || gameOver.gameEnded === true) {
+  if (star.alive === false) {
     // this star is dead, return false;
     // ungrappel if selected
     detach();
-    return false;
+    return;
   }
 
   //alert ('connected shockwave');
