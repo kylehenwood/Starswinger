@@ -18,16 +18,12 @@ function gameOverSetup() {
 
 // end game
 var gameOverMoveSpeed = 0;
-var gameOverCurrent;
 var stage = 1;
 var once = true;
+var restartAnimate = false;
 
 
-function gameOver() {
-  //console.log('Game Over');
-  gameState = "gameOver";
-
-  // detach();
+function restartAnimation() {
   if (cameraY+canvas.height > 0 && stage === 1) {
     gameOverMoveSpeed = (canvas.height-cameraY)/10;
     cameraY -= gameOverMoveSpeed;
@@ -37,11 +33,28 @@ function gameOver() {
     stage = 2;
     cameraY = canvas.height;
     once = false;
+    moveCanvas.currentPos = 0;
+    //startGame();
   }
-  if (cameraY > 0 && stage === 2) {
-    gameOverMoveSpeed  = (0-cameraY)/24;
-    cameraY += gameOverMoveSpeed ;
+  if (cameraY+canvas.height > 0 && stage === 2) {
+    gameOverMoveSpeed  = (cameraY)/24;
+    cameraY -= gameOverMoveSpeed ;
   }
+
+  // reset game over
+  if (cameraY <= 0.5 && stage === 2) {
+    restartAnimate = false;
+    gameOverMoveSpeed = 0;
+    stage = 1;
+    once = true;
+  }
+}
+
+
+function gameOver() {
+  //console.log('Game Over');
+  gameState = "gameOver";
+  restartAnimate = true;
 
   // show score
   canvas.ctx.drawImage(gameOver.canvas,0,0);

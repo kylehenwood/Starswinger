@@ -2,8 +2,11 @@
 function updateInterface() {
   canvas.ctx.textBaseline="middle";
   fpsCounter(canvas.ctx);
-  scoreCounter(canvas.ctx);
-  valueIndicator(canvas.ctx);
+  
+  if (gameState === 'playGame') {
+    scoreCounter(canvas.ctx);
+    valueIndicator(canvas.ctx);
+  }
 }
 
 function valueIndicator(ctx) {

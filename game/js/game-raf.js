@@ -19,15 +19,22 @@ function runGame() {
   clear(canvas);
 
 
+  if (gameState === 'gameIntro') {
+    updateIntro();
+    canvas.ctx.drawImage(gameIntro.canvas,moveCanvas.currentPos,cameraY);
+  }
+
   // update game canvas
   if (gameState === 'playGame') {
     updateGame();
   }
 
-  // Draw canvases
-  // draw before move update as update game uses those numbers to clear canvas
-  canvas.ctx.drawImage(gamePanel.canvas,moveCanvas.currentPos,cameraY);
-  canvas.ctx.drawImage(clickAreas.canvas,0+moveCanvas.currentPos,cameraY);
+  if (gameState === 'playGame' || gameState === 'gameOver') {
+    // Draw canvases
+    // draw before move update as update game uses those numbers to clear canvas
+    canvas.ctx.drawImage(gamePanel.canvas,moveCanvas.currentPos,cameraY);
+    canvas.ctx.drawImage(clickAreas.canvas,0+moveCanvas.currentPos,cameraY);
+  }
 
   // pause icon
   if (gameState === 'playGame') {
@@ -53,7 +60,7 @@ function runGame() {
 
   // click event test.
   // Render elements.
-  drawDetail();
+  drawForeground();
   // paint UI
   updateInterface();
 
@@ -62,11 +69,17 @@ function runGame() {
     gameOver();
   }
 
+  if (restartAnimate === true) {
+    restartAnimation();
+  }
+
+
 
   if (gameState === 'gamePaused') {
     canvas.ctx.drawImage(pauseCanvas.canvas,0,0);
   }
 
+  //console.log(cameraY);
   //console.log(starConnected);
   //console.log(gameState);
   //console.log(starHooks.length);
@@ -93,7 +106,7 @@ function updateGame() {
 
   // if character is grappeling a hook
   if (newCharacter.swinging === true) {
-    if (testingBool == true) {
+    if (testingBool === true) {
       drawTrajectory(gameContext);
     }
     drawRope(gameContext);
@@ -135,15 +148,6 @@ function characterFalling(ctx) {
   gravity += gravityIncrease;
   newCharacter.posY += gravity;
   newCharacter.posX += momentiumIncrease;
-}
-
-
-function drawDetail() {
-  // draw clouds at the bottom of screen.
-  canvas.ctx.beginPath();
-  canvas.ctx.rect(0,canvas.height-80,canvas.width,canvas.height);
-  canvas.ctx.fillStyle = 'rgba(255,255,255,0.2)';
-  canvas.ctx.fill();
 }
 
 // Draw rope & calculate swing

@@ -2,7 +2,6 @@ function drawHook(layer,star,extra) {
 
   var saftey = star.safe;
   var hookData = extra;
-
   //console.log(hookData.selected);
 
   if (star.alive === false) {
@@ -39,7 +38,7 @@ function drawHook(layer,star,extra) {
   var counterClockwise = true;
 
   // drain star
-  if (newCharacter.swinging === true && saftey === false && star.alive === true) {
+  if (hookData.selected === true && saftey === false && star.alive === true) {
     // drain star power & increase score
     gameUserInterface.score += 1;
     star.ring -= 0.01;

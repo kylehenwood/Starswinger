@@ -26,6 +26,9 @@ function mouseTestSetup() {
     if (gameState === "gameOver") {
       gameOverClick(mouseX,mouseY);
     }
+    if (gameState === "gameIntro") {
+      introClick(mouseX,mouseY);
+    }
     //console.log(gameState);
   });
 }
@@ -65,7 +68,12 @@ function pauseClick(mouseX,mouseY) {
   }
 }
 
-
+// Game intro
+function introClick(mouseX,mouseY) {
+  // if intro.ended === false;
+  // skipIntro(), intro.ended = true
+  startGame();
+}
 
 // !todo
 var gameOverElements = [];

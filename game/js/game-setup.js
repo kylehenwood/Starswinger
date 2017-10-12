@@ -92,7 +92,6 @@ function createHook(position,isSafe) {
   }
   // draw the hook
   drawHook(hookContext,star,false);
-
   // each hook lives on a 5x10 - 1-50
   starHooks.push({
       layer:hookCanvas,
