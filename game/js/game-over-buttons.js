@@ -44,7 +44,7 @@ var introButton = {
 }
 function createIntroButton(){
   introButton.posX = (canvas.width/2)-(240/2),
-  introButton.posY = (canvas.height/2)+90,
+  introButton.posY = (canvas.height/2)+40,
 
   introButton.canvas = document.createElement('canvas');
   introButton.canvas.width = introButton.width;

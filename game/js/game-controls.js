@@ -17,17 +17,21 @@ function mouseTestSetup() {
 
     // every click, check to see if click is over any of the elements in the elements array.
     // if yes, get the index of that element, and set the current hook to that
-    if (gameState === "playGame") {
-      playClick(mouseX,mouseY);
-    }
-    if (gameState === "gamePaused" || gameState === "playGame") {
-      pauseClick(mouseX,mouseY);
-    }
-    if (gameState === "gameOver") {
-      gameOverClick(mouseX,mouseY);
-    }
-    if (gameState === "gameIntro") {
+    switch(gameState) {
+      case "playGame":
+        playClick(mouseX,mouseY);
+        pauseClick(mouseX,mouseY);
+        break;
+      case "gamePaused":
+        pauseClick(mouseX,mouseY);
+        break;
+      case "gameOver":
+       gameOverClick(mouseX,mouseY);
+       break;
+     case "gameIntro":
       introClick(mouseX,mouseY);
+      break;
+      default: return;
     }
     //console.log(gameState);
   });
