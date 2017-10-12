@@ -12,16 +12,6 @@ function setupIntro() {
   gameState = 'gameIntro';
 }
 
-var playButton = {
-  width: 240,
-  height: 64,
-  posX: null,
-  posY: null,
-  action: 'startGame',
-  canvas: null,
-  context: null
-}
-
 // create the pause overlay
 function createIntroCanvas() {
   gameIntro.canvas = document.createElement('canvas');
@@ -38,31 +28,18 @@ function createIntroCanvas() {
   // width, height, posX, posY, action, style
   createPlayButton(playButton);
   introElems.push(playButton);
+
+  createSettingsButton(settingsButton);
+  introElems.push(settingsButton);
+
+  createSoundButton(soundButton);
+  introElems.push(soundButton);
+
+  createThemeButton(themeButton);
+  introElems.push(themeButton);
 }
 
-function createPlayButton(data){
 
-  playButton.posX = (canvas.width/2)-(240/2),
-  playButton.posY = (canvas.height/2)+40,
-
-  playButton.canvas = document.createElement('canvas');
-  playButton.canvas.width = data.width;
-  playButton.canvas.height = data.height;
-  playButton.context = playButton.canvas.getContext('2d');
-
-  // button background
-  playButton.context.beginPath();
-  playButton.context.fillStyle = 'white';
-  playButton.context.fillRect(0,0,data.width,data.height)
-  playButton.context.closePath();
-
-  // button text
-  playButton.context.fillStyle = 'black';
-  playButton.context.font = '18px lato';
-  playButton.context.textBaseline="middle";
-  playButton.context.textAlign="center";
-  playButton.context.fillText('PRESS START TO PLAY', data.width, data.height);
-}
 
 // pause state
 function updateIntro() {
@@ -76,25 +53,13 @@ function updateIntro() {
   gameIntro.context.closePath();
 
   // theme button
-  gameIntro.context.beginPath();
-  gameIntro.context.rect(canvas.width-88,24,64,64)
-  gameIntro.context.fillStyle = 'rgba(255,255,255,1)';
-  gameIntro.context.fill();
-  gameIntro.context.closePath();
+  gameIntro.context.drawImage(themeButton.canvas,themeButton.posX,themeButton.posY);
 
   // sound button
-  gameIntro.context.beginPath();
-  gameIntro.context.rect(canvas.width-88,canvas.height-88,64,64)
-  gameIntro.context.fillStyle = 'rgba(255,255,255,1)';
-  gameIntro.context.fill();
-  gameIntro.context.closePath();
+  gameIntro.context.drawImage(soundButton.canvas,soundButton.posX,soundButton.posY);
 
   // settings button
-  gameIntro.context.beginPath();
-  gameIntro.context.rect(24,24,64,64)
-  gameIntro.context.fillStyle = 'rgba(255,255,255,1)';
-  gameIntro.context.fill();
-  gameIntro.context.closePath();
+  gameIntro.context.drawImage(settingsButton.canvas,settingsButton.posX,settingsButton.posY);
 
   // title
   gameIntro.context.fillStyle = 'white';
