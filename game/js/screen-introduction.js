@@ -6,10 +6,10 @@ var gameIntro = {
   context: null
 }
 
+var introElems = [];
+
 function setupIntro() {
-  //console.log('intro start');
   gameState = 'gameIntro';
-  //startGame();
 }
 
 
@@ -19,6 +19,15 @@ function createIntroCanvas() {
   gameIntro.canvas.width = canvas.width;
   gameIntro.canvas.height = canvas.height;
   gameIntro.context = gameIntro.canvas.getContext('2d');
+
+
+  // intro elements
+  // - theme button
+  // - settings button
+  // - sound button
+  // play button
+
+
 }
 
 
@@ -36,6 +45,13 @@ function updateIntro() {
   // theme button
   gameIntro.context.beginPath();
   gameIntro.context.rect(canvas.width-88,24,64,64)
+  gameIntro.context.fillStyle = 'rgba(255,255,255,1)';
+  gameIntro.context.fill();
+  gameIntro.context.closePath();
+
+  // sound button
+  gameIntro.context.beginPath();
+  gameIntro.context.rect(canvas.width-88,canvas.height-88,64,64)
   gameIntro.context.fillStyle = 'rgba(255,255,255,1)';
   gameIntro.context.fill();
   gameIntro.context.closePath();

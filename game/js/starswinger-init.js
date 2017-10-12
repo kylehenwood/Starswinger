@@ -23,7 +23,7 @@
       setupIntro();
       break;
     case '#game-loading':
-      gameLoading();
+      setupLoading();
       break;
 
     default: gameLoading();

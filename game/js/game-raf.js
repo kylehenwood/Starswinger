@@ -18,6 +18,16 @@ function runGame() {
   requestAnimationFrame(runGame);
   clear(canvas);
 
+  if (gameState === 'loading') {
+    updateLoading(gameLoading.context);
+    canvas.ctx.drawImage(gameLoading.canvas,0,0);
+    return;
+  }
+
+  // background effects / parralax
+  // pass variables of sideways / vertical movement
+  drawBackground();
+
 
   if (gameState === 'gameIntro') {
     updateIntro();
@@ -59,8 +69,9 @@ function runGame() {
 
 
   // click event test.
+
   // Render elements.
-  drawForeground();
+  //drawForeground();
   // paint UI
   updateInterface();
 
