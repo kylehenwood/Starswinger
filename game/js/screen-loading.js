@@ -47,8 +47,6 @@ function updateLoading(context) {
   }
 
   barLength = barLength*(gameLoading.progress/100);
-  console.log(barLength);
-
   context.beginPath();
   context.rect(barStart,(canvas.height/2)+160,barLength,4)
   context.fillStyle = 'rgba(255,255,255,1)';

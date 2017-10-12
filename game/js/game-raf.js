@@ -39,7 +39,7 @@ function runGame() {
     updateGame();
   }
 
-  if (gameState === 'playGame' || gameState === 'gameOver') {
+  if (gameState === 'playGame' || gameState === 'gameOver' || gameState === 'gamePaused') {
     // Draw canvases
     // draw before move update as update game uses those numbers to clear canvas
     canvas.ctx.drawImage(gamePanel.canvas,moveCanvas.currentPos,cameraY);

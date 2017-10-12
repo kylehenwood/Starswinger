@@ -1,16 +1,20 @@
  // Starwizard star test
 (function() {
+
+  // this needs to be called first
   setupCanvas();
+
+  // create game canvas element
+  drawGameSetup();
 
   controls();
   mouseTestSetup();
-  // setup
+  
+  // setup sub canvases
   gameOverSetup();
   createPauseCanvas();
   createIntroCanvas();
 
-  // create game canvas element
-  drawGameSetup();
 
   // point at which game starts...
   var urlHash = window.location.hash;

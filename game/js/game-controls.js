@@ -72,7 +72,12 @@ function pauseClick(mouseX,mouseY) {
 function introClick(mouseX,mouseY) {
   // if intro.ended === false;
   // skipIntro(), intro.ended = true
-  startGame();
+  introElems.forEach(function(element) {
+    if (mouseY > element.posY && mouseY < element.posY+element.height && mouseX > element.posX && mouseX < element.posX+element.width) {
+      var action = element.action;
+      window[action]();
+    }
+  });
 }
 
 // !todo
