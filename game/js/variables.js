@@ -7,8 +7,7 @@ var canvas = {
 
 var gameOver = {
   canvas: null,
-  context: null,
-  finalScore: null
+  context: null
 }
 
 // which state is the game currently in.

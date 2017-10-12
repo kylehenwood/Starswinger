@@ -80,19 +80,16 @@ function introClick(mouseX,mouseY) {
   });
 }
 
-// !todo
-var gameOverElements = [];
-var gameOverElement = {
-  name: 'restartButton',
-  //action: restart(),
-  posX: null,
-  posY: null,
-  width: null,
-  height: null
-}
-
+// game over
 function gameOverClick(mouseX,mouseY) {
-  restartGame();
+  gameOverElems.forEach(function(element) {
+    if (mouseY > element.posY && mouseY < element.posY+element.height && mouseX > element.posX && mouseX < element.posX+element.width) {
+      var action = element.action;
+      window[action]();
+    }
+  });
+
+  //restartGame();
 }
 
 

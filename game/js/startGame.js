@@ -2,7 +2,6 @@
 function startGame() {
   clearVariables();
   gameSetup();
-  //attach();
   gameState = "playGame";
 }
 

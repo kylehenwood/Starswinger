@@ -26,7 +26,7 @@ function createPlayButton(data){
 
   // button text
   playButton.context.fillStyle = 'black';
-  playButton.context.font = '18px lato';
+  playButton.context.font = 'bold 18px lato';
   playButton.context.textBaseline="middle";
   playButton.context.textAlign="center";
   playButton.context.fillText('PRESS START TO PLAY', data.width/2, data.height/2);

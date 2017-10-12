@@ -18,6 +18,8 @@ function runGame() {
   requestAnimationFrame(runGame);
   clear(canvas);
 
+  console.log(gameState);
+
   if (gameState === 'loading') {
     updateLoading(gameLoading.context);
     canvas.ctx.drawImage(gameLoading.canvas,0,0);
@@ -26,12 +28,13 @@ function runGame() {
 
   // background effects / parralax
   // pass variables of sideways / vertical movement
-  drawBackground();
+  //drawBackground();
 
-
+  // game intro
   if (gameState === 'gameIntro') {
     updateIntro();
-    canvas.ctx.drawImage(gameIntro.canvas,moveCanvas.currentPos,cameraY);
+    canvas.ctx.drawImage(gameIntro.canvas,0,0);
+    return;
   }
 
   // update game canvas
@@ -77,7 +80,8 @@ function runGame() {
 
   // if character is below the screen, or game state is :gameOver"
   if (newCharacter.posY > canvas.height+(newCharacter.size/2) || gameState === 'gameOver') {
-    gameOver();
+    gameOverUpdate();
+    canvas.ctx.drawImage(gameOver.canvas,0,0);
   }
 
   if (restartAnimate === true) {
