@@ -1,3 +1,9 @@
+function backToMenu() {
+  gameState = 'gameIntro';
+}
+
+//--
+
 var restartButton = {
   width: 240,
   height: 64,
@@ -8,8 +14,11 @@ var restartButton = {
   context: null
 }
 function createRestartButton(data){
-  restartButton.posY = (canvas.height/2)-40,
-  restartButton.posX = (canvas.width/2)-(240/2),
+  //restartButton.posY = (canvas.height/2)-40;
+  //restartButton.posX = (canvas.width/2)-(240/2);
+
+  restartButton.posX = 24;
+  restartButton.posY = (canvas.height-introButton.height)-24;
 
   restartButton.canvas = document.createElement('canvas');
   restartButton.canvas.width = restartButton.width;
@@ -32,7 +41,6 @@ function createRestartButton(data){
 
 //--
 
-
 var introButton = {
   width: 240,
   height: 64,
@@ -43,8 +51,12 @@ var introButton = {
   context: null
 }
 function createIntroButton(){
-  introButton.posX = (canvas.width/2)-(240/2),
-  introButton.posY = (canvas.height/2)+40,
+  //introButton.posX = (canvas.width/2)-(240/2),
+  //introButton.posY = (canvas.height/2)+40,
+
+  introButton.posX = (canvas.width-introButton.width)-24;
+  introButton.posY = (canvas.height-introButton.height)-24;
+
 
   introButton.canvas = document.createElement('canvas');
   introButton.canvas.width = introButton.width;
@@ -62,10 +74,5 @@ function createIntroButton(){
   introButton.context.font = 'bold 18px lato';
   introButton.context.textBaseline="middle";
   introButton.context.textAlign="center";
-  introButton.context.fillText('Back to menu', introButton.width/2, introButton.height/2);
-}
-
-function backToMenu() {
-  gameState = 'gameIntro';
-  console.log(gameState);
+  introButton.context.fillText('Back to Menu', introButton.width/2, introButton.height/2);
 }

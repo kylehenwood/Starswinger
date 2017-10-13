@@ -9,10 +9,10 @@
 
   controls();
   mouseTestSetup();
-  
+
   // setup sub canvases
   gameOverSetup();
-  createPauseCanvas();
+  pauseSetup();
   createIntroCanvas();
 
 

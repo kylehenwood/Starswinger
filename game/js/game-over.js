@@ -22,13 +22,19 @@ function gameOverUpdate() {
   gameOver.context.clearRect(0, 0, gameOver.canvas.width, gameOver.canvas.height);
   gameOver.context.beginPath();
   gameOver.context.rect(0,0,canvas.width,canvas.height)
-  gameOver.context.fillStyle = 'rgba(000,000,000,0.2)';
+  gameOver.context.fillStyle = 'rgba(000,000,000,0.6)';
   gameOver.context.fill();
 
   gameOver.context.fillStyle = 'white';
   gameOver.context.font = '24px lato';
   gameOver.context.textAlign = "center";
   gameOver.context.fillText('GAME OVER (Press "R" to restart)', canvas.width/2, canvas.height/2-80);
+
+  // button background
+  gameOver.context.beginPath();
+  gameOver.context.rect(0, canvas.height-112, canvas.width, 112);
+  gameOver.context.fillStyle = 'black';
+  gameOver.context.fill();
 
   // intro button
   gameOver.context.drawImage(introButton.canvas,introButton.posX,introButton.posY);

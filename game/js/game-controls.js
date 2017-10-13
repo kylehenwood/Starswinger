@@ -24,6 +24,9 @@ function mouseTestSetup() {
       case "gamePaused":
         pauseClick(mouseX,mouseY);
         break;
+      case "gameResume":
+        resumeClick(mouseX,mouseY);
+        break;
       case "gameOver":
        gameOverClick(mouseX,mouseY);
        break;
@@ -67,10 +70,21 @@ function playClick(mouseX,mouseY) {
 
 // GAMESTATE: PLAY || PAUSED
 function pauseClick(mouseX,mouseY) {
+  pauseElems.forEach(function(element) {
+    if (mouseY > element.posY && mouseY < element.posY+element.height && mouseX > element.posX && mouseX < element.posX+element.width) {
+      var action = element.action;
+      window[action]();
+    }
+  });
+}
+
+// allow click of pause button during resume state
+function resumeClick(mouseX,mouseY) {
   if (mouseY > canvas.height-80 && mouseX < 80) {
     gamePause();
   }
 }
+
 
 // Game intro
 function introClick(mouseX,mouseY) {
@@ -152,7 +166,7 @@ function controls() {
           break;
 
           case 82: // R (restart)
-          if (gameState === "gamePaused" || gameState === "playGame" || gameState === "gameOver") {
+          if (gameState === "playGame") {
             restartGame();
           }
           break;

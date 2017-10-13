@@ -56,6 +56,7 @@ function restartAnimation() {
   if (cameraY <= 1 && restartStage === 2) {
     restartSpeed = 0;
     restartStage = 0;
+    cameraY = 0;
 
     // start game
     gameState = "playGame";

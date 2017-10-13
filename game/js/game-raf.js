@@ -42,18 +42,11 @@ function runGame() {
     updateGame();
   }
 
-  if (gameState === 'playGame' || gameState === 'gameOver' || gameState === 'gamePaused' || gameState === 'gameRestart') {
+  if (gameState === 'playGame' || gameState === 'gameOver' || gameState === 'gamePaused' || gameState === 'gameRestart' || gameState === 'gameResume') {
     // Draw canvases
     // draw before move update as update game uses those numbers to clear canvas
     canvas.ctx.drawImage(gamePanel.canvas,moveCanvas.currentPos,cameraY);
     canvas.ctx.drawImage(clickAreas.canvas,0+moveCanvas.currentPos,cameraY);
-  }
-
-  // pause icon
-  if (gameState === 'playGame') {
-    canvas.ctx.fillStyle = 'white';
-    canvas.ctx.fillRect(32,canvas.height-56,4,32);
-    canvas.ctx.fillRect(48,canvas.height-56,4,32);
   }
 
   // Move camera
@@ -91,8 +84,14 @@ function runGame() {
 
 
 
-  if (gameState === 'gamePaused') {
+  if (gameState === 'gamePaused' || gameState === 'gameResume') {
     canvas.ctx.drawImage(pauseCanvas.canvas,0,0);
+  }
+  // pause icon
+  if (gameState === 'playGame' || gameState === 'gameResume') {
+    canvas.ctx.fillStyle = 'white';
+    canvas.ctx.fillRect(32,canvas.height-56,4,32);
+    canvas.ctx.fillRect(48,canvas.height-56,4,32);
   }
 
   //console.log(cameraY);
