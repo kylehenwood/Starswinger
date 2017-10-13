@@ -63,10 +63,10 @@ function updateIntro() {
 
   // title
   gameIntro.context.fillStyle = 'white';
-  gameIntro.context.font = '48px lato';
+  gameIntro.context.font = '72px lato';
   gameIntro.context.textBaseline="middle";
   gameIntro.context.textAlign="center";
-  gameIntro.context.fillText('STARSWINGER', canvas.width/2, canvas.height/2-80);
+  gameIntro.context.fillText('STARSWINGER', canvas.width/2, canvas.height/2-160);
 
 
   // play button

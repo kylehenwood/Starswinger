@@ -78,6 +78,11 @@ function drawPauseState() {
   pauseCanvas.context.fillStyle = 'rgba(000,000,000,0.6)';
   pauseCanvas.context.fill();
 
+  pauseCanvas.context.beginPath();
+  pauseCanvas.context.rect(0,0,240,canvas.height)
+  pauseCanvas.context.fillStyle = 'black';
+  pauseCanvas.context.fill();
+
   pauseCanvas.context.fillStyle = 'white';
   pauseCanvas.context.font = '24px lato';
   pauseCanvas.context.textBaseline="middle";

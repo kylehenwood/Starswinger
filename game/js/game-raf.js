@@ -38,11 +38,11 @@ function runGame() {
   }
 
   // update game canvas
-  if (gameState === 'playGame') {
+  if (gameState === 'playGame' || gameState === 'gameRestart') {
     updateGame();
   }
 
-  if (gameState === 'playGame' || gameState === 'gameOver' || gameState === 'gamePaused') {
+  if (gameState === 'playGame' || gameState === 'gameOver' || gameState === 'gamePaused' || gameState === 'gameRestart') {
     // Draw canvases
     // draw before move update as update game uses those numbers to clear canvas
     canvas.ctx.drawImage(gamePanel.canvas,moveCanvas.currentPos,cameraY);
@@ -71,21 +71,22 @@ function runGame() {
   }
 
 
-  // click event test.
 
   // Render elements.
   //drawForeground();
+
   // paint UI
   updateInterface();
 
-  // if character is below the screen, or game state is :gameOver"
+  if (gameState === "gameRestart") {
+    restartAnimation();
+    return;
+  }
+
+  // Game over check if character is below the screen, or game state is :gameOver"
   if (newCharacter.posY > canvas.height+(newCharacter.size/2) || gameState === 'gameOver') {
     gameOverUpdate();
     canvas.ctx.drawImage(gameOver.canvas,0,0);
-  }
-
-  if (restartAnimate === true) {
-    restartAnimation();
   }
 
 

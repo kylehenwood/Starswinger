@@ -4,7 +4,7 @@ var gameLoading = {
   canvas: null,
   context: null,
   progress: 0,
-  loadTime: 2000
+  loadTime: 1000
 }
 
 function setupLoading() {
@@ -43,7 +43,7 @@ function updateLoading(context) {
   var barLength = 240;
 
   if(gameLoading.progress < 100) {
-    gameLoading.progress++;
+    gameLoading.progress+=2;
   }
 
   barLength = barLength*(gameLoading.progress/100);

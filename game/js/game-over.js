@@ -16,46 +16,10 @@ function gameOverSetup() {
 }
 
 
-// end game
-var gameOverMoveSpeed = 0;
-var stage = 1;
-var once = true;
-var restartAnimate = false;
-
-
-function restartAnimation() {
-  if (cameraY+canvas.height > 0 && stage === 1) {
-    gameOverMoveSpeed = (canvas.height-cameraY)/10;
-    cameraY -= gameOverMoveSpeed;
-  }
-  // little hackery as it takes forever to get exactly 0 through iterations.
-  if (cameraY+canvas.height < 0+10 && once === true) {
-    stage = 2;
-    cameraY = canvas.height;
-    once = false;
-    moveCanvas.currentPos = 0;
-  }
-  if (cameraY+canvas.height > 0 && stage === 2) {
-    gameOverMoveSpeed  = (cameraY)/24;
-    cameraY -= gameOverMoveSpeed ;
-  }
-
-  // reset game over
-  if (cameraY <= 0.5 && stage === 2) {
-    restartAnimate = false;
-    gameOverMoveSpeed = 0;
-    stage = 1;
-    once = true;
-  }
-}
-
-
 function gameOverUpdate() {
   gameState = "gameOver";
-  //restartAnimate = true;
 
   gameOver.context.clearRect(0, 0, gameOver.canvas.width, gameOver.canvas.height);
-
   gameOver.context.beginPath();
   gameOver.context.rect(0,0,canvas.width,canvas.height)
   gameOver.context.fillStyle = 'rgba(000,000,000,0.2)';

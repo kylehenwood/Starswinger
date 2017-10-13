@@ -11,7 +11,7 @@ var playButton = {
 }
 function createPlayButton(data){
   playButton.posX = (canvas.width/2)-(240/2),
-  playButton.posY = (canvas.height/2)+40,
+  playButton.posY = (canvas.height/2)+200,
 
   playButton.canvas = document.createElement('canvas');
   playButton.canvas.width = data.width;
@@ -21,15 +21,15 @@ function createPlayButton(data){
   // button background
   playButton.context.beginPath();
   playButton.context.fillStyle = 'white';
-  playButton.context.fillRect(0,0,data.width,data.height)
+  playButton.context.fillRect(0,0,data.width,4)
   playButton.context.closePath();
 
   // button text
-  playButton.context.fillStyle = 'black';
+  playButton.context.fillStyle = 'white';
   playButton.context.font = 'bold 18px lato';
   playButton.context.textBaseline="middle";
   playButton.context.textAlign="center";
-  playButton.context.fillText('PRESS START TO PLAY', data.width/2, data.height/2);
+  playButton.context.fillText('TAP TO START', data.width/2, data.height/2);
 }
 
 

@@ -20,7 +20,6 @@ function mouseTestSetup() {
     switch(gameState) {
       case "playGame":
         playClick(mouseX,mouseY);
-        pauseClick(mouseX,mouseY);
         break;
       case "gamePaused":
         pauseClick(mouseX,mouseY);
@@ -56,6 +55,7 @@ function playClick(mouseX,mouseY) {
     // paused button
     if (mouseY > canvas.height-80 && mouseX < 80) {
       clickedSomething = true;
+      gamePause();
     }
 
     if (clickedSomething === false) {
@@ -92,8 +92,6 @@ function gameOverClick(mouseX,mouseY) {
       window[action]();
     }
   });
-
-  //restartGame();
 }
 
 
