@@ -5,6 +5,7 @@ var pauseCanvas = {
   canvas: null,
   context: null
 }
+var resumeCountdown = 3;
 
 // create the pause overlay
 function pauseSetup() {
@@ -29,6 +30,7 @@ function pauseSetup() {
 // set gameState === 'gamePaused'
 function gamePause() {
   drawPauseState();
+  resumeCountdown = 3;
   gameState = "gamePaused";
 }
 
@@ -45,7 +47,7 @@ function drawPauseState() {
   // sidebar background
   pauseCanvas.context.beginPath();
   pauseCanvas.context.rect(0,0,320,canvas.height)
-  pauseCanvas.context.fillStyle = 'black';
+  pauseCanvas.context.fillStyle = 'rgba(000,000,000,0.4)';
   pauseCanvas.context.fill();
 
   // sidebar current score
@@ -69,7 +71,6 @@ function drawPauseState() {
 }
 
 // resume game
-var resumeCountdown = 3;
 function resumeGame() {
   gameState = "gameResume";
   setTimeout(function(){

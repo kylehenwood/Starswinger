@@ -48,7 +48,13 @@ function updateIntro() {
   // overlay
   gameIntro.context.beginPath();
   gameIntro.context.rect(0,0,canvas.width,canvas.height)
-  gameIntro.context.fillStyle = 'rgba(255,000,000,0.2)';
+  gameIntro.context.fillStyle = 'rgba(255,000,000,0.1)';
+  gameIntro.context.fill();
+  gameIntro.context.closePath();
+
+  gameIntro.context.beginPath();
+  gameIntro.context.rect((canvas.width/2-80),(canvas.height/2)+80,160,80)
+  gameIntro.context.fillStyle = 'white';
   gameIntro.context.fill();
   gameIntro.context.closePath();
 
@@ -68,7 +74,15 @@ function updateIntro() {
   gameIntro.context.textAlign="center";
   gameIntro.context.fillText('STARSWINGER', canvas.width/2, canvas.height/2-160);
 
-
   // play button
   gameIntro.context.drawImage(playButton.canvas,playButton.posX,playButton.posY);
+}
+
+
+function introAnimation(){
+
+}
+
+function gameStartAnimation() {
+
 }

@@ -33,7 +33,7 @@ function gameOverUpdate() {
   // button background
   gameOver.context.beginPath();
   gameOver.context.rect(0, canvas.height-112, canvas.width, 112);
-  gameOver.context.fillStyle = 'black';
+  gameOver.context.fillStyle = 'rgba(000,000,000,0.4)';
   gameOver.context.fill();
 
   // intro button

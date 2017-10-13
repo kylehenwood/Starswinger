@@ -21,7 +21,7 @@ function createPlayButton(data){
   // button background
   playButton.context.beginPath();
   playButton.context.fillStyle = 'white';
-  playButton.context.fillRect(0,0,data.width,4)
+  playButton.context.fillRect(0,0,data.width,2)
   playButton.context.closePath();
 
   // button text
@@ -75,7 +75,7 @@ function createSoundButton(data){
 var settingsButton = {
   width: 64,
   height: 64,
-  action: 'introSettings',
+  action: 'introAnimation',
   canvas: null,
   context: null
 }

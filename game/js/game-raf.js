@@ -11,14 +11,14 @@ var moveCanvas = {
 
 var cameraMode = 'hook'; // "character" or "hook"
 var cameraY = 0;
-
+var cameraX = 0;
 
 // requestAnimationFrame function
 function runGame() {
   requestAnimationFrame(runGame);
   clear(canvas);
 
-  console.log(gameState);
+  //console.log(gameState);
 
   if (gameState === 'loading') {
     updateLoading(gameLoading.context);
@@ -61,12 +61,17 @@ function runGame() {
     }
     // update
     moveCanvas.currentPos += moveCanvas.moveSpeed;
+
+    // hack for now
+  } else {
+    moveCanvas.moveSpeed = 0;
   }
 
+  cameraX = moveCanvas.moveSpeed;
+  updateForeground(canvas.ctx,cameraX,cameraY);
 
-
-  // Render elements.
-  //drawForeground();
+  // paint foreground
+  //canvas.ctx.drawImage(foreground.canvas,0,0);
 
   // paint UI
   updateInterface();

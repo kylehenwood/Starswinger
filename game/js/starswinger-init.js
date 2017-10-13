@@ -15,6 +15,8 @@
   pauseSetup();
   createIntroCanvas();
 
+  setupForeground();
+
 
   // point at which game starts...
   var urlHash = window.location.hash;

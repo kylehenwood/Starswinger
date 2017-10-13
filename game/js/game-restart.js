@@ -11,6 +11,16 @@ function clearVariables() {
   starHooks = [];
 
   gravity = 0;
+
+  // camera
+  moveCanvas = {
+    currentPos: 0,
+    selectedPos: 0,
+    moveSpeed: 0,
+    interations: 16 // how many frames till camera catches target
+  }
+  cameraX = 0;
+
   // tada
   momentium = 0;
   momentiumIncrease = 0;
