@@ -5,7 +5,7 @@ var playButton = {
   height: 64,
   posX: null,
   posY: null,
-  action: 'startGame',
+  action: 'animateStart',
   canvas: null,
   context: null
 }
@@ -94,13 +94,13 @@ function createSettingsButton(data){
 function drawSquareButton(context,data) {
   context.beginPath();
   context.strokeStyle = 'white';
-  context.lineWidth = 2;
+  context.lineWidth = 4;
   context.rect(0,0,data.width,data.height);
   context.stroke();
   context.closePath();
 }
 
-//
+//-- logo
 var logo = {
   canvas: null,
   ctx: null,
@@ -142,6 +142,38 @@ function createLogo() {
   context.textBaseline="middle";
   context.textAlign="center";
   context.fillText('STARSWINGER', logo.canvas.width/2, logo.canvas.height/2);
+}
+
+//-- platform
+var platform = {
+  canvas: null,
+  ctx: null,
+  posX: null,
+  posY: null,
+  hover: 0,
+  hoverDirection: 'up'
+}
+function createPlatform() {
+
+  var width = 160;
+  var height = 80;
+
+  platform.canvas = document.createElement('canvas');
+  platform.canvas.width = width;
+  platform.canvas.height = height;
+  platform.context = platform.canvas.getContext('2d');
+  platform.width = width;
+  platform.height = height;
+  platform.posX = (canvas.width/2)-(platform.width/2);
+  platform.posY = (canvas.height/2)-(platform.height/2)+128;
+
+  var context = platform.context;
+
+  context.beginPath();
+  context.rect(0,0,width,height)
+  context.fillStyle = 'white';
+  context.fill();
+  context.closePath();
 }
 
 

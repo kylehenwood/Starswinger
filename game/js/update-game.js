@@ -37,9 +37,6 @@ function updateGame() {
     grappelLaunch(gamePanel.context);
   }
 
-  drawCharacter(gameContext);
-
-
   // this is where I draw hooks to the game canvas.
 
   // Update selected hook if it exists
@@ -135,17 +132,4 @@ function drawTrajectory(ctx){
   ctx.lineWidth = 2;
   ctx.strokeStyle = 'yellow';
   ctx.stroke();
-}
-
-// draw character
-function drawCharacter(ctx) {
-
-  var charX = newCharacter.posX-(newCharacter.size/2);
-  var charY = newCharacter.posY-(newCharacter.size/2);
-
-  // draw character
-  ctx.beginPath();
-  ctx.rect(charX,charY,newCharacter.size,newCharacter.size);
-  ctx.fillStyle = 'white';
-  ctx.fill();
 }

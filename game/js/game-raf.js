@@ -29,6 +29,7 @@ function runGame() {
   if (gameState === 'menuAnimation') {
     animateToMenu();
   }
+
   // background effects / parralax
   // pass variables of sideways / vertical movement
   //drawBackground();
@@ -37,12 +38,21 @@ function runGame() {
   if (gameState === 'gameIntro') {
     updateIntro();
     canvas.ctx.drawImage(gameIntro.canvas,0,0);
+    introCharacter(canvas.ctx,304);
   }
-
   // update game canvas
   if (gameState === 'playGame' || gameState === 'gameRestart') {
     updateGame();
   }
+
+  if (gameState === 'playGame' || gameState === 'gameRestart') {
+    drawCharacter(gamePanel.context);
+  }
+
+  if (gameState === 'menuAnimation') {
+    introCharacter(canvas.ctx,introCharY);
+  }
+
 
   if (gameState === 'playGame' || gameState === 'gameOver' || gameState === 'gamePaused' || gameState === 'gameRestart' || gameState === 'gameResume') {
     // Draw canvases
@@ -69,7 +79,6 @@ function runGame() {
     moveCanvas.moveSpeed = 0;
   }
 
-
   updateForeground(canvas.ctx,moveCanvas.moveSpeed,cameraY);
 
   // paint foreground
@@ -81,6 +90,10 @@ function runGame() {
   if (gameState === "gameRestart") {
     restartAnimation();
     return;
+  }
+
+  if (gameState === "animateGameStart") {
+    updateStart();
   }
 
   // Game over check if character is below the screen, or game state is :gameOver"
