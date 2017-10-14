@@ -20,9 +20,9 @@ function setupForeground() {
 function updateForeground(context,cameraX,cameraY) {
   // draw clouds at the bottom of screen.
 
-  var y3 = cameraY*1.6;
-  var y2 = cameraY*1.4;
-  var y1 = cameraY*1.2;
+  var y3 = cameraY*1.3;
+  var y2 = cameraY*1.2;
+  var y1 = cameraY*1.1;
 
   var x3 = cameraX*1.4;
   var x2 = cameraX*1.2;
@@ -33,13 +33,13 @@ function updateForeground(context,cameraX,cameraY) {
   x2 -= 0.2;
   x3 -= 0.3;
 
-  var backgroundCloudY = (canvas.height-40)+y1;
+  var backgroundCloudY = (canvas.height-200)+y1;
   cloudMove(context,backgroundClouds[0],backgroundClouds[1],x1,backgroundCloudY);
 
-  var smallCloudY = (canvas.height-80)+y2;
+  var smallCloudY = (canvas.height-200)+y2;
   cloudMove(context,smallClouds[0],smallClouds[1],x2,smallCloudY);
 
-  var tinyCloudY = (canvas.height-120)+y3;
+  var tinyCloudY = (canvas.height-200)+y3;
   cloudMove(context,tinyClouds[0],tinyClouds[1],x3,tinyCloudY);
 }
 
@@ -76,23 +76,25 @@ function createBackgroundCloud(posX) {
     posX: posX
   }
 
+  // 400 = (400-(120*2)) = 160
+
   backgroundCloud.canvas = document.createElement('canvas');
   backgroundCloud.canvas.width = canvas.width;
   backgroundCloud.canvas.height = 400;
   backgroundCloud.context = backgroundCloud.canvas.getContext('2d');
 
   backgroundCloud.context.beginPath();
-  backgroundCloud.context.rect(0,0,backgroundCloud.canvas.width,160);
+  backgroundCloud.context.rect(0,140,backgroundCloud.canvas.width,160);
   backgroundCloud.context.fillStyle = 'rgba(255,255,255,0.4)';
   backgroundCloud.context.fill();
   backgroundCloud.context.closePath();
 
   // cloud line cap
-  backgroundCloud.context.beginPath();
-  backgroundCloud.context.rect(0,0,1,160);
-  backgroundCloud.context.fillStyle = 'rgba(255,0,0,1)';
-  backgroundCloud.context.fill();
-  backgroundCloud.context.closePath();
+  // backgroundCloud.context.beginPath();
+  // backgroundCloud.context.rect(0,120,1,160);
+  // backgroundCloud.context.fillStyle = 'rgba(255,0,0,1)';
+  // backgroundCloud.context.fill();
+  // backgroundCloud.context.closePath();
 
   backgroundClouds.push(backgroundCloud);
 }
@@ -105,6 +107,7 @@ function createSmallCloud(posX) {
     context: null,
     posX: posX
   }
+
   smallCloud.canvas = document.createElement('canvas');
   smallCloud.canvas.width = canvas.width;
   smallCloud.canvas.height = 400;
@@ -112,82 +115,34 @@ function createSmallCloud(posX) {
 
   var context = smallCloud.context;
 
-  // upper
-  context.beginPath();
-  context.rect(0,0,120,64);
-  context.fillStyle = 'rgba(255,255,255,0.2)';
-  context.fill();
-  context.closePath();
+  // drawClouds randomly? (no overlap)
+  var width = 24;
 
-  context.beginPath();
-  context.rect(240,24,120,64);
-  context.fillStyle = 'rgba(255,255,255,0.3)';
-  context.fill();
-  context.closePath();
+  // vert band where clouds can be placed. (80--240--80)
+  var cloudBand = 300;
+  var cloudBandSpace = (400-cloudBand)/2;
+  var bandCalc = Math.floor(cloudBand/8)
 
-  context.beginPath();
-  context.rect(424,40,64,64);
-  context.fillStyle = 'rgba(255,255,255,0.2)';
-  context.fill();
-  context.closePath();
+  var canvasWidth = smallCloud.canvas.width;
 
-  context.beginPath();
-  context.rect(0+600,0,120,64);
-  context.fillStyle = 'rgba(255,255,255,0.2)';
-  context.fill();
-  context.closePath();
+  while (width < canvas.width-24) {
+    var cloudPosY = 8*rand(0,bandCalc)+cloudBandSpace;
+    var cloudWidth = 8*rand(8,20);
+    var cloudHeight = 8*rand(4,8);
+    var cloudFill = rand(2,6)*0.1;
 
-  context.beginPath();
-  context.rect(240+600,24,120,64);
-  context.fillStyle = 'rgba(255,255,255,0.3)';
-  context.fill();
-  context.closePath();
-
-  context.beginPath();
-  context.rect(424+600,40,64,64);
-  context.fillStyle = 'rgba(255,255,255,0.2)';
-  context.fill();
-  context.closePath();
-
-  // lower
-  context.beginPath();
-  context.rect(24,304,64,64);
-  context.fillStyle = 'rgba(255,255,255,0.1)';
-  context.fill();
-  context.closePath();
-
-  context.beginPath();
-  context.rect(144,160,120,64);
-  context.fillStyle = 'rgba(255,255,255,0.2)';
-  context.fill();
-  context.closePath();
-
-  context.beginPath();
-  context.rect(240,264,80,64);
-  context.fillStyle = 'rgba(255,255,255,0.3)';
-  context.fill();
-  context.closePath();
-
-  context.beginPath();
-  context.rect(24+600,304,64,64);
-  context.fillStyle = 'rgba(255,255,255,0.1)';
-  context.fill();
-  context.closePath();
-
-  context.beginPath();
-  context.rect(144+600,160,120,64);
-  context.fillStyle = 'rgba(255,255,255,0.2)';
-  context.fill();
-  context.closePath();
-
-  context.beginPath();
-  context.rect(240+600,264,80,64);
-  context.fillStyle = 'rgba(255,255,255,0.3)';
-  context.fill();
-  context.closePath();
-
+    // only create the cloud if it fits inside the canvas
+    if (width+cloudWidth < canvasWidth) {
+      context.beginPath();
+      context.fillStyle = 'rgba(255,255,255,'+cloudFill+')';
+      context.fillRect(width,cloudPosY,cloudWidth,cloudHeight);
+      context.closePath();
+    }
+    width += cloudWidth+(24*rand(1,2));
+  }
   smallClouds.push(smallCloud);
 }
+
 
 function createTinyCloud(posX) {
   var tinyCloud = {
@@ -204,24 +159,28 @@ function createTinyCloud(posX) {
   var context = tinyCloud.context;
 
   // drawClouds randomly? (no overlap)
-  var height = 24;
   var width = 24;
 
+  // vert band where clouds can be placed. (80--240--80)
+  var cloudBand = 360;
+  var cloudBandSpace = (400-cloudBand)/2;
+  var bandCalc = Math.floor(cloudBand/8)
+
   var canvasWidth = tinyCloud.canvas.width;
-  var canvasHeight = tinyCloud.canvas.Height;
 
   while (width < canvas.width-24) {
-    var cloudPosY = 8*rand(0,40);
+    var cloudPosY = 8*rand(0,bandCalc)+cloudBandSpace;
     var cloudWidth = 8*rand(3,6);
     var cloudHeight = 24;
 
-    context.beginPath();
-    context.fillStyle = 'rgba(255,255,255,0.1)';
-    context.fillRect(width,cloudPosY,cloudWidth,cloudHeight);
-    context.closePath();
-
+    // only create the cloud if it fits inside the canvas
+    if (width+cloudWidth < canvasWidth) {
+      context.beginPath();
+      context.fillStyle = 'rgba(255,255,255,0.6)';
+      context.fillRect(width,cloudPosY,cloudWidth,cloudHeight);
+      context.closePath();
+    }
     width += cloudWidth+(24*rand(2,4));
-    console.log(width);
   }
 
   tinyClouds.push(tinyCloud);
