@@ -1,13 +1,18 @@
 // all detail that appears infront of the character
+var tinyClouds = [];
 var smallClouds = [];
 var backgroundClouds = [];
 
 function setupForeground() {
   createBackgroundCloud(0);
-  //createBackgroundCloud(canvas.width);
+  createBackgroundCloud(canvas.width);
 
   createSmallCloud(0);
   createSmallCloud(canvas.width);
+
+  createTinyCloud(0);
+  createTinyCloud(canvas.width);
+
 }
 
 // HOW TO MAKE THE CLOUDS ENDLESS???
@@ -28,30 +33,37 @@ function updateForeground(context,cameraX,cameraY) {
   x2 -= 0.2;
   x3 -= 0.3;
 
-  var backgroundCloudY = (canvas.height-40)+y2;
-  backgroundClouds.forEach(function(cloudLayer) {
-    //cloudLayer.posX += x1;
-    if (cloudLayer.posX <= -canvas.width) {
-      cloudLayer.posX = canvas.width;
-    }
-    if (cloudLayer.posX > canvas.width) {
-      cloudLayer.posX = -canvas.width;
-    }
-    context.drawImage(cloudLayer.canvas,cloudLayer.posX,backgroundCloudY);
-  });
+  var backgroundCloudY = (canvas.height-40)+y1;
+  cloudMove(context,backgroundClouds[0],backgroundClouds[1],x1,backgroundCloudY);
+
+  var smallCloudY = (canvas.height-80)+y2;
+  cloudMove(context,smallClouds[0],smallClouds[1],x2,smallCloudY);
+
+  var tinyCloudY = (canvas.height-120)+y3;
+  cloudMove(context,tinyClouds[0],tinyClouds[1],x3,tinyCloudY);
+}
 
 
-  var smallCloudY = (canvas.height-96)+y3;
-  smallClouds.forEach(function(cloudLayer) {
-    cloudLayer.posX += x2;
-    if (cloudLayer.posX < -canvas.width) {
-      cloudLayer.posX = canvas.width;
-    }
-    if (cloudLayer.posX > canvas.width) {
-      cloudLayer.posX = -canvas.width;
-    }
-    context.drawImage(cloudLayer.canvas,cloudLayer.posX,smallCloudY);
-  });
+// move the two cloud layers and position so they do not overlap or distance from each other
+// at any point
+function cloudMove(context,cloudLayer,cloudOther,posX,posY) {
+  cloudLayer.posX += posX;
+  cloudOther.posX += posX;
+
+  if (cloudLayer.posX < -canvas.width) {
+    cloudLayer.posX = cloudOther.posX+canvas.width;
+  }
+  if (cloudLayer.posX > canvas.width) {
+    cloudLayer.posX = cloudOther.posX-canvas.width;
+  }
+  if (cloudOther.posX < -canvas.width) {
+    cloudOther.posX = cloudLayer.posX+canvas.width;
+  }
+  if (cloudOther.posX > canvas.width) {
+    cloudOther.posX = cloudLayer.posX-canvas.width;
+  }
+  context.drawImage(cloudLayer.canvas,cloudLayer.posX,posY);
+  context.drawImage(cloudOther.canvas,cloudOther.posX,posY);
 }
 
 
@@ -175,4 +187,42 @@ function createSmallCloud(posX) {
   context.closePath();
 
   smallClouds.push(smallCloud);
+}
+
+function createTinyCloud(posX) {
+  var tinyCloud = {
+    canvas: null,
+    context: null,
+    posX: posX
+  }
+
+  tinyCloud.canvas = document.createElement('canvas');
+  tinyCloud.canvas.width = canvas.width;
+  tinyCloud.canvas.height = 400;
+  tinyCloud.context = tinyCloud.canvas.getContext('2d');
+
+  var context = tinyCloud.context;
+
+  // drawClouds randomly? (no overlap)
+  var height = 24;
+  var width = 24;
+
+  var canvasWidth = tinyCloud.canvas.width;
+  var canvasHeight = tinyCloud.canvas.Height;
+
+  while (width < canvas.width-24) {
+    var cloudPosY = 8*rand(0,40);
+    var cloudWidth = 8*rand(3,6);
+    var cloudHeight = 24;
+
+    context.beginPath();
+    context.fillStyle = 'rgba(255,255,255,0.1)';
+    context.fillRect(width,cloudPosY,cloudWidth,cloudHeight);
+    context.closePath();
+
+    width += cloudWidth+(24*rand(2,4));
+    console.log(width);
+  }
+
+  tinyClouds.push(tinyCloud);
 }

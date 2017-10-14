@@ -121,7 +121,7 @@ function updateGame() {
   gameContext.clearRect(0, 0, cameraPosition, canvas.height);
 
   // Draw grid
-  gameContext.drawImage(gridImage,0,0);
+  //gameContext.drawImage(gridImage,0,0);
 
 
   // if character is grappeling a hook
