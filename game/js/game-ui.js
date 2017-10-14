@@ -1,11 +1,27 @@
+var guiAlpha = 0;
+
 // Interface --------------------
 function updateInterface() {
   canvas.ctx.textBaseline="middle";
   fpsCounter(canvas.ctx);
 
   if (gameState === 'playGame') {
+    if (guiAlpha < 1) {
+      guiAlpha += 0.02;
+    }
+  } else {
+    if (guiAlpha > 0) {
+      guiAlpha -= 0.02;
+    }
+  }
+
+
+  if (gameState === 'playGame') {
+    canvas.ctx.save();
+    canvas.ctx.globalAlpha = guiAlpha;
     scoreCounter(canvas.ctx);
     valueIndicator(canvas.ctx);
+    canvas.ctx.restore();
   }
 }
 

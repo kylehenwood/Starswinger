@@ -116,7 +116,7 @@ function createSmallCloud(posX) {
   var context = smallCloud.context;
 
   // drawClouds randomly? (no overlap)
-  var width = 24;
+  var width = 0;
 
   // vert band where clouds can be placed. (80--240--80)
   var cloudBand = 300;
@@ -159,7 +159,7 @@ function createTinyCloud(posX) {
   var context = tinyCloud.context;
 
   // drawClouds randomly? (no overlap)
-  var width = 24;
+  var width = 0;
 
   // vert band where clouds can be placed. (80--240--80)
   var cloudBand = 360;

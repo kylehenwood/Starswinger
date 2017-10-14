@@ -1,9 +1,4 @@
-function backToMenu() {
-  gameState = 'gameIntro';
-}
-
 //--
-
 var restartButton = {
   width: 240,
   height: 64,

@@ -100,6 +100,50 @@ function drawSquareButton(context,data) {
   context.closePath();
 }
 
+//
+var logo = {
+  canvas: null,
+  ctx: null,
+  alpha: 0
+}
+function createLogo() {
+
+  var width = 560;
+  var height = 160;
+
+
+  logo.canvas = document.createElement('canvas');
+  logo.canvas.width = width;
+  logo.canvas.height = height;
+  logo.context = logo.canvas.getContext('2d');
+  logo.width = width;
+  logo.height = height;
+  logo.posX = (canvas.width/2)-(logo.width/2);
+  logo.posY = (canvas.height/2)-(logo.height/2)-160;
+
+  var context = logo.context;
+  //var canvas = logo.canvas; // breaks asking for canvas.width for posX/posY
+
+  // context.beginPath();
+  // context.fillStyle = 'rgba(255,255,255,0.1)';
+  // context.fillRect(0,0,width,height)
+  // context.closePath();
+  //
+  // context.beginPath();
+  // context.fillStyle = 'rgba(255,255,255,0.5)';
+  // context.fillRect(0,0,width,2)
+  // context.fillRect(0,height,width,-2)
+  // context.closePath();
+
+
+  // title
+  context.fillStyle = 'white';
+  context.font = 'bold 72px lato';
+  context.textBaseline="middle";
+  context.textAlign="center";
+  context.fillText('STARSWINGER', logo.canvas.width/2, logo.canvas.height/2);
+}
+
 
 //-- placeholder actions
 function introSettings() {

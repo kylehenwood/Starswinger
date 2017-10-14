@@ -43,12 +43,12 @@ var restartStage = 1;
 // gameState === 'restartAnimation'
 // once complete it starts a new game.
 function restartAnimation() {
-  if (cameraY+canvas.height > 0 && restartStage === 1) {
-    restartSpeed = (canvas.height-cameraY)/24;
+  if (cameraY+(canvas.height*1.5) > 0 && restartStage === 1) {
+    restartSpeed = (canvas.height-cameraY)/32;
     cameraY -= restartSpeed;
   }
   // little hackery as it takes forever to get exactly 0 through iterations.
-  if (cameraY+canvas.height < 0+10 && restartStage === 1) {
+  if (cameraY+canvas.height < 0.4 && restartStage === 1) {
     restartStage = 2;
     cameraY = canvas.height;
     moveCanvas.currentPos = 0;
@@ -58,12 +58,12 @@ function restartAnimation() {
     gameSetup();
   }
   if (cameraY+canvas.height > 0 && restartStage === 2) {
-    restartSpeed  = (cameraY)/24;
+    restartSpeed  = (cameraY)/32;
     cameraY -= restartSpeed ;
   }
 
   // reset game over
-  if (cameraY <= 1 && restartStage === 2) {
+  if (cameraY <= 0.4 && restartStage === 2) {
     restartSpeed = 0;
     restartStage = 0;
     cameraY = 0;
