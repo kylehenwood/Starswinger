@@ -12,7 +12,7 @@ function setupLoading() {
 
   setTimeout(function(){
     //gameState = 'gameIntro';
-    backToMenu();
+    setupIntro(); 
   },gameLoading.loadTime);
 
   gameLoading.canvas = document.createElement('canvas');

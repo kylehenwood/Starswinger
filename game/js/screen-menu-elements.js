@@ -29,7 +29,7 @@ function updatePlayButton() {
   if (playButton.progress === 0) {
     playButton.progress = 1;
   } else {
-    playButton.progress = playButton.progress*1.1;
+    playButton.progress = playButton.progress*1.2;
   }
 
   context.clearRect(0,0,playButton.width,playButton.height);
@@ -133,7 +133,7 @@ function drawSquareButton(context,data) {
 var logo = {
   canvas: null,
   ctx: null,
-  alpha: 0
+  alpha: 1
 }
 function createLogo() {
 

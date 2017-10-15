@@ -6,6 +6,8 @@ function backToMenu() {
   logo.alpha = 0;
   playButton.alpha = 0;
   menuAlpha = 0;
+  newCharacter.currentPosY = -100;
+  newCharacter.currentPosX = canvas.width/2;
 }
 
 var menuCharacter = {
@@ -17,11 +19,11 @@ var menuCharacter = {
 var menuSpeed = 0;
 var menuStage = 1;
 var menuAlpha = 0;
-var introCharY = -100;
 
 // gameState === 'restartAnimation'
 // once complete it starts a new game.
 function animateToMenu() {
+
   // ::Stage 1
   // push out current game state.
   if (cameraY+canvas.height > 0 && menuStage === 1) {
@@ -45,7 +47,7 @@ function animateToMenu() {
     cameraY -= menuSpeed ;
 
     if (logo.alpha < 1) {
-      logo.alpha += 0.025;
+      logo.alpha += 0.015;
     }
     if (menuAlpha < 1) {
       menuAlpha += 0.01;
@@ -62,8 +64,7 @@ function animateToMenu() {
     context.globalAlpha = logo.alpha;
 
     // game logo
-    context.drawImage(logo.canvas, logo.posX, logo.posY+cameraY*0.4);
-
+    context.drawImage(logo.canvas, logo.posX, logo.posY+cameraY*0.2);
     // intro buttons
     context.drawImage(themeButton.canvas,themeButton.posX,themeButton.posY);
     context.drawImage(soundButton.canvas,soundButton.posX,soundButton.posY);
@@ -84,23 +85,20 @@ function animateToMenu() {
   if (menuStage === 3 && playButton.alpha < 1) {
     playButton.alpha += 0.1;
   }
-  if (menuStage === 3 && introCharY < 304) {
+  if (menuStage === 3 && newCharacter.currentPosY < 304) {
     gravity += 1;
-    introCharY += gravity;
+    newCharacter.currentPosY += gravity;
   }
 
   if (menuStage >= 3) {
     var context = canvas.ctx;
-    // context.save();
-    // context.globalAlpha = playButton.alpha;
-    // canvas.ctx.restore();
     if (playButton.progress < 100) {
       updatePlayButton();
     }
     context.drawImage(playButton.canvas,playButton.posX,playButton.posY);
   }
 
-  if (menuStage === 3 && playButton.alpha >= 1 && introCharY >= 304 && playButton.progress >= 100) {
+  if (menuStage === 3 && playButton.alpha >= 1 && playButton.progress >= 100) {
     menuStage = 4;
     setPlayButton()
   }
@@ -109,7 +107,6 @@ function animateToMenu() {
   // ::Stage 4
   if (menuStage === 4) {
     menuStage = 0;
-    introCharY = -100;
     logo.alpha = 0;
 
     // set state to intro

@@ -1,3 +1,9 @@
+// if (numWant > 0) {
+//     speedToMove = (numWant-currentNum)/iterations
+//     currentNum -= speedToMove;
+// }
+
+
 var canvas = {
     id: '',
     ctx: '',
@@ -11,7 +17,7 @@ var gameOver = {
 }
 
 // which state is the game currently in.
-var gameState = 'intro';
+var gameState = null;
 
 var gameUserInterface = {
   score: null
@@ -54,17 +60,17 @@ var friction;
 
 var character = {
   grappelDelay:240, // ms (this should change based on the distance the character is from the hook)
-  centerX: null,
-  centerY: null,
+  centerX: 0,
+  centerY: 0,
 }
 
 var newCharacter = {
   size: 64,
-  currentPosX: null,
-  currentPosY: null,
+  currentPosX: 0,
+  currentPosY: 0,
   ropeLength: 320,
   interations: 16, // times it takes for the character to catch the hook
-  swinging: true
+  swinging: true,
 }
 
 
