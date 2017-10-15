@@ -7,7 +7,8 @@ var playButton = {
   posY: null,
   action: 'animateStart',
   canvas: null,
-  context: null
+  context: null,
+  progress: 0
 }
 function createPlayButton(data){
   playButton.posX = (canvas.width/2)-(240/2),
@@ -17,19 +18,47 @@ function createPlayButton(data){
   playButton.canvas.width = data.width;
   playButton.canvas.height = data.height;
   playButton.context = playButton.canvas.getContext('2d');
+  setPlayButton();
+}
 
+function updatePlayButton() {
+  var context = playButton.context;
+  var width = playButton.width*(playButton.progress/100);
+  var offset = (playButton.width/2)-(width/2);
+
+  if (playButton.progress === 0) {
+    playButton.progress = 1;
+  } else {
+    playButton.progress = playButton.progress*1.1;
+  }
+
+  context.clearRect(0,0,playButton.width,playButton.height);
+
+  context.beginPath();
+  context.fillStyle = 'white';
+  context.fillRect(offset,0,width,2)
+  context.closePath();
+
+}
+
+function setPlayButton() {
+
+  playButton.progress = 0;
+
+  var context = playButton.context;
+
+  context.clearRect(0,0,playButton.width,playButton.height);
   // button background
-  playButton.context.beginPath();
-  playButton.context.fillStyle = 'white';
-  playButton.context.fillRect(0,0,data.width,2)
-  playButton.context.closePath();
-
+  context.beginPath();
+  context.fillStyle = 'white';
+  context.fillRect(0,0,playButton.width,2)
+  context.closePath();
   // button text
-  playButton.context.fillStyle = 'white';
-  playButton.context.font = 'bold 18px lato';
-  playButton.context.textBaseline="middle";
-  playButton.context.textAlign="center";
-  playButton.context.fillText('TAP TO START', data.width/2, data.height/2);
+  context.fillStyle = 'white';
+  context.font = 'bold 18px lato';
+  context.textBaseline="middle";
+  context.textAlign="center";
+  context.fillText('TAP TO START', playButton.width/2, playButton.height/2);
 }
 
 

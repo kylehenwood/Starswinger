@@ -128,7 +128,7 @@ function runGame() {
 
   //console.log(cameraY);
   //console.log(starConnected);
-  console.log(gameState);
+  //console.log(gameState);
   //console.log(starHooks.length);
   //console.log(selectedHookTest);
 }

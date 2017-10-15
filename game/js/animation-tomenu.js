@@ -91,14 +91,18 @@ function animateToMenu() {
 
   if (menuStage >= 3) {
     var context = canvas.ctx;
-    context.save();
-    context.globalAlpha = playButton.alpha;
+    // context.save();
+    // context.globalAlpha = playButton.alpha;
+    // canvas.ctx.restore();
+    if (playButton.progress < 100) {
+      updatePlayButton();
+    }
     context.drawImage(playButton.canvas,playButton.posX,playButton.posY);
-    canvas.ctx.restore();
   }
 
-  if (menuStage === 3 && playButton.alpha >= 1 && introCharY >= 304) {
+  if (menuStage === 3 && playButton.alpha >= 1 && introCharY >= 304 && playButton.progress >= 100) {
     menuStage = 4;
+    setPlayButton()
   }
 
 
