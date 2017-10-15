@@ -75,7 +75,7 @@ function createSoundButton(data){
 var settingsButton = {
   width: 64,
   height: 64,
-  action: 'introAnimation',
+  action: 'introAnimation', //menuSettings
   canvas: null,
   context: null
 }
@@ -178,8 +178,8 @@ function createPlatform() {
 
 
 //-- placeholder actions
-function introSettings() {
-  console.log('introSettings');
+function menuSettings() {
+  console.log('Menu-Settings');
 }
 
 function soundToggle() {

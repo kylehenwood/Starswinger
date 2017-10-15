@@ -1,23 +1,23 @@
-// Game introduction animation
+// Game Menu
 // moves background and foreground...
 
-var gameIntro = {
+var gameMenu = {
   canvas: null,
   context: null,
 }
 
-var introElems = [];
+var menuElems = [];
 
-function setupIntro() {
-  gameState = 'gameIntro';
+function setupMenu() {
+  gameState = 'gameMenu';
 }
 
 // create the pause overlay
-function createIntroCanvas() {
-  gameIntro.canvas = document.createElement('canvas');
-  gameIntro.canvas.width = canvas.width;
-  gameIntro.canvas.height = canvas.height;
-  gameIntro.context = gameIntro.canvas.getContext('2d');
+function createMenu() {
+  gameMenu.canvas = document.createElement('canvas');
+  gameMenu.canvas.width = canvas.width;
+  gameMenu.canvas.height = canvas.height;
+  gameMenu.context = gameMenu.canvas.getContext('2d');
 
   // intro elements
   // - theme button
@@ -26,33 +26,37 @@ function createIntroCanvas() {
   // - play button
   // width, height, posX, posY, action, style
   createPlayButton(playButton);
-  introElems.push(playButton);
+  menuElems.push(playButton);
 
   createSettingsButton(settingsButton);
-  introElems.push(settingsButton);
+  menuElems.push(settingsButton);
 
   createSoundButton(soundButton);
-  introElems.push(soundButton);
+  menuElems.push(soundButton);
 
   createThemeButton(themeButton);
-  introElems.push(themeButton);
+  menuElems.push(themeButton);
 
   createLogo();
   createPlatform();
 }
 
 // pause state
-function updateIntro() {
-  gameIntro.context.clearRect(0, 0, canvas.width, canvas.height);
+function updateMenu() {
+
+  //context = canvas.context;
+  var context = gameMenu.context;
+
+  context.clearRect(0, 0, canvas.width, canvas.height);
 
   // overlay
-  gameIntro.context.beginPath();
-  gameIntro.context.rect(0,0,canvas.width,canvas.height)
-  gameIntro.context.fillStyle = 'rgba(255,000,000,0.1)';
-  gameIntro.context.fill();
-  gameIntro.context.closePath();
+  context.beginPath();
+  context.rect(0,0,canvas.width,canvas.height)
+  context.fillStyle = 'rgba(255,000,000,0.1)';
+  context.fill();
+  context.closePath();
 
-  var context = gameIntro.context;
+  //var context = gameMenu.context;
 
   // hover animation
   // if (platform.hoverDirection === 'up' && platform.hover <= 0) {

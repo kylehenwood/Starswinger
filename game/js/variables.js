@@ -17,7 +17,7 @@ var gameUserInterface = {
   score: null
 }
 
-var testingBool = false;
+var testingBool = true;
 
 // Storing the selected hook
 var selectedHookTest;

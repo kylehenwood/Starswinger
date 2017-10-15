@@ -9,11 +9,12 @@
 
   controls();
   mouseTestSetup();
+  createMenu()
 
   // setup sub canvases
   gameOverSetup();
   pauseSetup();
-  createIntroCanvas();
+  createIntro();
 
   setupForeground();
 
@@ -27,6 +28,9 @@
       break;
     case '#game-intro':
       setupIntro();
+      break;
+    case '#game-menu':
+      setupMenu();
       break;
     case '#game-loading':
       setupLoading();

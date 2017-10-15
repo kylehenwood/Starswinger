@@ -33,6 +33,9 @@ function mouseTestSetup() {
      case "gameIntro":
       introClick(mouseX,mouseY);
       break;
+    case "gameMenu":
+     menuClick(mouseX,mouseY);
+     break;
       default: return;
     }
     //console.log(gameState);
@@ -86,17 +89,24 @@ function resumeClick(mouseX,mouseY) {
 }
 
 
-// Game intro
-function introClick(mouseX,mouseY) {
+// Game menu
+function menuClick(mouseX,mouseY) {
   // if intro.ended === false;
   // skipIntro(), intro.ended = true
-  introElems.forEach(function(element) {
+  menuElems.forEach(function(element) {
     if (mouseY > element.posY && mouseY < element.posY+element.height && mouseX > element.posX && mouseX < element.posX+element.width) {
       var action = element.action;
       window[action]();
     }
   });
 }
+
+// Game intro
+function introClick(mouseX,mouseY) {
+  // if intro.ended === false;
+  // skipIntro(), intro.ended = true
+}
+
 
 // game over
 function gameOverClick(mouseX,mouseY) {

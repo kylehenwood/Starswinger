@@ -17,7 +17,7 @@ function setupForeground() {
 
 // HOW TO MAKE THE CLOUDS ENDLESS???
 
-function updateForeground(context,cameraX,cameraY) {
+function updateForeground(context,cameraX,cameraY,isAnimating) {
   // draw clouds at the bottom of screen.
 
   var y3 = cameraY*1.3;
@@ -28,10 +28,13 @@ function updateForeground(context,cameraX,cameraY) {
   var x2 = cameraX*1.2;
   var x1 = cameraX;
 
+  if (isAnimating === true) {
+    x1 -= 0.1;
+    x2 -= 0.2;
+    x3 -= 0.3;
+  }
+
   // make the clouds move even when stationary
-  x1 -= 0.1;
-  x2 -= 0.2;
-  x3 -= 0.3;
 
   var backgroundCloudY = (canvas.height-200)+y1;
   cloudMove(context,backgroundClouds[0],backgroundClouds[1],x1,backgroundCloudY);

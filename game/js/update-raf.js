@@ -26,6 +26,10 @@ function runGame() {
     return;
   }
 
+  if (gameState === 'gameIntro') {
+    updateIntro();
+  }
+
   if (gameState === 'menuAnimation') {
     animateToMenu();
   }
@@ -35,10 +39,10 @@ function runGame() {
   //drawBackground();
 
   // game intro
-  if (gameState === 'gameIntro') {
-    updateIntro();
-    canvas.ctx.drawImage(gameIntro.canvas,0,0);
-    introCharacter(canvas.ctx,304);
+  if (gameState === 'gameMenu') {
+    updateMenu();
+    menuCharacter(canvas.ctx,304);
+    canvas.ctx.drawImage(gameMenu.canvas,0,0);
   }
   // update game canvas
   if (gameState === 'playGame' || gameState === 'gameRestart') {
@@ -50,7 +54,7 @@ function runGame() {
   }
 
   if (gameState === 'menuAnimation') {
-    introCharacter(canvas.ctx,introCharY);
+    menuCharacter(canvas.ctx,introCharY);
   }
 
 
@@ -79,7 +83,11 @@ function runGame() {
     moveCanvas.moveSpeed = 0;
   }
 
-  updateForeground(canvas.ctx,moveCanvas.moveSpeed,cameraY);
+  if (gameState === 'gamePaused' || gameState === 'gameResume') {
+    updateForeground(canvas.ctx,moveCanvas.moveSpeed,cameraY,false);
+  } else {
+    updateForeground(canvas.ctx,moveCanvas.moveSpeed,cameraY,true);
+  }
 
   // paint foreground
   //canvas.ctx.drawImage(foreground.canvas,0,0);
@@ -120,7 +128,7 @@ function runGame() {
 
   //console.log(cameraY);
   //console.log(starConnected);
-  //console.log(gameState);
+  console.log(gameState);
   //console.log(starHooks.length);
   //console.log(selectedHookTest);
 }

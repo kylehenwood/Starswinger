@@ -12,7 +12,7 @@ function drawCharacter(ctx) {
 }
 
 
-function introCharacter(ctx,posY) {
+function menuCharacter(ctx,posY) {
 
   var charX = (canvas.width/2)-(newCharacter.size/2);
   var charY = (newCharacter.size/2)+posY;

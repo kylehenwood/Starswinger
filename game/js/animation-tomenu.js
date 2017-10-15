@@ -25,13 +25,13 @@ function animateToMenu() {
   // ::Stage 1
   // push out current game state.
   if (cameraY+canvas.height > 0 && menuStage === 1) {
-    restartSpeed = (canvas.height-cameraY)/40;
+    restartSpeed = ((canvas.height*1.2)-cameraY)/40;
     cameraY -= restartSpeed;
   }
 
   // ::Stage 2
   // re-introduce clouds
-  if (cameraY+canvas.height < 0.4 && menuStage === 1) {
+  if (cameraY+canvas.height < 0 && menuStage === 1) {
     menuStage = 2;
     cameraY = canvas.height;
     moveCanvas.currentPos = 0;
@@ -40,8 +40,8 @@ function animateToMenu() {
     gameSetup();
   }
 
-  if (cameraY+canvas.height > 0.4 && menuStage === 2) {
-    menuSpeed  = cameraY/24;
+  if (cameraY+canvas.height > 0 && menuStage === 2) {
+    menuSpeed  = cameraY/32;
     cameraY -= menuSpeed ;
 
     if (logo.alpha < 1) {
@@ -85,7 +85,8 @@ function animateToMenu() {
     playButton.alpha += 0.1;
   }
   if (menuStage === 3 && introCharY < 304) {
-    introCharY += 10;
+    gravity += 1;
+    introCharY += gravity;
   }
 
   if (menuStage >= 3) {
@@ -108,6 +109,6 @@ function animateToMenu() {
     logo.alpha = 0;
 
     // set state to intro
-    gameState = "gameIntro";
+    gameState = "gameMenu";
   }
 }
