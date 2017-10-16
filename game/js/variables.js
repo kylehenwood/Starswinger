@@ -28,7 +28,6 @@ var testingBool = false;
 // Storing the selected hook
 var selectedHookTest; // selectedHook test is updated with the selected hook
 var selectedHook = {
-  hook: null,
   posX: null,
   posY: null,
   centerX: null,

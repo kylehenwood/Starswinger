@@ -99,7 +99,9 @@ function createHook(position,isSafe) {
       size: 64,
       selected: false,
       posX: gridPositions[position].positionX,
-      posY: gridPositions[position].positionY
+      posY: gridPositions[position].positionY,
+      centerX: gridPositions[position].positionX+(64/2),
+      centerY: gridPositions[position].positionY+(64/2)
   });
 
   var hookPosition = starHooks.length -1;
