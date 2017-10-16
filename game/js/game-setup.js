@@ -70,52 +70,6 @@ function createPanel() {
   }
 }
 
-
-// create a hook along with a canvas it is drawn on.
-function createHook(position,isSafe) {
-  // create a mini canvas for a hook, and add it to an array of hooks.
-  var hookCanvas = document.createElement('canvas');
-      hookCanvas.width = 64;
-      hookCanvas.height = 64;
-  var hookContext = hookCanvas.getContext('2d'); // Pass the context to draw the star
-
-  var star = {
-    x: 32,
-    y: 32,
-    size: 6,
-    strokeOffset: 16,
-    bounds: 64,
-    ring: 2, // ring position / health
-    alive: true,
-    safe: isSafe //position in array
-  }
-  // draw the hook
-  drawHook(hookContext,star,false);
-  // each hook lives on a 5x10 - 1-50
-  starHooks.push({
-      layer:hookCanvas,
-      ctx: hookContext,
-      star: star,
-      size: 64,
-      selected: false,
-      posX: gridPositions[position].positionX,
-      posY: gridPositions[position].positionY,
-      centerX: gridPositions[position].positionX+(64/2),
-      centerY: gridPositions[position].positionY+(64/2)
-  });
-
-  var hookPosition = starHooks.length -1;
-
-  // clickable areas
-  var clickyBounds = 64;
-  elements.push({
-    posX: gridPositions[position].positionX-clickyBounds,
-    posY: gridPositions[position].positionY-clickyBounds,
-    size: 64+(clickyBounds*2),
-    index: hookPosition
-  });
-}
-
 // create grid and render it as a canvas.
 function createGrid() {
   var gridCanvas = document.createElement('canvas');
