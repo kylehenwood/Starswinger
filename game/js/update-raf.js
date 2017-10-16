@@ -28,11 +28,15 @@ function runGame() {
 
   if (gameState === 'gameIntro') {
     updateIntro();
+
+    updateCharacter();
     drawCharacter(canvas.ctx)
   }
 
   if (gameState === 'menuAnimation') {
     animateToMenu();
+
+    updateCharacter();
     drawCharacter(canvas.ctx)
   }
 
@@ -44,13 +48,16 @@ function runGame() {
   if (gameState === 'gameMenu') {
     updateMenu();
     canvas.ctx.drawImage(gameMenu.canvas,0,0);
+
+    updateCharacter();
     drawCharacter(canvas.ctx);
   }
 
   // update game canvas
   if (gameState === 'playGame' || gameState === 'gameRestart') {
-    updateCharacter();
     updateGame();
+
+    updateCharacter();
     drawCharacter(gamePanel.context);
   }
 
@@ -78,7 +85,7 @@ function runGame() {
   // // Move camera (GAME)
   // if (gameState === 'animateGameStart') {
   //   // Move the camera position to either catch up to the character or selected hook.
-  //   moveCanvas.selectedPos = (character.posX-(canvas.width/2)+(character.size/2))*-1;
+  //   moveCanvas.selectedPos = (character.centerX-(canvas.width/2)+(character.size/2))*-1;
   //   moveCanvas.moveSpeed = ((moveCanvas.selectedPos - moveCanvas.currentPos)/moveCanvas.interations);
   //   // update
   //   moveCanvas.currentPos += moveCanvas.moveSpeed;

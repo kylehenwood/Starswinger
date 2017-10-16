@@ -2,11 +2,17 @@
 function backToMenu() {
   gameState = 'menuAnimation';
   menuStage = 1;
+  menuAlpha = 0;
 
   logo.alpha = 0;
+  logo.posX = (canvas.width/2)-(logo.width/2);
+
   playButton.alpha = 0;
-  menuAlpha = 0;
-  character.centerY = 100;
+
+  platform.posX = (canvas.width/2)-(platform.width/2);
+
+  // set character position
+  character.centerY = -100;
   character.centerX = canvas.width/2;
 }
 
@@ -18,6 +24,8 @@ var menuAlpha = 0;
 // gameState === 'restartAnimation'
 // once complete it starts a new game.
 function animateToMenu() {
+
+  character.centerX = canvas.width/2;
 
   // ::Stage 1
   // push out current game state.
@@ -32,9 +40,9 @@ function animateToMenu() {
     menuStage = 2;
     cameraY = canvas.height;
     moveCanvas.currentPos = 0;
+
     // create new game
     clearVariables();
-    gameSetup();
   }
 
   if (cameraY+canvas.height > 0 && menuStage === 2) {
@@ -80,10 +88,7 @@ function animateToMenu() {
   if (menuStage === 3 && playButton.alpha < 1) {
     playButton.alpha += 0.1;
   }
-  if (menuStage === 3 && character.currentPosY < 304) {
-    gravity += 1;
-    character.currentPosY += gravity;
-  }
+
 
   if (menuStage >= 3) {
     var context = canvas.ctx;
@@ -91,9 +96,18 @@ function animateToMenu() {
       updatePlayButton();
     }
     context.drawImage(playButton.canvas,playButton.posX,playButton.posY);
+
+    if (character.centerY < 368) {
+      gravity += 1;
+      character.centerY += gravity;
+
+      if (character.centerY > 368) {
+        character.centerY = 368;
+      }
+    }
   }
 
-  if (menuStage === 3 && playButton.alpha >= 1 && playButton.progress >= 100) {
+  if (menuStage === 3 && playButton.alpha >= 1 && playButton.progress >= 100 && character.centerY > 368) {
     menuStage = 4;
     setPlayButton()
   }

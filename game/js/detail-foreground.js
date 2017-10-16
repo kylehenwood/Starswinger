@@ -12,7 +12,6 @@ function setupForeground() {
 
   createTinyCloud(0);
   createTinyCloud(canvas.width);
-
 }
 
 // HOW TO MAKE THE CLOUDS ENDLESS???

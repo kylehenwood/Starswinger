@@ -13,7 +13,7 @@ function setupCanvas() {
 }
 
 // ---------------------------------------------------------------
-function gameSetup(){
+function gameSetup() {
 
   // create a grid canvas and push the positions of each square to an array called "elements"
   createGrid();

@@ -10,6 +10,10 @@ var menuElems = [];
 
 function setupMenu() {
   gameState = 'gameMenu';
+
+  character.centerY = 368;
+  character.centerX = canvas.width/2;
+
 }
 
 // create the pause overlay
@@ -43,7 +47,6 @@ function createMenu() {
 
 // pause state
 function updateMenu() {
-
   //context = canvas.context;
   var context = gameMenu.context;
 

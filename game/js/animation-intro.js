@@ -16,12 +16,12 @@ function setupIntro() {
   playButton.alpha = 0;
   menuAlpha = 0;
   intro.val = 0;
-  cameraY = 100;
+  cameraY = 25;
 }
 
 function createIntro() {}
 function updateIntro() {
-  if (intro.val < 100) {
+  if (intro.val < 50) {
     intro.val+= 1;
   }
 
@@ -29,11 +29,12 @@ function updateIntro() {
   character.centerY = canvas.height/2;
 
   if (cameraY > 0) {
-    cameraY -= 1;
+    cameraY -= 0.5;
   }
 
 
-  if (intro.val >= 100) {
+  if (intro.val >= 50) {
+    cameraY = 0;
     backToMenu();
   }
 

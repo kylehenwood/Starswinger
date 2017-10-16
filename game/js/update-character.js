@@ -5,7 +5,8 @@ function updateCharacter() {
 
   character.posX = character.centerX-(character.size/2);
   character.posY = character.centerY-(character.size/2);
-  // charPosX/Y
+
+  console.log('x:'+character.posX+',y:'+character.posY);
 }
 
 
