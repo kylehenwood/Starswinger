@@ -28,12 +28,12 @@ function runGame() {
 
   if (gameState === 'gameIntro') {
     updateIntro();
-    menuCharacter(canvas.ctx);
+    drawCharacter(canvas.ctx)
   }
 
   if (gameState === 'menuAnimation') {
     animateToMenu();
-    menuCharacter(canvas.ctx);
+    drawCharacter(canvas.ctx)
   }
 
   // background effects / parralax
@@ -43,7 +43,7 @@ function runGame() {
   // game intro
   if (gameState === 'gameMenu') {
     updateMenu();
-    menuCharacter(canvas.ctx,304);
+    drawCharacter(canvas.ctx);
     canvas.ctx.drawImage(gameMenu.canvas,0,0);
   }
 
@@ -64,7 +64,10 @@ function runGame() {
 
   if (gameState === 'animateGameStart') {
     updateStart();
+    drawCharacter(canvas.ctx)
   }
+
+
 
   if (gameState === 'playGame' || gameState === 'gameOver' || gameState === 'gamePaused' || gameState === 'gameRestart' || gameState === 'gameResume') {
     // Draw canvases

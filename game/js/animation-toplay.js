@@ -19,7 +19,7 @@ function updateStart() {
   var context = canvas.ctx;
 
   // floating platform
-  newCharacter.posX += 0.5;
+  //newCharacter.posX += 0.5;
 
 
 
@@ -37,8 +37,4 @@ function updateStart() {
   context.restore();
 
   context.drawImage(platform.canvas,platform.posX+=(moveCanvas.moveSpeed*1.3),platform.posY);
-
-
-  //cameraY = cameraY+start.currentY;
-  introCharacter(canvas.ctx);
 }

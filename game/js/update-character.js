@@ -24,14 +24,4 @@ function menuCharacter(ctx) {
   ctx.fill();
 }
 
-function introCharacter(ctx) {
-
-  var charX = character.centerX;
-  var charY = character.centerY;
-
-  // draw character
-  ctx.beginPath();
-  ctx.rect(charX,charY,newCharacter.size,newCharacter.size);
-  ctx.fillStyle = 'white';
-  ctx.fill();
-}
+// character states....
