@@ -36,7 +36,7 @@
       setupLoading();
       break;
 
-    default: gameLoading();
+    default: setupLoading();
   }
 
   // RAF
