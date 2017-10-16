@@ -95,7 +95,7 @@ function runGame() {
   if (gameState === 'playGame') {
     // Move the camera position to either catch up to the character or selected hook.
     if (cameraMode === 'hook') {
-      moveCanvas.selectedPos = (selectedHookTest.posX-(canvas.width/2)+(selectedHookTest.size/2))*-1;
+      moveCanvas.selectedPos = (selectedHook.posX-(canvas.width/2)+(selectedHook.size/2))*-1;
       moveCanvas.moveSpeed = ((moveCanvas.selectedPos - moveCanvas.currentPos)/moveCanvas.interations);
     } else {
       moveCanvas.selectedPos = (character.centerX-(canvas.width/2)+(character.size/2))*-1;
@@ -154,7 +154,7 @@ function runGame() {
   //console.log(starConnected);
   //console.log(gameState);
   //console.log(starHooks.length);
-  //console.log(selectedHookTest);
+  //console.log(selectedHook);
 }
 
 

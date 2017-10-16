@@ -1,10 +1,7 @@
 function drawHook(hookVariable) {
 
-  var layer = hookVariable.context; // this hook variable
+  var context = hookVariable.context; // this hook variable
   var star = hookVariable.star;
-  var saftey = hookVariable.star.safe;
-  //var saftey = star.safe;
-  var hookData = hookVariable.star;
   //console.log(hookData.selected);
 
   if (star.alive === false) {
@@ -17,23 +14,23 @@ function drawHook(hookVariable) {
   //alert ('connected shockwave');
 
   // clear this canvas
-  layer.clearRect(0, 0, 64, 64);
+  context.clearRect(0, 0, 64, 64);
 
   // circle
-  layer.beginPath();
-  layer.arc(star.centerX, star.centerY, star.size, 0, Math.PI*2, true);
-  layer.closePath();
-  layer.fillStyle = 'white';
-  layer.fill();
-  layer.closePath();
+  context.beginPath();
+  context.arc(star.centerX, star.centerY, star.size, 0, Math.PI*2, true);
+  context.closePath();
+  context.fillStyle = 'white';
+  context.fill();
+  context.closePath();
 
   // star stroke/progress
-  layer.beginPath();
-  layer.lineWidth = 1;
-  layer.strokeStyle = 'white';
-  layer.arc(star.centerX, star.centerY, star.size+star.strokeOffset, 0, Math.PI*2, true);
-  layer.closePath();
-  layer.stroke();
+  context.beginPath();
+  context.lineWidth = 1;
+  context.strokeStyle = 'white';
+  context.arc(star.centerX, star.centerY, star.size+star.strokeOffset, 0, Math.PI*2, true);
+  context.closePath();
+  context.stroke();
 
   var radius = 23;
   var startAngle = 2 * Math.PI;
@@ -41,7 +38,7 @@ function drawHook(hookVariable) {
   var counterClockwise = true;
 
   // drain star
-  if (hookVariable.selected === true && saftey === false && star.alive === true && character.swinging === true) {
+  if (hookVariable.selected === true && star.safe === false && star.alive === true && character.swinging === true) {
     // drain star power & increase score
     gameUserInterface.score += 1;
     star.ring -= 0.01;
@@ -53,33 +50,33 @@ function drawHook(hookVariable) {
   // gets updated when character is swinging from it
   endAngle = star.ring * Math.PI;
 
-  layer.beginPath();
-  layer.lineWidth = 3;
-  layer.strokeStyle = 'red';
-  layer.arc(star.centerX, star.centerY, radius, startAngle, endAngle, counterClockwise);
-  layer.stroke();
-  layer.closePath();
+  context.beginPath();
+  context.lineWidth = 3;
+  context.strokeStyle = 'red';
+  context.arc(star.centerX, star.centerY, radius, startAngle, endAngle, counterClockwise);
+  context.stroke();
+  context.closePath();
 
   // visual bounds
   // gonna need a switch statement
-  if (hookVariable.selected === true) {
-    layer.strokeStyle = 'lime';
-    layer.lineWidth = 2;
+  if (hookVariable.selected === true && star.alive === true) {
+    context.strokeStyle = 'lime';
+    context.lineWidth = 2;
   } else {
-    layer.strokeStyle = 'red';
-    layer.lineWidth = 1;
+    context.strokeStyle = 'red';
+    context.lineWidth = 1;
   }
-  if (saftey === true) {
-    layer.lineWidth = 3;
-    layer.strokeStyle = 'cyan';
+  if (star.safe === true) {
+    context.lineWidth = 3;
+    context.strokeStyle = 'cyan';
   }
 
-  layer.beginPath();
-  layer.rect(star.centerX-(star.bounds/2),star.centerY-(star.bounds/2),star.bounds,star.bounds);
+  context.beginPath();
+  context.rect(star.centerX-(star.bounds/2),star.centerY-(star.bounds/2),star.bounds,star.bounds);
 
   if (star.alive === false) {
-    layer.fillStyle = 'red';
-    layer.fill();
+    context.fillStyle = 'red';
+    context.fill();
   }
-  layer.stroke();
+  context.stroke();
 }

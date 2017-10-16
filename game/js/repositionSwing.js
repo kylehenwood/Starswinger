@@ -6,8 +6,8 @@ function repositionSwing() {
   // get swing angle and rope length / draw a triangle.
   trajectory.characterPosX = character.centerX;
   trajectory.characterPosY = character.centerY;
-  trajectory.starPosX = selectedHookTest.centerX;
-  trajectory.starPosY = selectedHookTest.centerY;
+  trajectory.starPosX = selectedHook.centerX;
+  trajectory.starPosY = selectedHook.centerY;
 
   // make the negative values positive
   var triWidth = trajectory.starPosX-trajectory.characterPosX;

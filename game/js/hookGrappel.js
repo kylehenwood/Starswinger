@@ -13,8 +13,8 @@ function grappelLaunch(context) {
  }
 
  // regular sized triangle
- var triWidth = selectedHookTest.centerX-character.centerX;
- var triHeight = selectedHookTest.centerY-character.centerY;
+ var triWidth = selectedHook.centerX-character.centerX;
+ var triHeight = selectedHook.centerY-character.centerY;
  var triHypo = Math.hypot(triWidth,triHeight);
  var triAngle = Math.acos(triHeight/triHypo);
 
@@ -30,7 +30,7 @@ function grappelLaunch(context) {
 
  // if the character is on the right side of hook... else
  var ropeEndX = null;
- if (character.centerX > selectedHookTest.centerX) {
+ if (character.centerX > selectedHook.centerX) {
    ropeEndX = character.centerX-smallWidth;
  } else {
    ropeEndX = character.centerX+smallWidth;

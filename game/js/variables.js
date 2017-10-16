@@ -26,13 +26,8 @@ var gameUserInterface = {
 var testingBool = false;
 
 // Storing the selected hook
-var selectedHookTest; // selectedHook test is updated with the selected hook
-var selectedHook = {
-  posX: null,
-  posY: null,
-  centerX: null,
-  centerY: null
-}
+var selectedHook; // selectedHook test is updated with the selected hook
+
 var hookGrappel = {
   launch: false,
   time: null,

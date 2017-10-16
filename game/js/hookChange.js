@@ -14,14 +14,14 @@ function changeHook(hookIndex) {
   if (allowClick === true) {
     allowClick = false;
     // detach from hook if already attached to one
-    //if (selectedHookTest != null) {
+    //if (selectedHook != null) {
       detach();
     //}
 
     // set global variables
-    selectedHookTest = scoutHook;
+    selectedHook = scoutHook;
     cameraMode = 'hook';
-    selectedHookTest.selected = true;
+    selectedHook.selected = true;
     hookGrappel.launch = true;
 
     // calculate how many frames the grappel will need to reach hook @60fps.

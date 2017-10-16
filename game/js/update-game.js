@@ -35,8 +35,8 @@ function updateGame() {
   // this is where I draw hooks to the game canvas.
 
   // Update selected hook if it exists
-  if (selectedHookTest != null) {
-    drawHook(selectedHookTest);
+  if (selectedHook != null) {
+    drawHook(selectedHook);
   }
 
   // draw each hook to this canvas.

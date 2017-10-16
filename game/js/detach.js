@@ -15,10 +15,10 @@ function detach() {
   character.swinging = false;
 
   // de select the selected hook;
-  if (selectedHookTest != null) {
-    selectedHookTest.selected = false; // allow the hook to be selected again
-    drawHook(selectedHookTest);
-    selectedHookTest = null;
+  if (selectedHook != null) {
+    selectedHook.selected = false; // allow the hook to be selected again
+    drawHook(selectedHook);
+    selectedHook = null;
   }
 }
 
@@ -33,11 +33,11 @@ function attach() {
     return;
   }
 
-  if (selectedHookTest != null) {
+  if (selectedHook != null) {
     //console.log("attach");
     gravity = 0;
     cameraMode = 'hook';
-    selectedHookTest.selected = true;
+    selectedHook.selected = true;
     character.swinging = true;   // if character.connected === true, start draining the stars power.
   }
 }
