@@ -107,7 +107,7 @@ function animateToMenu() {
     }
   }
 
-  if (menuStage === 3 && playButton.alpha >= 1 && playButton.progress >= 100 && character.centerY > 368) {
+  if (menuStage === 3 && playButton.alpha >= 1 && playButton.progress >= 100 && character.centerY >= 368) {
     menuStage = 4;
     setPlayButton()
   }
