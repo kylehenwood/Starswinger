@@ -2,8 +2,8 @@
 // when character is not attached, move it based on momentium and gravity
 function characterFalling(ctx) {
   gravity += gravityIncrease;
-  newCharacter.posY += gravity;
-  newCharacter.posX += momentiumIncrease;
+  character.centerY += gravity;
+  character.centerX += momentiumIncrease;
 }
 
 // Draw rope & calculate swing
@@ -32,12 +32,13 @@ function drawRope(context) {
   var ropeX = hookX + sideX;
 
   // update character position to where the rope ends
-  newCharacter.posX = ropeX;
-  newCharacter.posY = ropeY;
+  character.centerX = ropeX;
+  character.centerY = ropeY;
 
   context.beginPath();
   context.lineWidth = 2;
-  context.moveTo(newCharacter.posX,newCharacter.posY);
+  //context.moveTo(character.posX,character.posY);
+  context.moveTo(character.centerX,character.centerY);
 
   //-------------------------
   context.lineTo(hookX,hookY);
@@ -61,6 +62,7 @@ function additiveSwing() {
   currentAngle += momentiumIncrease;
   momentiumAngle = toRad(currentAngle);
 }
+
 
 function drawTrajectory(ctx){
   // triangle of calculations

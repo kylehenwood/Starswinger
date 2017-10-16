@@ -1,7 +1,6 @@
 function animateStart() {
   gameState = 'animateGameStart';
-  start.xCamera = canvas.width/2;
-  newCharacter.posX = (canvas.width/2)-32;
+  //character.posX = (canvas.width/2);
 }
 
 var camera = {
@@ -19,7 +18,7 @@ function updateStart() {
   var context = canvas.ctx;
 
   // floating platform
-  //newCharacter.posX += 0.5;
+  //character.posX += 0.5;
 
 
 
@@ -29,12 +28,14 @@ function updateStart() {
       logo.alpha = 0;
     }
   }
-  console.log(logo.alpha);
+  //console.log(logo.alpha);
 
   context.save();
   context.globalAlpha = logo.alpha;
-  context.drawImage(logo.canvas,logo.posX+=(moveCanvas.moveSpeed*0.6),logo.posY);
+  //context.drawImage(logo.canvas,logo.posX+=(moveCanvas.moveSpeed*0.6),logo.posY);
+  context.drawImage(logo.canvas,logo.posX,logo.posY);
   context.restore();
 
-  context.drawImage(platform.canvas,platform.posX+=(moveCanvas.moveSpeed*1.3),platform.posY);
+  //context.drawImage(platform.canvas,platform.posX+=(moveCanvas.moveSpeed*1.3),platform.posY);
+  context.drawImage(platform.canvas,platform.posX,platform.posY);
 }

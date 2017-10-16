@@ -23,7 +23,7 @@ var gameUserInterface = {
   score: null
 }
 
-var testingBool = false;
+var testingBool = true;
 
 // Storing the selected hook
 var selectedHookTest;
@@ -59,18 +59,15 @@ var momentiumX;
 var friction;
 
 var character = {
-  grappelDelay:240, // ms (this should change based on the distance the character is from the hook)
-  centerX: 0,
-  centerY: 0,
-}
-
-var newCharacter = {
   size: 64,
   currentPosX: 0,
   currentPosY: 0,
   ropeLength: 320,
   interations: 16, // times it takes for the character to catch the hook
   swinging: true,
+  grappelDelay:240, // ms (this should change based on the distance the character is from the hook)
+  centerX: 0,
+  centerY: 0,
 }
 
 

@@ -49,6 +49,7 @@ function runGame() {
 
   // update game canvas
   if (gameState === 'playGame' || gameState === 'gameRestart') {
+    updateCharacter();
     updateGame();
   }
 
@@ -81,7 +82,7 @@ function runGame() {
   // // Move camera (GAME)
   if (gameState === 'animateGameStart') {
     // Move the camera position to either catch up to the character or selected hook.
-    moveCanvas.selectedPos = (newCharacter.posX-(canvas.width/2)+(newCharacter.size/2))*-1;
+    moveCanvas.selectedPos = (character.posX-(canvas.width/2)+(character.size/2))*-1;
     moveCanvas.moveSpeed = ((moveCanvas.selectedPos - moveCanvas.currentPos)/moveCanvas.interations);
     // update
     moveCanvas.currentPos += moveCanvas.moveSpeed;
@@ -94,7 +95,7 @@ function runGame() {
       moveCanvas.selectedPos = (selectedHookTest.posX-(canvas.width/2)+(selectedHookTest.size/2))*-1;
       moveCanvas.moveSpeed = ((moveCanvas.selectedPos - moveCanvas.currentPos)/moveCanvas.interations);
     } else {
-      moveCanvas.selectedPos = (newCharacter.posX-(canvas.width/2)+(newCharacter.size/2))*-1;
+      moveCanvas.selectedPos = (character.posX-(canvas.width/2)+(character.size/2))*-1;
       moveCanvas.moveSpeed = ((moveCanvas.selectedPos - moveCanvas.currentPos)/moveCanvas.interations);
     }
     // update
@@ -119,7 +120,7 @@ function runGame() {
   updateInterface();
 
   // Game over check if character is below the screen, or game state is :gameOver"
-  if (newCharacter.posY > canvas.height+(newCharacter.size/2) && gameState === 'playGame') {
+  if (character.posY > canvas.height+(character.size/2) && gameState === 'playGame') {
     gameState = 'gameOver';
   }
 
@@ -145,4 +146,16 @@ function runGame() {
   //console.log(gameState);
   //console.log(starHooks.length);
   //console.log(selectedHookTest);
+}
+
+
+
+
+function testUpdate() {
+  switch(gameState) {
+    case 'gameIntro':
+      //UPDATE
+      //DRAW
+      break;
+  }
 }

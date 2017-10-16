@@ -1,27 +1,18 @@
+  // update character
+function updateCharacter() {
+  //character.posX-(character.size/2);
+  //character.posY-(character.size/2);
+
+  character.posX = character.centerX-(character.size/2);
+  character.posY = character.centerY-(character.size/2);
+  // charPosX/Y
+}
+
+
 // draw character
 function drawCharacter(ctx) {
-
-  var charX = newCharacter.posX-(newCharacter.size/2);
-  var charY = newCharacter.posY-(newCharacter.size/2);
-
-  // draw character
   ctx.beginPath();
-  ctx.rect(charX,charY,newCharacter.size,newCharacter.size);
+  ctx.rect(character.posX,character.posY,character.size,character.size);
   ctx.fillStyle = 'white';
   ctx.fill();
 }
-
-
-function menuCharacter(ctx) {
-
-  var charX = newCharacter.posX-(newCharacter.size/2);
-  var charY = newCharacter.posY-(newCharacter.size/2);
-
-  // draw character
-  ctx.beginPath();
-  ctx.rect(charX,charY,newCharacter.size,newCharacter.size);
-  ctx.fillStyle = 'white';
-  ctx.fill();
-}
-
-// character states....

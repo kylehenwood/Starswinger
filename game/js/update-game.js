@@ -18,7 +18,7 @@ function updateGame() {
 
 
   // if character is grappeling a hook
-  if (newCharacter.swinging === true) {
+  if (character.swinging === true) {
     if (testingBool === true) {
       drawTrajectory(gameContext);
     }
@@ -28,10 +28,7 @@ function updateGame() {
   }
 
   // update character positions
-  character.posX = newCharacter.posX-(newCharacter.size/2);
-  character.posY = newCharacter.posY-(newCharacter.size/2);
-  character.centerX = newCharacter.posX;
-  character.centerY = newCharacter.posY;
+  updateCharacter();
 
   // launch grappel from character to hook
   if(hookGrappel.launch === true) {

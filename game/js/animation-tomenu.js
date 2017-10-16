@@ -6,8 +6,8 @@ function backToMenu() {
   logo.alpha = 0;
   playButton.alpha = 0;
   menuAlpha = 0;
-  newCharacter.currentPosY = -100;
-  newCharacter.currentPosX = canvas.width/2;
+  character.currentPosY = -100;
+  character.currentPosX = canvas.width/2;
 }
 
 var menuCharacter = {
@@ -85,9 +85,9 @@ function animateToMenu() {
   if (menuStage === 3 && playButton.alpha < 1) {
     playButton.alpha += 0.1;
   }
-  if (menuStage === 3 && newCharacter.currentPosY < 304) {
+  if (menuStage === 3 && character.currentPosY < 304) {
     gravity += 1;
-    newCharacter.currentPosY += gravity;
+    character.currentPosY += gravity;
   }
 
   if (menuStage >= 3) {

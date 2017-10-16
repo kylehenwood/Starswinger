@@ -25,8 +25,8 @@ function updateIntro() {
     intro.val+= 10;
   }
 
-  newCharacter.posX = canvas.width/2;
-  newCharacter.posY = canvas.height/2;
+  character.centerX = canvas.width/2;
+  character.centerY = canvas.height/2;
 
   if (cameraY > 0) {
     cameraY -= 50;
@@ -36,6 +36,6 @@ function updateIntro() {
   if (intro.val >= 1000) {
     backToMenu();
   }
-  console.log(newCharacter.posY);
+  console.log(character.posY);
   console.log('updateIntro');
 }

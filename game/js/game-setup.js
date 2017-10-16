@@ -24,13 +24,12 @@ function gameSetup(){
   // draw click area hotspots
   drawClicky();
 
-  // set starting hook
-  newCharacter.posX = 240;
-  newCharacter.posY = 40;
+  // set character position
+  character.centerX = 240;
+  character.centerY = 40;
 
   // set starting hook
   changeHook(0);
-
 }
 
 

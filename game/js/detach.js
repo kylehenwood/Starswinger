@@ -12,7 +12,7 @@ function detach() {
 
   //console.log("detach");
   cameraMode = 'character';
-  newCharacter.swinging = false;
+  character.swinging = false;
 
   // de select the selected hook;
   if (selectedHookTest != null) {
@@ -38,6 +38,6 @@ function attach() {
     gravity = 0;
     cameraMode = 'hook';
     selectedHookTest.selected = true;
-    newCharacter.swinging = true;   // if character.connected === true, start draining the stars power.
+    character.swinging = true;   // if character.connected === true, start draining the stars power.
   }
 }
