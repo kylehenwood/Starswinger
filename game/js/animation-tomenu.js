@@ -6,13 +6,8 @@ function backToMenu() {
   logo.alpha = 0;
   playButton.alpha = 0;
   menuAlpha = 0;
-  character.currentPosY = -100;
-  character.currentPosX = canvas.width/2;
-}
-
-var menuCharacter = {
-  posX: null,
-  posY: null
+  character.centerY = 100;
+  character.centerX = canvas.width/2;
 }
 
 // end game

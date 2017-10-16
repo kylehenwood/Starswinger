@@ -16,26 +16,27 @@ function setupIntro() {
   playButton.alpha = 0;
   menuAlpha = 0;
   intro.val = 0;
-  cameraY = 2000;
+  cameraY = 100;
 }
 
 function createIntro() {}
 function updateIntro() {
-  if (intro.val < 1000) {
-    intro.val+= 10;
+  if (intro.val < 100) {
+    intro.val+= 1;
   }
 
   character.centerX = canvas.width/2;
   character.centerY = canvas.height/2;
 
   if (cameraY > 0) {
-    cameraY -= 50;
+    cameraY -= 1;
   }
 
 
-  if (intro.val >= 1000) {
+  if (intro.val >= 100) {
     backToMenu();
   }
-  console.log(character.posY);
+
+  //console.log(character.centerY);
   console.log('updateIntro');
 }

@@ -20,6 +20,8 @@ function setupForeground() {
 function updateForeground(context,cameraX,cameraY,isAnimating) {
   // draw clouds at the bottom of screen.
 
+  //console.log('foreground animate')
+
   var y3 = cameraY*1.3;
   var y2 = cameraY*1.2;
   var y1 = cameraY*1.1;

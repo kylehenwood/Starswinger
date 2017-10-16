@@ -37,7 +37,6 @@ function drawRope(context) {
 
   context.beginPath();
   context.lineWidth = 2;
-  //context.moveTo(character.posX,character.posY);
   context.moveTo(character.centerX,character.centerY);
 
   //-------------------------

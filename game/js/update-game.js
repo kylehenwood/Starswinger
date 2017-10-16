@@ -27,9 +27,6 @@ function updateGame() {
     characterFalling(gameContext);
   }
 
-  // update character positions
-  updateCharacter();
-
   // launch grappel from character to hook
   if(hookGrappel.launch === true) {
     grappelLaunch(gamePanel.context);

@@ -43,20 +43,16 @@ function runGame() {
   // game intro
   if (gameState === 'gameMenu') {
     updateMenu();
-    drawCharacter(canvas.ctx);
     canvas.ctx.drawImage(gameMenu.canvas,0,0);
+    drawCharacter(canvas.ctx);
   }
 
   // update game canvas
   if (gameState === 'playGame' || gameState === 'gameRestart') {
     updateCharacter();
     updateGame();
-  }
-
-  if (gameState === 'playGame' || gameState === 'gameRestart') {
     drawCharacter(gamePanel.context);
   }
-
 
   if (gameState === 'gameRestart') {
     restartAnimation();
@@ -80,13 +76,13 @@ function runGame() {
 
 
   // // Move camera (GAME)
-  if (gameState === 'animateGameStart') {
-    // Move the camera position to either catch up to the character or selected hook.
-    moveCanvas.selectedPos = (character.posX-(canvas.width/2)+(character.size/2))*-1;
-    moveCanvas.moveSpeed = ((moveCanvas.selectedPos - moveCanvas.currentPos)/moveCanvas.interations);
-    // update
-    moveCanvas.currentPos += moveCanvas.moveSpeed;
-  }
+  // if (gameState === 'animateGameStart') {
+  //   // Move the camera position to either catch up to the character or selected hook.
+  //   moveCanvas.selectedPos = (character.posX-(canvas.width/2)+(character.size/2))*-1;
+  //   moveCanvas.moveSpeed = ((moveCanvas.selectedPos - moveCanvas.currentPos)/moveCanvas.interations);
+  //   // update
+  //   moveCanvas.currentPos += moveCanvas.moveSpeed;
+  // }
 
   // Move camera (GAME)
   if (gameState === 'playGame') {
@@ -95,12 +91,13 @@ function runGame() {
       moveCanvas.selectedPos = (selectedHookTest.posX-(canvas.width/2)+(selectedHookTest.size/2))*-1;
       moveCanvas.moveSpeed = ((moveCanvas.selectedPos - moveCanvas.currentPos)/moveCanvas.interations);
     } else {
-      moveCanvas.selectedPos = (character.posX-(canvas.width/2)+(character.size/2))*-1;
+      moveCanvas.selectedPos = (character.centerX-(canvas.width/2)+(character.size/2))*-1;
       moveCanvas.moveSpeed = ((moveCanvas.selectedPos - moveCanvas.currentPos)/moveCanvas.interations);
     }
+
     // update
     moveCanvas.currentPos += moveCanvas.moveSpeed;
-    cameraX = moveCanvas.currentPos;
+    //cameraX = moveCanvas.currentPos;
   }
 
   if (gameState === 'gamePaused' || gameState === 'gameOver') {
@@ -113,14 +110,19 @@ function runGame() {
     updateForeground(canvas.ctx,moveCanvas.moveSpeed,cameraY,true);
   }
 
+
+
+
+
   // paint foreground
   //canvas.ctx.drawImage(foreground.canvas,0,0);
 
   // paint UI
   updateInterface();
 
+
   // Game over check if character is below the screen, or game state is :gameOver"
-  if (character.posY > canvas.height+(character.size/2) && gameState === 'playGame') {
+  if (character.centerY-(character.size/2) > canvas.height && gameState === 'playGame') {
     gameState = 'gameOver';
   }
 

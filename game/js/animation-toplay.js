@@ -1,6 +1,6 @@
 function animateStart() {
   gameState = 'animateGameStart';
-  //character.posX = (canvas.width/2);
+  character.centerX = (canvas.width/2);
 }
 
 var camera = {
@@ -10,15 +10,21 @@ var camera = {
 
 var start = {
   state: 0,
-  count1: 0,
+  count: 0,
 }
 
 function updateStart() {
 
   var context = canvas.ctx;
 
+  if (start.count < 200) {
+    start.count++
+  } else {
+    startGame();
+  }
+
   // floating platform
-  //character.posX += 0.5;
+  character.centerX += 0.5;
 
 
 
