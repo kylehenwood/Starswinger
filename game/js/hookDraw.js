@@ -1,7 +1,10 @@
-function drawHook(layer,star,extra) {
+function drawHook(hookVariable) {
 
-  var saftey = star.safe;
-  var hookData = extra;
+  var layer = hookVariable.context; // this hook variable
+  var star = hookVariable.star;
+  var saftey = hookVariable.star.safe;
+  //var saftey = star.safe;
+  var hookData = hookVariable.star;
   //console.log(hookData.selected);
 
   if (star.alive === false) {
@@ -18,7 +21,7 @@ function drawHook(layer,star,extra) {
 
   // circle
   layer.beginPath();
-  layer.arc(star.x, star.y, star.size, 0, Math.PI*2, true);
+  layer.arc(star.centerX, star.centerY, star.size, 0, Math.PI*2, true);
   layer.closePath();
   layer.fillStyle = 'white';
   layer.fill();
@@ -28,7 +31,7 @@ function drawHook(layer,star,extra) {
   layer.beginPath();
   layer.lineWidth = 1;
   layer.strokeStyle = 'white';
-  layer.arc(star.x, star.y, star.size+star.strokeOffset, 0, Math.PI*2, true);
+  layer.arc(star.centerX, star.centerY, star.size+star.strokeOffset, 0, Math.PI*2, true);
   layer.closePath();
   layer.stroke();
 
@@ -38,7 +41,7 @@ function drawHook(layer,star,extra) {
   var counterClockwise = true;
 
   // drain star
-  if (hookData.selected === true && saftey === false && star.alive === true) {
+  if (hookVariable.selected === true && saftey === false && star.alive === true && character.swinging === true) {
     // drain star power & increase score
     gameUserInterface.score += 1;
     star.ring -= 0.01;
@@ -53,13 +56,13 @@ function drawHook(layer,star,extra) {
   layer.beginPath();
   layer.lineWidth = 3;
   layer.strokeStyle = 'red';
-  layer.arc(star.x, star.y, radius, startAngle, endAngle, counterClockwise);
+  layer.arc(star.centerX, star.centerY, radius, startAngle, endAngle, counterClockwise);
   layer.stroke();
   layer.closePath();
 
   // visual bounds
   // gonna need a switch statement
-  if (hookData.selected === true) {
+  if (hookVariable.selected === true) {
     layer.strokeStyle = 'lime';
     layer.lineWidth = 2;
   } else {
@@ -72,7 +75,7 @@ function drawHook(layer,star,extra) {
   }
 
   layer.beginPath();
-  layer.rect(star.x-(star.bounds/2),star.y-(star.bounds/2),star.bounds,star.bounds);
+  layer.rect(star.centerX-(star.bounds/2),star.centerY-(star.bounds/2),star.bounds,star.bounds);
 
   if (star.alive === false) {
     layer.fillStyle = 'red';

@@ -9,8 +9,8 @@ function characterFalling(ctx) {
 // Draw rope & calculate swing
 function drawRope(context) {
 
-  var hookX = selectedHook.centerX;
-  var hookY = selectedHook.centerY;
+  var hookX = selectedHookTest.centerX;
+  var hookY = selectedHookTest.centerY;
 
   // update swing direction
   if (momentiumIncrease > 0) {

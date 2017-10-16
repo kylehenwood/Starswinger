@@ -17,7 +17,7 @@ function detach() {
   // de select the selected hook;
   if (selectedHookTest != null) {
     selectedHookTest.selected = false; // allow the hook to be selected again
-    drawHook(selectedHookTest.ctx,selectedHookTest.star,selectedHookTest);
+    drawHook(selectedHookTest);
     selectedHookTest = null;
   }
 }

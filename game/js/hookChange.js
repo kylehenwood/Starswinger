@@ -24,10 +24,6 @@ function changeHook(hookIndex) {
     selectedHookTest.selected = true;
     hookGrappel.launch = true;
 
-    // find the center point of the new hook, and update it for drawing grappel.
-    selectedHook.centerX = selectedHookTest.posX+(selectedHookTest.size/2);
-    selectedHook.centerY = selectedHookTest.posY+(selectedHookTest.size/2);
-
     // calculate how many frames the grappel will need to reach hook @60fps.
     var percent = (character.grappelDelay/1000);
     var frames = 60*percent;

@@ -36,7 +36,7 @@ function updateGame() {
 
   // Update selected hook if it exists
   if (selectedHookTest != null) {
-    drawHook(selectedHookTest.ctx,selectedHookTest.star,selectedHookTest);
+    drawHook(selectedHookTest);
   }
 
   // draw each hook to this canvas.
