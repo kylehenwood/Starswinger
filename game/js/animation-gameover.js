@@ -12,18 +12,19 @@ var animateGameOver = {
 
 // amount camera has moved so far
 var camMoved = 0;
+var camDown = 240;
 
 function updateGameOverAnimation() {
   console.log('state:'+animateGameOver.state+','+camMoved);
   // state 1
   if (animateGameOver.state === 1) {
-      if (camMoved < 100) {
-        var move = animateEaseOut(100,camMoved,4);
+      if (camMoved < camDown) {
+        var move = animateEaseOut(camDown,camMoved,4);
         camMoved += move;
         cameraY = -camMoved;
       }
-      if (camMoved >= (100-1)) {
-        camMoved = 100;
+      if (camMoved >= (camDown-1)) {
+        camMoved = camDown;
         animateGameOver.state = 2;
       }
   }
