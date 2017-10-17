@@ -48,16 +48,12 @@ function runGame() {
   if (gameState === 'gameMenu') {
     updateMenu();
     canvas.ctx.drawImage(gameMenu.canvas,0,0);
-
-    updateCharacter();
     drawCharacter(canvas.ctx);
   }
 
   // update game canvas
   if (gameState === 'playGame' || gameState === 'gameRestart') {
     updateGame();
-
-    updateCharacter();
     drawCharacter(gamePanel.context);
   }
 
@@ -71,6 +67,14 @@ function runGame() {
     drawCharacter(canvas.ctx)
   }
 
+  if (gameState === 'animateGameOver') {
+    detach();
+    updateGameOverAnimation();
+    updateGame();
+    drawCharacter(canvas.ctx);
+    // its not visible because it moves off the canvas...
+    //character.centerX = canvas.width/2;
+  }
 
 
   if (gameState === 'playGame' || gameState === 'gameOver' || gameState === 'gamePaused' || gameState === 'gameRestart' || gameState === 'gameResume' || gameState === 'animateGameOver') {
@@ -132,12 +136,6 @@ function runGame() {
   if (character.centerY-(character.size/2) > canvas.height && gameState === 'playGame') {
     //gameState = 'gameOver';
     setupGameOverAnimation();
-  }
-
-  if (gameState === 'animateGameOver') {
-    detach();
-    updateGame();
-    updateGameOverAnimation();
   }
 
   // the below states overlay the game, thus they are drawn last

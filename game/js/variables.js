@@ -47,6 +47,7 @@ var gridSize = {
 
 // character
 var gravity = 0;
+var terminalVelocity = 8;
 var gravityIncrease = 0.3;
 var momentiumY;
 var momentiumX;

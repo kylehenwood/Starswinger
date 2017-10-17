@@ -1,7 +1,11 @@
 
 // when character is not attached, move it based on momentium and gravity
 function characterFalling(ctx) {
-  gravity += gravityIncrease;
+  if (gravity < terminalVelocity) {
+    gravity += gravityIncrease;
+  } else {
+    gravity = terminalVelocity;
+  }
   character.centerY += gravity;
   character.centerX += momentiumIncrease;
 }

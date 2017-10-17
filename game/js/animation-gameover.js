@@ -15,13 +15,15 @@ var camMoved = 0;
 var camDown = 240;
 
 function updateGameOverAnimation() {
-  console.log('state:'+animateGameOver.state+','+camMoved);
+  //console.log('state:'+animateGameOver.state+','+camMoved);
   // state 1
   if (animateGameOver.state === 1) {
       if (camMoved < camDown) {
         var move = animateEaseOut(camDown,camMoved,4);
         camMoved += move;
         cameraY = -camMoved;
+        //character.centerY -= move;
+        //character.centerX = canvas.width/2;
       }
       if (camMoved >= (camDown-1)) {
         camMoved = camDown;
@@ -31,9 +33,11 @@ function updateGameOverAnimation() {
   // state 2
   if (animateGameOver.state === 2) {
     if (camMoved > 0) {
-      var move = animateEaseOut(0,camMoved,24);
+      var move = animateEaseOut(0,camMoved,16);
       camMoved += move;
       cameraY = -camMoved;
+      //character.centerY -= move;
+      //character.centerX = canvas.width/2;
     }
     if (camMoved <= 1) {
       camMoved = 0;

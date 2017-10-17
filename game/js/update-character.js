@@ -11,9 +11,12 @@ function updateCharacter() {
 
 
 // draw character
-function drawCharacter(ctx) {
-  ctx.beginPath();
-  ctx.rect(character.posX,character.posY,character.size,character.size);
-  ctx.fillStyle = 'white';
-  ctx.fill();
+function drawCharacter(context) {
+
+  updateCharacter();
+
+  context.beginPath();
+  context.rect(character.posX,character.posY,character.size,character.size);
+  context.fillStyle = 'white';
+  context.fill();
 }

@@ -98,7 +98,11 @@ function animateToMenu() {
     context.drawImage(playButton.canvas,playButton.posX,playButton.posY);
 
     if (character.centerY < 368) {
-      gravity += 1;
+      if (gravity < terminalVelocity) {
+        gravity += gravityIncrease;
+      } else {
+        gravity = terminalVelocity;
+      }
       character.centerY += gravity;
 
       if (character.centerY > 368) {
