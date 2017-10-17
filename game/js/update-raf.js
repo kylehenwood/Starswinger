@@ -73,7 +73,7 @@ function runGame() {
 
 
 
-  if (gameState === 'playGame' || gameState === 'gameOver' || gameState === 'gamePaused' || gameState === 'gameRestart' || gameState === 'gameResume') {
+  if (gameState === 'playGame' || gameState === 'gameOver' || gameState === 'gamePaused' || gameState === 'gameRestart' || gameState === 'gameResume' || gameState === 'animateGameOver') {
     // Draw canvases
     // draw before move update as update game uses those numbers to clear canvas
     canvas.ctx.drawImage(gamePanel.canvas,moveCanvas.currentPos,cameraY);
@@ -92,7 +92,7 @@ function runGame() {
   // }
 
   // Move camera (GAME)
-  if (gameState === 'playGame') {
+  if (gameState === 'playGame' || gameState === 'animateGameOver') {
     // Move the camera position to either catch up to the character or selected hook.
     if (cameraMode === 'hook') {
       moveCanvas.selectedPos = (selectedHook.posX-(canvas.width/2)+(selectedHook.size/2))*-1;
@@ -130,9 +130,15 @@ function runGame() {
 
   // Game over check if character is below the screen, or game state is :gameOver"
   if (character.centerY-(character.size/2) > canvas.height && gameState === 'playGame') {
-    gameState = 'gameOver';
+    //gameState = 'gameOver';
+    setupGameOverAnimation();
   }
 
+  if (gameState === 'animateGameOver') {
+    detach();
+    updateGame();
+    updateGameOverAnimation();
+  }
 
   // the below states overlay the game, thus they are drawn last
   if (gameState === 'gameOver') {

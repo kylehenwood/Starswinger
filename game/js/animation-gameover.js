@@ -1,76 +1,62 @@
-//restart game
-function restartGame() {
-  gameState = "gameRestart";
-  restartStage = 1;
+function setupGameOverAnimation() {
+  gameState = 'animateGameOver';
+  animateGameOver = {
+    state: 1,
+  }
+}
+
+var animateGameOver = {
+  state: 1,
+  camY: 0
+}
+
+// amount camera has moved so far
+var camMoved = 0;
+
+function updateGameOverAnimation() {
+  console.log('state:'+animateGameOver.state+','+camMoved);
+  // state 1
+  if (animateGameOver.state === 1) {
+      if (camMoved < 100) {
+        var move = animateEaseOut(100,camMoved,4);
+        camMoved += move;
+        cameraY = -camMoved;
+      }
+      if (camMoved >= (100-1)) {
+        camMoved = 100;
+        animateGameOver.state = 2;
+      }
+  }
+  // state 2
+  if (animateGameOver.state === 2) {
+    if (camMoved > 0) {
+      var move = animateEaseOut(0,camMoved,24);
+      camMoved += move;
+      cameraY = -camMoved;
+    }
+    if (camMoved <= 1) {
+      camMoved = 0;
+      animateGameOver.state = 3;
+    }
+  }
+  // state 3
+  if (animateGameOver.state === 3) {
+    gameState = 'gameOver';
+    animateGameOver = {
+      count: 0,
+      state: 1
+    }
+    camMoved = 0;
+    return;
+  }
 }
 
 
-function clearVariables() {
-  gridPositions = [];
-  elements = [];
-  starHooks = [];
-
-  gravity = 0;
-
-  // camera
-  moveCanvas = {
-    currentPos: 0,
-    selectedPos: 0,
-    moveSpeed: 0,
-    interations: 16 // how many frames till camera catches target
-  }
-
-  cameraX = 0;
-
-  // tada
-  momentium = 0;
-  momentiumIncrease = 0;
-  maxAngleIncrement = 0;
-
-  momentiumAngle = null;
-  swingDirection = null;
-  swingSpeed = 0.1;
-  maxSpeed = 2;
-
-  gameUserInterface.score = 0;
+function animateEaseOut(numHave,numWant,iterations) {
+  var test = (numHave-numWant)/iterations;
+  //console.log(numHave+','+numWant+','+iterations);
+  return test;
 }
 
-
-// end game
-var restartSpeed = 0;
-var restartStage = 1;
-
-
-// gameState === 'restartAnimation'
-// once complete it starts a new game.
-function restartAnimation() {
-  if (cameraY+canvas.height > 0 && restartStage === 1) {
-    restartSpeed = ((canvas.height*1.1)-cameraY)/40;
-    cameraY -= restartSpeed;
-  }
-  // little hackery as it takes forever to get exactly 0 through iterations.
-  if (cameraY+canvas.height < 0 && restartStage === 1) {
-    restartStage = 2;
-    cameraY = canvas.height;
-    moveCanvas.currentPos = 0;
-
-    // create new game
-    clearVariables();
-    gameSetup();
-  }
-  if (cameraY+canvas.height > 0 && restartStage === 2) {
-    restartSpeed  = (cameraY)/32;
-    cameraY -= restartSpeed ;
-  }
-
-  // reset game over
-  if (cameraY <= 0.4 && restartStage === 2) {
-    restartSpeed = 0;
-    restartStage = 0;
-    cameraY = 0;
-
-    // start game
-    gameState = "playGame";
-  }
-  //console.log(restartStage);
-}
+// moveCanvas.selectedPos = (character.centerX-(canvas.width/2)+(character.size/2))*-1;
+// moveCanvas.moveSpeed = ((moveCanvas.selectedPos - moveCanvas.currentPos)/moveCanvas.interations);

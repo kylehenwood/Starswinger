@@ -21,7 +21,9 @@ function restartAnimation() {
     restartStage = 2;
     cameraY = canvas.height;
     moveCanvas.currentPos = 0;
-    
+
+    // create new game
+    clearVariables();
     gameSetup();
   }
   if (cameraY+canvas.height > 0 && restartStage === 2) {
