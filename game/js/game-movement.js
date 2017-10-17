@@ -1,6 +1,6 @@
 
 // when character is not attached, move it based on momentium and gravity
-function characterFalling(ctx) {
+function characterFalling(context) {
   if (gravity < terminalVelocity) {
     gravity += gravityIncrease;
   } else {
@@ -67,21 +67,21 @@ function additiveSwing() {
 }
 
 
-function drawTrajectory(ctx){
+function drawTrajectory(context){
   // triangle of calculations
-  ctx.strokeStyle = 'magenta';
-  ctx.lineWidth = 1;
-  ctx.beginPath();
-  ctx.moveTo(trajectory.characterPosX,trajectory.characterPosY);  // startPointX, startPointY
-  ctx.lineTo(trajectory.starPosX,trajectory.starPosY); // HookX,HookY
-  ctx.lineTo(trajectory.starPosX,trajectory.characterPosY); // startPointY, HookX
-  ctx.closePath();    // hypotinuse
-  ctx.stroke();
+  context.strokeStyle = 'magenta';
+  context.lineWidth = 1;
+  context.beginPath();
+  context.moveTo(trajectory.characterPosX,trajectory.characterPosY);  // startPointX, startPointY
+  context.lineTo(trajectory.starPosX,trajectory.starPosY); // HookX,HookY
+  context.lineTo(trajectory.starPosX,trajectory.characterPosY); // startPointY, HookX
+  context.closePath();    // hypotinuse
+  context.stroke();
 
   // calculate hypotenuse === radius, draw circle on currentHook center
-  ctx.beginPath();
-  ctx.arc(trajectory.starPosX, trajectory.starPosY, trajectory.hypotenuse, 0, 2 * Math.PI, false);
-  ctx.lineWidth = 2;
-  ctx.strokeStyle = 'yellow';
-  ctx.stroke();
+  context.beginPath();
+  context.arc(trajectory.starPosX, trajectory.starPosY, trajectory.hypotenuse, 0, 2 * Math.PI, false);
+  context.lineWidth = 2;
+  context.strokeStyle = 'yellow';
+  context.stroke();
 }

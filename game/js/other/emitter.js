@@ -21,7 +21,7 @@ function calc() {
 // canvas stuff
 var canvas = {
     id: '',
-    ctx: '',
+    context: '',
     width: '',
     height: ''
 };
@@ -30,7 +30,7 @@ var canvas = {
 function setup() {
 
     canvas.id = $('.js-emitter');
-    canvas.ctx = canvas.id[0].getContext("2d");
+    canvas.context = canvas.id[0].getContext("2d");
 
     // need to recall this on resize
 
@@ -76,10 +76,10 @@ function beamEmitter(timestamp) {
         if (layer.life <= 0) {
             particleLayers.splice(i,1);
         } else {
-            canvas.ctx.save();
-            canvas.ctx.globalAlpha = (layer.life*5)/100;
-            canvas.ctx.drawImage(layer.layer, 0, 0);
-            canvas.ctx.restore();
+            canvas.context.save();
+            canvas.context.globalAlpha = (layer.life*5)/100;
+            canvas.context.drawImage(layer.layer, 0, 0);
+            canvas.context.restore();
         }
     }
 }
@@ -239,7 +239,7 @@ function toRad(deg) {
 
 // clear canvas function
 function clear(canvas) {
-    canvas.ctx.clearRect(0, 0, canvas.width, canvas.height);
+    canvas.context.clearRect(0, 0, canvas.width, canvas.height);
 }
 
 

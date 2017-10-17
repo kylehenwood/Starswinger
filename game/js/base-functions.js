@@ -9,7 +9,7 @@ function toDeg(rad) {
 
 // clear canvas function
 function clear(canvas) {
-    canvas.ctx.clearRect(0, 0, canvas.width, canvas.height);
+    canvas.context.clearRect(0, 0, canvas.width, canvas.height);
 }
 
 // random function - no really

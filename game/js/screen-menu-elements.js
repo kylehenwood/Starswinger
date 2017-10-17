@@ -132,7 +132,7 @@ function drawSquareButton(context,data) {
 //-- logo
 var logo = {
   canvas: null,
-  ctx: null,
+  context: null,
   alpha: 1
 }
 function createLogo() {
@@ -176,7 +176,7 @@ function createLogo() {
 //-- platform
 var platform = {
   canvas: null,
-  ctx: null,
+  context: null,
   posX: null,
   posY: null,
   hover: 0,

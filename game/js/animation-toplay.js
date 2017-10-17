@@ -12,7 +12,7 @@ var start = {
 
 function updateStart() {
 
-  var context = canvas.ctx;
+  var context = canvas.context;
 
   if (start.count < 200) {
     start.count++

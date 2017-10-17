@@ -6,7 +6,7 @@
 
 var canvas = {
     id: '',
-    ctx: '',
+    context: '',
     width: '',
     height: ''
 }
@@ -47,7 +47,7 @@ var gridSize = {
 
 // character
 var gravity = 0;
-var terminalVelocity = 8;
+var terminalVelocity = 16;
 var gravityIncrease = 0.3;
 var momentiumY;
 var momentiumX;

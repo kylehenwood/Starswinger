@@ -58,7 +58,7 @@ function animateToMenu() {
   }
 
   if (menuStage >= 2) {
-    var context = canvas.ctx;
+    var context = canvas.context;
 
     // floating platform
     context.drawImage(platform.canvas,platform.posX,platform.posY+cameraY*0.6)
@@ -73,7 +73,7 @@ function animateToMenu() {
     context.drawImage(soundButton.canvas,soundButton.posX,soundButton.posY);
     context.drawImage(settingsButton.canvas,settingsButton.posX,settingsButton.posY);
 
-    canvas.ctx.restore();
+    canvas.context.restore();
   }
 
 
@@ -91,7 +91,7 @@ function animateToMenu() {
 
 
   if (menuStage >= 3) {
-    var context = canvas.ctx;
+    var context = canvas.context;
     if (playButton.progress < 100) {
       updatePlayButton();
     }

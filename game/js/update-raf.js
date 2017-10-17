@@ -22,7 +22,7 @@ function runGame() {
 
   if (gameState === 'loading') {
     updateLoading(gameLoading.context);
-    canvas.ctx.drawImage(gameLoading.canvas,0,0);
+    canvas.context.drawImage(gameLoading.canvas,0,0);
     return;
   }
 
@@ -30,14 +30,14 @@ function runGame() {
     updateIntro();
 
     updateCharacter();
-    drawCharacter(canvas.ctx)
+    drawCharacter(canvas.context)
   }
 
   if (gameState === 'menuAnimation') {
     animateToMenu();
 
     updateCharacter();
-    drawCharacter(canvas.ctx)
+    drawCharacter(canvas.context)
   }
 
   // background effects / parralax
@@ -47,8 +47,8 @@ function runGame() {
   // game intro
   if (gameState === 'gameMenu') {
     updateMenu();
-    canvas.ctx.drawImage(gameMenu.canvas,0,0);
-    drawCharacter(canvas.ctx);
+    canvas.context.drawImage(gameMenu.canvas,0,0);
+    drawCharacter(canvas.context);
   }
 
   // update game canvas
@@ -64,14 +64,14 @@ function runGame() {
 
   if (gameState === 'animateGameStart') {
     updateStart();
-    drawCharacter(canvas.ctx)
+    drawCharacter(canvas.context)
   }
 
   if (gameState === 'animateGameOver') {
     detach();
     updateGameOverAnimation();
     updateGame();
-    drawCharacter(canvas.ctx);
+    drawCharacter(canvas.context);
     // its not visible because it moves off the canvas...
     //character.centerX = canvas.width/2;
   }
@@ -80,8 +80,8 @@ function runGame() {
   if (gameState === 'playGame' || gameState === 'gameOver' || gameState === 'gamePaused' || gameState === 'gameRestart' || gameState === 'gameResume' || gameState === 'animateGameOver') {
     // Draw canvases
     // draw before move update as update game uses those numbers to clear canvas
-    canvas.ctx.drawImage(gamePanel.canvas,moveCanvas.currentPos,cameraY);
-    canvas.ctx.drawImage(clickAreas.canvas,0+moveCanvas.currentPos,cameraY);
+    canvas.context.drawImage(gamePanel.canvas,moveCanvas.currentPos,cameraY);
+    canvas.context.drawImage(clickAreas.canvas,0+moveCanvas.currentPos,cameraY);
   }
 
 
@@ -116,9 +116,9 @@ function runGame() {
   }
 
   if (gameState === 'gamePaused' || gameState === 'gameResume') {
-    updateForeground(canvas.ctx,moveCanvas.moveSpeed,cameraY,false);
+    updateForeground(canvas.context,moveCanvas.moveSpeed,cameraY,false);
   } else {
-    updateForeground(canvas.ctx,moveCanvas.moveSpeed,cameraY,true);
+    updateForeground(canvas.context,moveCanvas.moveSpeed,cameraY,true);
   }
 
 
@@ -126,7 +126,7 @@ function runGame() {
 
 
   // paint foreground
-  //canvas.ctx.drawImage(foreground.canvas,0,0);
+  //canvas.context.drawImage(foreground.canvas,0,0);
 
   // paint UI
   updateInterface();
@@ -141,17 +141,17 @@ function runGame() {
   // the below states overlay the game, thus they are drawn last
   if (gameState === 'gameOver') {
     gameOverUpdate();
-    canvas.ctx.drawImage(gameOver.canvas,0,0);
+    canvas.context.drawImage(gameOver.canvas,0,0);
   }
 
   if (gameState === 'gamePaused' || gameState === 'gameResume') {
-    canvas.ctx.drawImage(pauseCanvas.canvas,0,0);
+    canvas.context.drawImage(pauseCanvas.canvas,0,0);
   }
   // pause icon
   if (gameState === 'playGame' || gameState === 'gameResume') {
-    canvas.ctx.fillStyle = 'white';
-    canvas.ctx.fillRect(32,canvas.height-56,4,32);
-    canvas.ctx.fillRect(48,canvas.height-56,4,32);
+    canvas.context.fillStyle = 'white';
+    canvas.context.fillRect(32,canvas.height-56,4,32);
+    canvas.context.fillRect(48,canvas.height-56,4,32);
   }
 
   //console.log(cameraY);

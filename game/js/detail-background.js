@@ -6,8 +6,8 @@ function setupBackground() {}
 function drawBackground() {
   // draw clouds at the bottom of screen.
 
-  //drawBackgroundMoon(canvas.ctx);
-  //drawBackgroundClouds(canvas.ctx);
+  //drawBackgroundMoon(canvas.context);
+  //drawBackgroundClouds(canvas.context);
 }
 
 

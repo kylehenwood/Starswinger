@@ -2,7 +2,7 @@
 function setupCanvas() {
     // need to recall this on resize
     canvas.id = document.getElementById('js-starswinger');
-    canvas.ctx = canvas.id.getContext("2d");
+    canvas.context = canvas.id.getContext("2d");
 
     canvas.width = 1200;
     canvas.height = 640;
