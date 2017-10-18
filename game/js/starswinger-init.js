@@ -18,6 +18,7 @@
 
   setupForeground();
 
+  loadAudio();
 
   // point at which game starts...
   var urlHash = window.location.hash;

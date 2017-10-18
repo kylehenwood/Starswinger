@@ -34,6 +34,7 @@ function attach() {
   }
 
   if (selectedHook != null) {
+    soundGrappelHit();
     //console.log("attach");
     gravity = 0;
     cameraMode = 'hook';

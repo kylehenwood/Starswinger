@@ -3,6 +3,7 @@ function setupGameOverAnimation() {
   animateGameOver = {
     state: 1,
   }
+  soundFalling();
 }
 
 var animateGameOver = {

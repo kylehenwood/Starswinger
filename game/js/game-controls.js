@@ -28,14 +28,14 @@ function mouseTestSetup() {
         resumeClick(mouseX,mouseY);
         break;
       case "gameOver":
-       gameOverClick(mouseX,mouseY);
-       break;
-     case "gameIntro":
-      introClick(mouseX,mouseY);
-      break;
-    case "gameMenu":
-     menuClick(mouseX,mouseY);
-     break;
+        gameOverClick(mouseX,mouseY);
+        break;
+      case "gameIntro":
+        introClick(mouseX,mouseY);
+        break;
+      case "gameMenu":
+        menuClick(mouseX,mouseY);
+        break;
       default: return;
     }
     //console.log(gameState);
