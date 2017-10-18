@@ -1,6 +1,6 @@
 var gameSound = true;
 var audioVersion = 1;
-var gameSoundVolume = 1;
+var gameSoundVolume = 0.1;
 
 function loadAudio() {
   initAudioGrappelLaunch();
@@ -14,7 +14,6 @@ function loadAudio() {
 var audioGrappelLaunch;
 function initAudioGrappelLaunch() {
   var fileLocation;
-
   if (audioVersion === 2) {
     fileLocation = 'audio/1_launch.wav';
   } else {
@@ -26,6 +25,7 @@ function initAudioGrappelLaunch() {
   audioGrappelLaunch.volume = gameSoundVolume;
 }
 function soundGrappelLaunch() {
+  console.log('audioLaunch');
   audioGrappelLaunch.play();
 }
 
@@ -46,6 +46,7 @@ function initAudioGrappelHit() {
   audioGrappelHit.volume = gameSoundVolume;
 }
 function soundGrappelHit() {
+  console.log('audioHit');
   audioGrappelHit.play();
 }
 

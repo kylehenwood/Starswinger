@@ -2,8 +2,6 @@
 // this is controlled by the game RAF engine, and the variable hookGrappel.launch
 function grappelLaunch(context) {
 
-  soundGrappelLaunch();
-
   var increment = 0;
   swingDirection = null;
   swingSpeed = 0.1;

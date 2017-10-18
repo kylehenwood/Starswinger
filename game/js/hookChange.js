@@ -23,6 +23,7 @@ function changeHook(hookIndex) {
     cameraMode = 'hook';
     selectedHook.selected = true;
     hookGrappel.launch = true;
+    soundGrappelLaunch();
 
     // calculate how many frames the grappel will need to reach hook @60fps.
     var percent = (character.grappelDelay/1000);
