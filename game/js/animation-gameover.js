@@ -4,11 +4,13 @@ function setupGameOverAnimation() {
     state: 1,
   }
   soundFalling();
+  gameOverlay.alpha = 0;
 }
 
 var animateGameOver = {
   state: 1,
-  camY: 0
+  camY: 0,
+  overlayAlpha: 0
 }
 
 // amount camera has moved so far
@@ -16,6 +18,7 @@ var camMoved = 0;
 var camDown = 240;
 
 function updateGameOverAnimation() {
+
   //console.log('state:'+animateGameOver.state+','+camMoved);
   // state 1
   if (animateGameOver.state === 1) {
@@ -37,6 +40,7 @@ function updateGameOverAnimation() {
       var move = animateEaseOut(0,camMoved,16);
       camMoved += move;
       cameraY = -camMoved;
+      updateGameOverlay(canvas.context,'fade-in')
       //character.centerY -= move;
       //character.centerX = canvas.width/2;
     }
@@ -59,9 +63,16 @@ function updateGameOverAnimation() {
 
 
 function animateEaseOut(numHave,numWant,iterations) {
-  var test = (numHave-numWant)/iterations;
+  var number = (numHave-numWant)/iterations;
   //console.log(numHave+','+numWant+','+iterations);
-  return test;
+  return number;
+}
+
+function animateEaseIn(numHave,numWant,iterations) {
+  var number = (numHave-numWant)/iterations;
+  //number = number-numWant;
+  console.log(number);
+  return number;
 }
 
 // moveCanvas.selectedPos = (character.centerX-(canvas.width/2)+(character.size/2))*-1;

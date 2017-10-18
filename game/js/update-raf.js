@@ -67,15 +67,6 @@ function runGame() {
     drawCharacter(canvas.context)
   }
 
-  if (gameState === 'animateGameOver') {
-    detach();
-    updateGameOverAnimation();
-    updateGame();
-    drawCharacter(canvas.context);
-    // its not visible because it moves off the canvas...
-    //character.centerX = canvas.width/2;
-  }
-
 
   if (gameState === 'playGame' || gameState === 'gameOver' || gameState === 'gamePaused' || gameState === 'gameRestart' || gameState === 'gameResume' || gameState === 'animateGameOver') {
     // Draw canvases
@@ -131,6 +122,15 @@ function runGame() {
   // paint UI
   updateInterface();
 
+
+  if (gameState === 'animateGameOver') {
+    detach();
+    updateGameOverAnimation();
+    updateGame();
+    drawCharacter(canvas.context);
+    // its not visible because it moves off the canvas...
+    //character.centerX = canvas.width/2;
+  }
 
   // Game over check if character is below the screen, or game state is :gameOver"
   if (character.centerY-(character.size/2) > canvas.height && gameState === 'playGame') {

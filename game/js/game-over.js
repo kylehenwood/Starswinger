@@ -17,7 +17,7 @@ function gameOverSetup() {
 
 
 function gameOverUpdate() {
-  gameState = "gameOver";
+  //gameState = "gameOver";
 
   gameOver.context.clearRect(0, 0, gameOver.canvas.width, gameOver.canvas.height);
   gameOver.context.beginPath();

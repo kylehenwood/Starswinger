@@ -18,6 +18,7 @@
 
   setupForeground();
 
+  setupGameOverlay();
   loadAudio();
 
   // point at which game starts...

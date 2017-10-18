@@ -25,7 +25,6 @@ function initAudioGrappelLaunch() {
   audioGrappelLaunch.volume = gameSoundVolume;
 }
 function soundGrappelLaunch() {
-  console.log('audioLaunch');
   audioGrappelLaunch.play();
 }
 
@@ -46,7 +45,6 @@ function initAudioGrappelHit() {
   audioGrappelHit.volume = gameSoundVolume;
 }
 function soundGrappelHit() {
-  console.log('audioHit');
   audioGrappelHit.play();
 }
 
