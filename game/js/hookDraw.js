@@ -41,7 +41,7 @@ function drawHook(hookVariable) {
   if (hookVariable.selected === true && star.safe === false && star.alive === true && character.swinging === true) {
     // drain star power & increase score
     gameUserInterface.score += 1;
-    star.ring -= 0.01;
+    star.ring -= 0.02;
     if (star.ring <= 0 && star.alive === true) {
       star.alive = false;
     }

@@ -2,6 +2,7 @@
 function restartGame() {
   gameState = "gameRestart";
   restartStage = 1;
+  characterReset();
 }
 
 // end game

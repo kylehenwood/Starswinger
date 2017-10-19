@@ -18,8 +18,6 @@ function runGame() {
   requestAnimationFrame(runGame);
   clear(canvas);
 
-  //console.log(gameState);
-
   if (gameState === 'loading') {
     updateLoading(gameLoading.context);
     canvas.context.drawImage(gameLoading.canvas,0,0);
@@ -159,6 +157,7 @@ function runGame() {
   //console.log(gameState);
   //console.log(starHooks.length);
   //console.log(selectedHook);
+  //console.log(Math.round(character.centerX,2)+','+Math.round(character.centerY,2));
 }
 
 

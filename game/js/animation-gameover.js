@@ -60,20 +60,3 @@ function updateGameOverAnimation() {
     return;
   }
 }
-
-
-function animateEaseOut(numHave,numWant,iterations) {
-  var number = (numHave-numWant)/iterations;
-  //console.log(numHave+','+numWant+','+iterations);
-  return number;
-}
-
-function animateEaseIn(numHave,numWant,iterations) {
-  var number = (numHave-numWant)/iterations;
-  //number = number-numWant;
-  console.log(number);
-  return number;
-}
-
-// moveCanvas.selectedPos = (character.centerX-(canvas.width/2)+(character.size/2))*-1;
-// moveCanvas.moveSpeed = ((moveCanvas.selectedPos - moveCanvas.currentPos)/moveCanvas.interations);

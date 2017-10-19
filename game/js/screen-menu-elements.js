@@ -29,8 +29,14 @@ function updatePlayButton() {
   if (playButton.progress === 0) {
     playButton.progress = 1;
   } else {
-    playButton.progress = playButton.progress*1.2;
+    if (playButton.progress < 99.5) {
+      var progress = animateEaseOut(100,playButton.progress,12);
+      playButton.progress += progress;
+    } else {
+      playButton.progress = 100;
+    }
   }
+
 
   context.clearRect(0,0,playButton.width,playButton.height);
 
@@ -38,7 +44,6 @@ function updatePlayButton() {
   context.fillStyle = 'white';
   context.fillRect(offset,0,width,2)
   context.closePath();
-
 }
 
 function setPlayButton() {

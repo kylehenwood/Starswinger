@@ -82,6 +82,7 @@ function animateToMenu() {
   if (cameraY <= 0.4 && menuStage === 2) {
     menuStage = 3;
     cameraY = 0;
+    soundFalling();
   }
 
   // character fall => play button visualised.

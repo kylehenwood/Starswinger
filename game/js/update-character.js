@@ -20,3 +20,10 @@ function drawCharacter(context) {
   context.fillStyle = 'white';
   context.fill();
 }
+
+
+function characterReset() {
+  console.log('reset');
+  character.centerX = (canvas.width/2)-400;
+  character.centerY = -400;
+}

@@ -25,8 +25,8 @@ function gameSetup() {
   drawClicky();
 
   // set character position
-  character.centerX = 240;
-  character.centerY = 40;
+  //character.centerX = 240;
+  //character.centerY = 40;
 
   // set starting hook
   changeHook(0);
