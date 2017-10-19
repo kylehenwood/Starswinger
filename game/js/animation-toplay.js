@@ -62,10 +62,10 @@ function updateStart() {
   // Jump character then grappel
   // fade in game hooks
   if (start.state === 2) {
-    if (character.centerY < logo.posY+4) {
+    if (character.centerY < logo.posY) {
       start.state = 4;
     }
-    var jumpHeight = (logo.posY-character.centerY)/16;
+    var jumpHeight = (logo.posY-character.centerY)/12;
     character.centerY += jumpHeight;
   }
 
@@ -91,6 +91,11 @@ function updateStart() {
     startGame();
   }
 
+
+
+  //-----------------------------------------------
+
+
   // fade out logo
   if (start.logoAlpha > 2) {
     var logoAlpha = (0-start.logoAlpha)/24;
@@ -98,7 +103,7 @@ function updateStart() {
 
     context.save();
     context.globalAlpha = (start.logoAlpha/100);
-    context.drawImage(logo.canvas,logo.posX+=moveCanvas.moveSpeed,logo.posY);
+    context.drawImage(logo.canvas,logo.posX+=moveCanvas.moveSpeed*0.4,logo.posY);
     context.restore();
   }
 
