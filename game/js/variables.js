@@ -65,6 +65,12 @@ var character = {
   centerY: 0,
 }
 
+// Special
+var starImmunity = {
+    power: 0,
+    immune: false
+}
+
 
 
 // Rope & angle

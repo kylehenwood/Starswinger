@@ -46,7 +46,7 @@ function createPanel() {
   while (position < availablePositions) {
     // set safe on stars.
     if (nextSafe <= 0) {
-      safe = true;
+      //safe = true;
       nextSafe = 5;
     } else {
       safe = false;

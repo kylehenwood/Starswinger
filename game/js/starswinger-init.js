@@ -15,6 +15,7 @@
   createIntro();
 
   setupGameOver();
+  setupBackground();
   setupForeground();
 
   //loadAudio();

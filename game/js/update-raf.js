@@ -37,6 +37,7 @@ function runGame() {
     animateToMenu();
     drawForeground(canvas.context,moveCanvas.moveSpeed,cameraY,true);
     // Draw
+    drawBackground();
     canvas.context.drawImage(gamePanel.canvas,moveCanvas.currentPos,cameraY);
     canvas.context.drawImage(clickAreas.canvas,moveCanvas.currentPos,cameraY);
     drawCharacter(canvas.context);
@@ -48,6 +49,7 @@ function runGame() {
     //Update
     updateMenu();
     //Draw
+    drawBackground();
     canvas.context.drawImage(gamePanel.canvas,moveCanvas.currentPos,cameraY);
     canvas.context.drawImage(clickAreas.canvas,moveCanvas.currentPos,cameraY);
     drawCharacter(canvas.context);
@@ -58,12 +60,13 @@ function runGame() {
 
     case 'playGame':
     updateGame();
-    drawForeground(canvas.context,moveCanvas.moveSpeed,cameraY,true);
     updateCamera();
     // update
+    drawBackground();
     drawCharacter(gamePanel.context);
     canvas.context.drawImage(gamePanel.canvas,moveCanvas.currentPos,cameraY);
     canvas.context.drawImage(clickAreas.canvas,moveCanvas.currentPos,cameraY);
+    drawForeground(canvas.context,moveCanvas.moveSpeed,cameraY,true);
 
     moveCanvas.currentPos += moveCanvas.moveSpeed;
     // pause icon
@@ -81,6 +84,7 @@ function runGame() {
     updateGame();
     restartAnimation();
     //draw
+    drawBackground();
     canvas.context.drawImage(gamePanel.canvas,moveCanvas.currentPos,cameraY);
     canvas.context.drawImage(clickAreas.canvas,moveCanvas.currentPos,cameraY);
     drawCharacter(gamePanel.context);
@@ -92,6 +96,8 @@ function runGame() {
     case 'animateGameStart':
     updateGame();
     updateStart();
+    //draw
+    drawBackground();
     drawCharacter(gamePanel.context);
     canvas.context.drawImage(gamePanel.canvas,moveCanvas.currentPos,cameraY);
     canvas.context.drawImage(clickAreas.canvas,moveCanvas.currentPos,cameraY);
@@ -101,6 +107,8 @@ function runGame() {
 
     case 'gameOver':
     moveCanvas.moveSpeed = 0;
+    //draw
+    drawBackground();
     canvas.context.drawImage(gamePanel.canvas,moveCanvas.currentPos,cameraY);
     canvas.context.drawImage(clickAreas.canvas,moveCanvas.currentPos,cameraY);
     drawForeground(canvas.context,moveCanvas.moveSpeed,cameraY,true);
@@ -110,11 +118,13 @@ function runGame() {
 
 
     case 'animateGameOver':
+    //update
     detach();
     updateGameOverAnimation();
     updateGame();
     updateCamera();
-    // update
+    //draw
+    drawBackground();
     moveCanvas.currentPos += moveCanvas.moveSpeed;
     canvas.context.drawImage(gamePanel.canvas,moveCanvas.currentPos,cameraY);
     canvas.context.drawImage(clickAreas.canvas,moveCanvas.currentPos,cameraY);
@@ -125,15 +135,19 @@ function runGame() {
 
 
     case 'gamePaused':
-    drawForeground(canvas.context,moveCanvas.moveSpeed,cameraY,false);
     moveCanvas.moveSpeed = 0;
+    //draw
+    drawBackground();
     canvas.context.drawImage(gamePanel.canvas,moveCanvas.currentPos,cameraY);
     canvas.context.drawImage(clickAreas.canvas,moveCanvas.currentPos,cameraY);
+    drawForeground(canvas.context,moveCanvas.moveSpeed,cameraY,false);
     canvas.context.drawImage(pauseCanvas.canvas,0,0);
     break;
 
 
     case 'gameResume':
+    //draw
+    drawBackground();
     canvas.context.drawImage(gamePanel.canvas,moveCanvas.currentPos,cameraY);
     canvas.context.drawImage(clickAreas.canvas,moveCanvas.currentPos,cameraY);
     drawForeground(canvas.context,moveCanvas.moveSpeed,cameraY,false);

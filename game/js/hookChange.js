@@ -33,6 +33,13 @@ function changeHook(hookIndex) {
 
     setTimeout(function(){
       if (gameState != 'gameOver') {
+        if (starImmunity.immune === true) {
+          starImmunity = {
+            immune: false,
+            power: 0
+          }
+          selectedHook.star.safe = true;
+        }
         attach();
         repositionSwing();
         hookGrappel.launch = false;

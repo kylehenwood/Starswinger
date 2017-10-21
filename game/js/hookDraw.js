@@ -1,5 +1,4 @@
-function drawHook(hookVariable) {
-
+function drawHook(hookVariable,optional) {
   var context = hookVariable.context; // this hook variable
   var star = hookVariable.star;
   //console.log(hookData.selected);
@@ -10,7 +9,6 @@ function drawHook(hookVariable) {
     detach();
     return;
   }
-
   //alert ('connected shockwave');
 
   // clear this canvas
@@ -41,6 +39,7 @@ function drawHook(hookVariable) {
   if (hookVariable.selected === true && star.safe === false && star.alive === true && character.swinging === true) {
     // drain star power & increase score
     gameUserInterface.score += 1;
+    starImmunity.power += 1;
     star.ring -= 0.02;
     if (star.ring <= 0 && star.alive === true) {
       star.alive = false;

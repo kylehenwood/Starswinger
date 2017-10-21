@@ -45,4 +45,15 @@ function updateGame() {
     var hook = starHooks[i];
     gameContext.drawImage(hook.layer, hook.posX, hook.posY);
   }
+
+
+  // next immune star
+  if(starImmunity.power > 200) {
+    starImmunity.power = 200;
+    starImmunity.immune = true;
+    canvas.fillStyle = 'white';
+    canvas.context.fillRect(120, canvas.height-80,24,24)
+  }
+
+
 }
