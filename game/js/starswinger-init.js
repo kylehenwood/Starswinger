@@ -6,6 +6,7 @@
 
   // create game canvas element
   drawGameSetup();
+  gameSetup();
 
   controls();
   mouseTestSetup();
@@ -29,6 +30,7 @@
       //startGame();
       gameSetup();
       startGame();
+      //animateStart();
       break;
     case '#game-intro':
       setupIntro();
@@ -48,6 +50,21 @@
 
 
 }());
+
+// Setup
+function setupCanvas() {
+    // need to recall this on resize
+    canvas.id = document.getElementById('js-starswinger');
+    canvas.context = canvas.id.getContext("2d");
+
+    canvas.width = 1200;
+    canvas.height = 640;
+
+    // set canvas width and height.
+    canvas.id.setAttribute('width', canvas.width);
+    canvas.id.setAttribute('height', canvas.height);
+}
+
 
 // I want the game level & the game intro to co-exist.
 

@@ -18,21 +18,6 @@ function runGame() {
   requestAnimationFrame(runGame);
   clear(canvas);
 
-  giantSwitch();
-
-  //console.log(cameraY);
-  //console.log(starConnected);
-  //console.log(gameState);
-  //console.log(starHooks.length);
-  //console.log(selectedHook);
-  //console.log(Math.round(character.centerX,2)+','+Math.round(character.centerY,2));
-}
-
-
-
-
-function giantSwitch() {
-
   switch(gameState) {
     case 'loading':
     //Update
@@ -41,27 +26,35 @@ function giantSwitch() {
     canvas.context.drawImage(gameLoading.canvas,0,0);
     break;
 
+
     case 'gameIntro':
     updateIntro();
     break;
+
 
     case 'menuAnimation':
     // Update
     animateToMenu();
     drawForeground(canvas.context,moveCanvas.moveSpeed,cameraY,true);
     // Draw
+    canvas.context.drawImage(gamePanel.canvas,moveCanvas.currentPos,cameraY);
+    canvas.context.drawImage(clickAreas.canvas,moveCanvas.currentPos,cameraY);
     drawCharacter(canvas.context);
     drawGameOverlay(canvas.context,'fade-out');
     break;
+
 
     case 'gameMenu':
     //Update
     updateMenu();
     //Draw
-    canvas.context.drawImage(gameMenu.canvas,0,0);
+    canvas.context.drawImage(gamePanel.canvas,moveCanvas.currentPos,cameraY);
+    canvas.context.drawImage(clickAreas.canvas,moveCanvas.currentPos,cameraY);
     drawCharacter(canvas.context);
     drawForeground(canvas.context,moveCanvas.moveSpeed,cameraY,true);
+    canvas.context.drawImage(gameMenu.canvas,0,0);
     break;
+
 
     case 'playGame':
     updateGame();
@@ -70,7 +63,7 @@ function giantSwitch() {
     // update
     drawCharacter(gamePanel.context);
     canvas.context.drawImage(gamePanel.canvas,moveCanvas.currentPos,cameraY);
-    canvas.context.drawImage(clickAreas.canvas,0+moveCanvas.currentPos,cameraY);
+    canvas.context.drawImage(clickAreas.canvas,moveCanvas.currentPos,cameraY);
 
     moveCanvas.currentPos += moveCanvas.moveSpeed;
     // pause icon
@@ -82,36 +75,39 @@ function giantSwitch() {
     }
     break;
 
+
     case 'gameRestart':
     //Update
     updateGame();
     restartAnimation();
     //draw
-    drawCharacter(gamePanel.context);
     canvas.context.drawImage(gamePanel.canvas,moveCanvas.currentPos,cameraY);
-    canvas.context.drawImage(clickAreas.canvas,0+moveCanvas.currentPos,cameraY);
+    canvas.context.drawImage(clickAreas.canvas,moveCanvas.currentPos,cameraY);
+    drawCharacter(gamePanel.context);
     drawForeground(canvas.context,moveCanvas.moveSpeed,cameraY,true);
     drawGameOverlay(canvas.context,'fade-out');
     break;
 
+
     case 'animateGameStart':
     updateStart();
-    drawCharacter(canvas.context);
+    //updateGame();
     canvas.context.drawImage(gamePanel.canvas,moveCanvas.currentPos,cameraY);
-    //canvas.context.drawImage(clickAreas.canvas,0+moveCanvas.currentPos,cameraY);
+    canvas.context.drawImage(clickAreas.canvas,moveCanvas.currentPos,cameraY);
+    drawCharacter(gamePanel.context);
     drawForeground(canvas.context,moveCanvas.moveSpeed,cameraY,true);
     break;
 
-    case 'gameOver':
-    //gameOverUpdate();
-    moveCanvas.moveSpeed = 0;
 
+    case 'gameOver':
+    moveCanvas.moveSpeed = 0;
     canvas.context.drawImage(gamePanel.canvas,moveCanvas.currentPos,cameraY);
-    canvas.context.drawImage(clickAreas.canvas,0+moveCanvas.currentPos,cameraY);
+    canvas.context.drawImage(clickAreas.canvas,moveCanvas.currentPos,cameraY);
     drawForeground(canvas.context,moveCanvas.moveSpeed,cameraY,true);
     drawGameOverlay(canvas.context,'fade-in');
     canvas.context.drawImage(gameOver.canvas,0,0);
     break;
+
 
     case 'animateGameOver':
     detach();
@@ -121,24 +117,25 @@ function giantSwitch() {
     // update
     moveCanvas.currentPos += moveCanvas.moveSpeed;
     canvas.context.drawImage(gamePanel.canvas,moveCanvas.currentPos,cameraY);
-    canvas.context.drawImage(clickAreas.canvas,0+moveCanvas.currentPos,cameraY);
+    canvas.context.drawImage(clickAreas.canvas,moveCanvas.currentPos,cameraY);
     drawForeground(canvas.context,moveCanvas.moveSpeed,cameraY,true);
     drawGameOverlay(canvas.context,'fade-in');
-
     drawCharacter(canvas.context);
     break;
+
 
     case 'gamePaused':
     drawForeground(canvas.context,moveCanvas.moveSpeed,cameraY,false);
     moveCanvas.moveSpeed = 0;
-    canvas.context.drawImage(gamePanel.canvas,moveCanvas.currentPos,cameraY);
-    canvas.context.drawImage(clickAreas.canvas,0+moveCanvas.currentPos,cameraY);
+    canvas.context.drawImage(gamePanel.canvas,(canvas.width/2)+moveCanvas.currentPos,cameraY);
+    canvas.context.drawImage(clickAreas.canvas,(canvas.width/2)+moveCanvas.currentPos,cameraY);
     canvas.context.drawImage(pauseCanvas.canvas,0,0);
     break;
 
+
     case 'gameResume':
-    canvas.context.drawImage(gamePanel.canvas,moveCanvas.currentPos,cameraY);
-    canvas.context.drawImage(clickAreas.canvas,0+moveCanvas.currentPos,cameraY);
+    canvas.context.drawImage(gamePanel.canvas,(canvas.width/2)+moveCanvas.currentPos,cameraY);
+    canvas.context.drawImage(clickAreas.canvas,(canvas.width/2)+moveCanvas.currentPos,cameraY);
     drawForeground(canvas.context,moveCanvas.moveSpeed,cameraY,false);
     canvas.context.drawImage(pauseCanvas.canvas,0,0);
     // pause icon
@@ -149,8 +146,9 @@ function giantSwitch() {
 
   // paint UI
   updateInterface();
-
 }
+
+
 
 function updateCamera() {
   if (cameraMode === 'hook') {
@@ -161,6 +159,3 @@ function updateCamera() {
     moveCanvas.moveSpeed = ((moveCanvas.selectedPos - moveCanvas.currentPos)/moveCanvas.interations);
   }
 }
-
-
-//if (gameState === 'playGame' || gameState === 'gameOver' || gameState === 'gamePaused' || gameState === 'gameRestart' || gameState === 'gameResume' || gameState === 'animateGameOver') {

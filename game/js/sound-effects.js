@@ -1,5 +1,5 @@
 var gameAudio = {
-  sound: false,
+  sound: true,
   volume: 0.0,
   volumeEffects: 0.1,
   volumeMusic: 0.1

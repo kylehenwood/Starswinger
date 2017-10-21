@@ -1,6 +1,12 @@
 // start a game
 function startGame() {
-  clearVariables();
-  gameSetup();
   gameState = "playGame";
+  gravity = 0;
+
+  // clearVariables();
+  // gameSetup();
+
+  changeHook(0);
+  //setTimeout(function(){
+  //},480);
 }

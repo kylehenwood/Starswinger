@@ -43,6 +43,7 @@ function animateToMenu() {
 
     // create new game
     clearVariables();
+    gameSetup();
   }
 
   if (cameraY+canvas.height > 0 && menuStage === 2) {

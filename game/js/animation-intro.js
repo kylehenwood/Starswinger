@@ -39,5 +39,5 @@ function updateIntro() {
   }
 
   //console.log(character.centerY);
-  console.log('updateIntro');
+  //console.log('updateIntro');
 }

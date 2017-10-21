@@ -2,7 +2,8 @@
 function restartGame() {
   gameState = "gameRestart";
   restartStage = 1;
-  characterReset();
+  detach();
+  //characterReset();
 }
 
 // end game
@@ -38,8 +39,12 @@ function restartAnimation() {
     restartStage = 0;
     cameraY = 0;
 
+    gravity = 0;
+    character.centerY = -character.size;
+    character.centerX = canvas.width/2;
+
     // start game
-    gameState = "playGame";
+    startGame();
   }
   //console.log(restartStage);
 }

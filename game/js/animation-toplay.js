@@ -42,7 +42,7 @@ function updateStart() {
       var progress = animateEaseOut(cloudUp,startMove,12);
       startMove += progress;
       moveCanvas.moveSpeed = -progress;
-      character.centerX+=moveCanvas.moveSpeed;
+      moveCanvas.currentPos += moveCanvas.moveSpeed;
       platform.posX+=moveCanvas.moveSpeed;
     } else {
       start.state = 2;

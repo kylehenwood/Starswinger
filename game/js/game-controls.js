@@ -176,7 +176,7 @@ function controls() {
           break;
 
           case 82: // R (restart)
-          if (gameState === "playGame") {
+          if (gameState === "playGame" || gameState === "gameOver") {
             restartGame();
           }
           break;

@@ -1,45 +1,38 @@
-// Setup
-function setupCanvas() {
-    // need to recall this on resize
-    canvas.id = document.getElementById('js-starswinger');
-    canvas.context = canvas.id.getContext("2d");
+// game panel setup
+var gamePanel = {
+  canvas: '',
+  context: '',
+  posX:0,
+  posY:0
+}
 
-    canvas.width = 1200;
-    canvas.height = 640;
-
-    // set canvas width and height.
-    canvas.id.setAttribute('width', canvas.width);
-    canvas.id.setAttribute('height', canvas.height);
+function drawGameSetup() {
+  gamePanel.canvas = document.createElement('canvas');
+  gamePanel.canvas.width = gridSize.cols*gridSize.square;
+  gamePanel.canvas.height = canvas.height;
+  gamePanel.context = gamePanel.canvas.getContext('2d');
 }
 
 // ---------------------------------------------------------------
 function gameSetup() {
 
   // create a grid canvas and push the positions of each square to an array called "elements"
+  gridPosition = [];
   createGrid();
 
   // create a panel which I draw/place stars positions fitting that of the grid element positions.
+  starHooks = [];
   createPanel();
 
   // draw click area hotspots
   drawClicky();
-
-  // set character position
-  //character.centerX = 240;
-  //character.centerY = 40;
-
-  // set starting hook
-  changeHook(0);
 }
-
-
-
 
 // create a canvas and draw the grid and stars/hooks on it.
 // size
 function createPanel() {
   var panel = {
-      width: gridSize.cols*gridSize.square,
+      width: (gridSize.cols*gridSize.square)+(canvas.width/2),
       height: gridSize.rows*gridSize.square
   }
 
@@ -60,7 +53,7 @@ function createPanel() {
     }
     // space out the stars by adding a random tile gap untill the tile is exceeded.
     if (position === 0) {
-      position = 46;
+      position = 2;
     } else {
       position += rand(18,28);
     }
@@ -82,7 +75,7 @@ function createGrid() {
 
   var horizontal;
   var vertical;
-  var positionX = 0;
+  var positionX = 0+(canvas.width/2)-32+320;  // starting position of hooks
   var positionY = 0;
   var order;
 
@@ -128,24 +121,4 @@ function drawSquare(gridContext,color,size,positionX,positionY) {
     positionY: positionY
   }
   gridPositions.push(position);
-}
-
-
-// game panel setup
-var gamePanel = {
-  canvas: '',
-  context: '',
-  posX:0,
-  posY:0
-}
-
-function drawGameSetup() {
-  // do not want to create a new canvas every fkin frame
-  var gameCanvas = document.createElement('canvas');
-      gameCanvas.width = gridSize.cols*gridSize.square;
-      gameCanvas.height = canvas.height;
-  var gameContext = gameCanvas.getContext('2d');
-
-  gamePanel.canvas = gameCanvas;
-  gamePanel.context = gameContext;
 }

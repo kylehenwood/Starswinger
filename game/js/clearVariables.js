@@ -13,8 +13,6 @@ function clearVariables() {
     interations: 16 // how many frames till camera catches target
   }
 
-  cameraX = 0;
-
   // tada
   momentium = 0;
   momentiumIncrease = 0;
