@@ -1,6 +1,6 @@
 var gameOverElems = [];
 
-function gameOverSetup() {
+function setupGameOver() {
   gameOver.canvas = document.createElement('canvas');
   gameOver.canvas.width = canvas.width;
   gameOver.canvas.height = canvas.height;
@@ -13,17 +13,12 @@ function gameOverSetup() {
   // restart button
   createRestartButton();
   gameOverElems.push(restartButton);
+
 }
 
+function updateGameOver() {
 
-function gameOverUpdate() {
-  //gameState = "gameOver";
-
-  gameOver.context.clearRect(0, 0, gameOver.canvas.width, gameOver.canvas.height);
-  gameOver.context.beginPath();
-  gameOver.context.rect(0,0,canvas.width,canvas.height)
-  gameOver.context.fillStyle = 'rgba(000,000,000,0.6)';
-  gameOver.context.fill();
+  gameOver.context.clearRect(0,0,canvas.width,canvas.height)
 
   gameOver.context.fillStyle = 'white';
   gameOver.context.font = '24px lato';

@@ -25,23 +25,23 @@ var start = {
 
 var startMove = 0;
 
+
+
+
+
 function updateStart() {
 
-  //console.log(start.state);
-  //console.log(cameraY);
-
-
   var context = canvas.context;
-  var cloudUp = 120;
+  var cloudUp = 60;
 
   //----
   // state 1
   // Move character, platform and title
   if (start.state === 1){
     if (startMove < cloudUp-2) {
-      var progress = animateEaseOut(cloudUp,startMove,24);
+      var progress = animateEaseOut(cloudUp,startMove,12);
       startMove += progress;
-      moveCanvas.moveSpeed = -progress*1.5;
+      moveCanvas.moveSpeed = -progress*4;
       cameraY -= progress;
 
 
@@ -62,7 +62,7 @@ function updateStart() {
   // Jump character then grappel
   // fade in game hooks
   if (start.state === 2) {
-    if (character.centerY < logo.posY) {
+    if (character.centerY < logo.posY+12) {
       start.state = 4;
     }
     var jumpHeight = (logo.posY-character.centerY)/12;
@@ -101,19 +101,19 @@ function updateStart() {
     var logoAlpha = (0-start.logoAlpha)/24;
     start.logoAlpha += logoAlpha;
 
-    context.save();
-    context.globalAlpha = (start.logoAlpha/100);
+    //context.save();
+    //context.globalAlpha = (start.logoAlpha/100);
     context.drawImage(logo.canvas,logo.posX+=moveCanvas.moveSpeed*0.4,logo.posY);
-    context.restore();
+    //context.restore();
   }
 
   // fade out platform
   if (start.state >= 2 && start.platformAlpha > 0+1) {
     var platformAlpha = (0-start.platformAlpha)/8;
     start.platformAlpha += platformAlpha;
-    context.save();
-    context.globalAlpha = (start.platformAlpha/100);
+    //context.save();
+    //context.globalAlpha = (start.platformAlpha/100);
     context.drawImage(platform.canvas,platform.posX,platform.posY);
-    context.restore();
+    //context.restore();
   }
 }

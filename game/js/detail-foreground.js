@@ -16,7 +16,7 @@ function setupForeground() {
 
 // HOW TO MAKE THE CLOUDS ENDLESS???
 
-function updateForeground(context,cameraX,cameraY,isAnimating) {
+function drawForeground(context,cameraX,cameraY,isAnimating) {
   // draw clouds at the bottom of screen.
 
   //console.log('foreground animate')

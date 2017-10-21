@@ -4,7 +4,7 @@ function setupGameOverAnimation() {
     state: 1,
   }
   soundFalling();
-  gameOverlay.alpha = 0;
+  updateGameOver();
 }
 
 var animateGameOver = {
@@ -40,9 +40,6 @@ function updateGameOverAnimation() {
       var move = animateEaseOut(0,camMoved,16);
       camMoved += move;
       cameraY = -camMoved;
-      updateGameOverlay(canvas.context,'fade-in')
-      //character.centerY -= move;
-      //character.centerX = canvas.width/2;
     }
     if (camMoved <= 1) {
       camMoved = 0;

@@ -101,3 +101,13 @@ function resumeGame() {
     }
   },400);
 }
+
+
+
+
+
+function drawPauseIcon() {
+  canvas.context.fillStyle = 'white';
+  canvas.context.fillRect(32,canvas.height-56,4,32);
+  canvas.context.fillRect(48,canvas.height-56,4,32);
+}

@@ -12,13 +12,12 @@
   createMenu()
 
   // setup sub canvases
-  gameOverSetup();
   pauseSetup();
   createIntro();
 
+  setupGameOver();
   setupForeground();
 
-  setupGameOverlay();
   loadAudio();
 
   // point at which game starts...
@@ -26,6 +25,8 @@
   //console.log(urlHash);
   switch(urlHash) {
     case '#game-play': // play game
+      //startGame();
+      gameSetup();
       startGame();
       break;
     case '#game-intro':
