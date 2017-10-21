@@ -127,15 +127,15 @@ function runGame() {
     case 'gamePaused':
     drawForeground(canvas.context,moveCanvas.moveSpeed,cameraY,false);
     moveCanvas.moveSpeed = 0;
-    canvas.context.drawImage(gamePanel.canvas,(canvas.width/2)+moveCanvas.currentPos,cameraY);
-    canvas.context.drawImage(clickAreas.canvas,(canvas.width/2)+moveCanvas.currentPos,cameraY);
+    canvas.context.drawImage(gamePanel.canvas,moveCanvas.currentPos,cameraY);
+    canvas.context.drawImage(clickAreas.canvas,moveCanvas.currentPos,cameraY);
     canvas.context.drawImage(pauseCanvas.canvas,0,0);
     break;
 
 
     case 'gameResume':
-    canvas.context.drawImage(gamePanel.canvas,(canvas.width/2)+moveCanvas.currentPos,cameraY);
-    canvas.context.drawImage(clickAreas.canvas,(canvas.width/2)+moveCanvas.currentPos,cameraY);
+    canvas.context.drawImage(gamePanel.canvas,moveCanvas.currentPos,cameraY);
+    canvas.context.drawImage(clickAreas.canvas,moveCanvas.currentPos,cameraY);
     drawForeground(canvas.context,moveCanvas.moveSpeed,cameraY,false);
     canvas.context.drawImage(pauseCanvas.canvas,0,0);
     // pause icon
