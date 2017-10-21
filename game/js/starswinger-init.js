@@ -18,7 +18,8 @@
   setupGameOver();
   setupForeground();
 
-  loadAudio();
+  //loadAudio();
+  soundToggle();
 
   // point at which game starts...
   var urlHash = window.location.hash;

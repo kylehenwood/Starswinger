@@ -24,6 +24,6 @@ function drawCharacter(context) {
 
 function characterReset() {
   console.log('reset');
-  character.centerX = (canvas.width/2)-400;
+  character.centerX = (canvas.width/2);
   character.centerY = -400;
 }

@@ -217,7 +217,17 @@ function menuSettings() {
 }
 
 function soundToggle() {
-  console.log('toggleSound');
+  if (gameAudio.sound === true) {
+    console.log('toggleSound:OFF');
+    gameAudio.volume = 0;
+    gameAudio.sound = false;
+    loadAudio();
+  } else {
+    console.log('toggleSound:ON');
+    gameAudio.sound = true;
+    gameAudio.volume = 0.1;
+    loadAudio();
+  }
 }
 
 function changeTheme() {

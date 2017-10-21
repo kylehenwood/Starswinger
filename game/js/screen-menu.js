@@ -51,11 +51,11 @@ function updateMenu() {
   context.clearRect(0, 0, canvas.width, canvas.height);
 
   // overlay
-  context.beginPath();
-  context.rect(0,0,canvas.width,canvas.height)
-  context.fillStyle = 'rgba(255,000,000,0.1)';
-  context.fill();
-  context.closePath();
+  // context.beginPath();
+  // context.rect(0,0,canvas.width,canvas.height)
+  // context.fillStyle = 'rgba(255,000,000,0.1)';
+  // context.fill();
+  // context.closePath();
 
   //var context = gameMenu.context;
 

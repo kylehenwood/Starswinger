@@ -32,7 +32,7 @@ var startMove = 0;
 function updateStart() {
 
   var context = canvas.context;
-  var cloudUp = 60;
+  var cloudUp = 320;
 
   //----
   // state 1
@@ -41,13 +41,7 @@ function updateStart() {
     if (startMove < cloudUp-2) {
       var progress = animateEaseOut(cloudUp,startMove,12);
       startMove += progress;
-      moveCanvas.moveSpeed = -progress*4;
-      cameraY -= progress;
-
-
-      character.centerY-=progress*0.6;
-      platform.posY-=progress*0.6;
-
+      moveCanvas.moveSpeed = -progress;
       character.centerX+=moveCanvas.moveSpeed;
       platform.posX+=moveCanvas.moveSpeed;
     } else {
@@ -65,23 +59,9 @@ function updateStart() {
     if (character.centerY < logo.posY+12) {
       start.state = 4;
     }
-    var jumpHeight = (logo.posY-character.centerY)/12;
+    var jumpHeight = (logo.posY-character.centerY)/8;
     character.centerY += jumpHeight;
   }
-
-
-  //----
-  // move cameraY back to 0
-  // fade out platform (crumble animation)
-  if (start.state === 2) {
-    if (cameraY > 0-1) {
-      start.state = 4;
-    }
-    var cameraMove = (0-cameraY)/16;
-    cameraY += cameraMove;
-    platform.posY += cameraMove*0.6;
-  }
-
 
 
   //----

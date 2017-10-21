@@ -1,6 +1,11 @@
-var gameSound = true;
+var gameAudio = {
+  sound: false,
+  volume: 0.0,
+  volumeEffects: 0.1,
+  volumeMusic: 0.1
+}
+
 var audioVersion = 1;
-var gameSoundVolume = 0.1;
 
 function loadAudio() {
   initAudioGrappelLaunch();
@@ -22,7 +27,7 @@ function initAudioGrappelLaunch() {
   audioGrappelLaunch = new Audio();
   audioGrappelLaunch.src = fileLocation;
   audioGrappelLaunch.loop = false;
-  audioGrappelLaunch.volume = gameSoundVolume;
+  audioGrappelLaunch.volume = gameAudio.volume;
 }
 function soundGrappelLaunch() {
   audioGrappelLaunch.play();
@@ -42,7 +47,7 @@ function initAudioGrappelHit() {
   audioGrappelHit = new Audio();
   audioGrappelHit.src = fileLocation;
   audioGrappelHit.loop = false;
-  audioGrappelHit.volume = gameSoundVolume;
+  audioGrappelHit.volume = gameAudio.volume;
 }
 function soundGrappelHit() {
   audioGrappelHit.play();
@@ -57,7 +62,7 @@ function initAudioFalling() {
   audioFalling = new Audio();
   audioFalling.src = fileLocation;
   audioFalling.loop = false;
-  audioFalling.volume = gameSoundVolume;
+  audioFalling.volume = gameAudio.volume;
 }
 function soundFalling() {
   audioFalling.play();
