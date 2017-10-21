@@ -1,13 +1,11 @@
  // Starwizard star test
 (function() {
 
-  // this needs to be called first
+  // Create main canvases
   setupCanvas();
+  setupGameCanvas();
 
-  // create game canvas element
-  drawGameSetup();
-  gameSetup();
-
+  // Base
   controls();
   mouseTestSetup();
   createMenu()
@@ -28,6 +26,8 @@
   switch(urlHash) {
     case '#game-play': // play game
       //startGame();
+      character.centerY = -32;
+      character.centerX = canvas.width/2;
       gameSetup();
       startGame();
       //animateStart();
@@ -36,6 +36,7 @@
       setupIntro();
       break;
     case '#game-menu':
+      gameSetup();
       setupMenu();
       break;
     case '#game-loading':

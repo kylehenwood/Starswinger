@@ -27,3 +27,19 @@ function characterReset() {
   character.centerX = (canvas.width/2);
   character.centerY = 0;
 }
+
+
+
+// when character is not attached, move it based on momentium and gravity
+function characterFalling(context) {
+  if (gameState === 'animateGameStart') {
+    return;
+  }
+  if (gravity < terminalVelocity) {
+    gravity += gravityIncrease;
+  } else {
+    gravity = terminalVelocity;
+  }
+  character.centerY += gravity;
+  character.centerX += momentiumIncrease;
+}

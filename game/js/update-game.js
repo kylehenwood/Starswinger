@@ -23,7 +23,8 @@ function updateGame() {
       drawTrajectory(gameContext);
     }
     drawRope(gameContext);
-  } else {
+  }
+  if (character.swinging === false){
     characterFalling(gameContext);
   }
 

@@ -90,11 +90,11 @@ function runGame() {
 
 
     case 'animateGameStart':
+    updateGame();
     updateStart();
-    //updateGame();
+    drawCharacter(gamePanel.context);
     canvas.context.drawImage(gamePanel.canvas,moveCanvas.currentPos,cameraY);
     canvas.context.drawImage(clickAreas.canvas,moveCanvas.currentPos,cameraY);
-    drawCharacter(gamePanel.context);
     drawForeground(canvas.context,moveCanvas.moveSpeed,cameraY,true);
     break;
 

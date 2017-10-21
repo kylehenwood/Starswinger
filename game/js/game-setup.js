@@ -6,7 +6,7 @@ var gamePanel = {
   posY:0
 }
 
-function drawGameSetup() {
+function setupGameCanvas() {
   gamePanel.canvas = document.createElement('canvas');
   gamePanel.canvas.width = gridSize.cols*gridSize.square;
   gamePanel.canvas.height = canvas.height;
@@ -26,6 +26,7 @@ function gameSetup() {
 
   // draw click area hotspots
   drawClicky();
+  updateGame();
 }
 
 // create a canvas and draw the grid and stars/hooks on it.

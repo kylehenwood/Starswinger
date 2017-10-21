@@ -1,15 +1,3 @@
-
-// when character is not attached, move it based on momentium and gravity
-function characterFalling(context) {
-  if (gravity < terminalVelocity) {
-    gravity += gravityIncrease;
-  } else {
-    gravity = terminalVelocity;
-  }
-  character.centerY += gravity;
-  character.centerX += momentiumIncrease;
-}
-
 // Draw rope & calculate swing
 function drawRope(context) {
 
