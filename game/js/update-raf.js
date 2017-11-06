@@ -39,7 +39,7 @@ function runGame() {
     // Draw
     drawBackground();
     canvas.context.drawImage(gamePanel.canvas,moveCanvas.currentPos,cameraY);
-    canvas.context.drawImage(clickAreas.canvas,moveCanvas.currentPos,cameraY);
+    //canvas.context.drawImage(clickAreas.canvas,moveCanvas.currentPos,cameraY); // doesn't exist untill game starts
     drawCharacter(canvas.context);
     drawGameOverlay(canvas.context,'fade-out');
     break;
@@ -67,7 +67,7 @@ function runGame() {
     canvas.context.drawImage(gamePanel.canvas,moveCanvas.currentPos,cameraY);
     canvas.context.drawImage(clickAreas.canvas,moveCanvas.currentPos,cameraY);
     drawForeground(canvas.context,moveCanvas.moveSpeed,cameraY,true);
-
+    updateMoonPowerBar();
     moveCanvas.currentPos += moveCanvas.moveSpeed;
     // pause icon
     drawPauseIcon();
@@ -157,6 +157,8 @@ function runGame() {
     break;
 
   }
+
+  console.log(cameraY);
 
   // paint UI
   updateInterface();

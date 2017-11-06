@@ -20,6 +20,8 @@ function backToMenu() {
 var menuSpeed = 0;
 var menuStage = 1;
 var menuAlpha = 0;
+var menuCameraY = 0;
+
 
 // gameState === 'restartAnimation'
 // once complete it starts a new game.
@@ -29,24 +31,24 @@ function animateToMenu() {
 
   // ::Stage 1
   // push out current game state.
-  if (cameraY+canvas.height > 0 && menuStage === 1) {
-    restartSpeed = ((canvas.height*1.2)-cameraY)/40;
-    cameraY -= restartSpeed;
+  if (menuStage === 1) {
+
+    var progress = animateEaseOut(canvas.height,menuCameraY,60);
+    menuCameraY += progress;
+    cameraY += progress;
+
+    if (menuCameraY <= canvas.height-10) {
+      // create new game
+      clearVariables();
+      gameSetup();
+      moveCanvas.currentPos = 0;
+      menuStage = 2;
+    }
   }
+
 
   // ::Stage 2
-  // re-introduce clouds
-  if (cameraY+canvas.height < 0 && menuStage === 1) {
-    menuStage = 2;
-    cameraY = canvas.height;
-    moveCanvas.currentPos = 0;
-
-    // create new game
-    clearVariables();
-    gameSetup();
-  }
-
-  if (cameraY+canvas.height > 0 && menuStage === 2) {
+  if (cameraY+(canvas.height*2) > 0 && menuStage === 2) {
     menuSpeed  = cameraY/32;
     cameraY -= menuSpeed ;
 

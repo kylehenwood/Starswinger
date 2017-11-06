@@ -22,6 +22,7 @@ function clearVariables() {
   swingDirection = null;
   swingSpeed = 0.1;
   maxSpeed = 2;
+  starImmunity.power = 0;
 
   gameUserInterface.score = 0;
 }

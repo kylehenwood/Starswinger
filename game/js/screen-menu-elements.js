@@ -172,10 +172,10 @@ function createLogo() {
 
   // title
   context.fillStyle = 'white';
-  context.font = 'bold 72px lato';
+  context.font = 'bold 96px arial';
   context.textBaseline="middle";
   context.textAlign="center";
-  context.fillText('STARSWINGER', logo.canvas.width/2, logo.canvas.height/2);
+  context.fillText('AIBEK', logo.canvas.width/2, logo.canvas.height/2);
 }
 
 //-- platform

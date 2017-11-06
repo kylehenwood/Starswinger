@@ -27,116 +27,62 @@ function drawBackground() {
 // shooting stars
 // aruroa?
 
+var starLayers = [];
 
-var backgroundStars = {
-  canvas: null,
-  context: null,
-  numStars: null,
-  starDensity: 1,
-  stars: [],     // Stars in the scene, starts as an empty array
-  layers: []
+function createStarPanel(density,size) {
+  var panel = document.createElement('canvas');
+  panel.width = canvas.width;
+  panel.height = canvas.height;
+  panel.context = panel.getContext('2d');
+
+  // how many stars on this panel?
+  var area = (canvas.width*canvas.height)/(40*40);
+  var starCount = area*density;
+  var starSize = size;
+  var starColor = 'rgba(255, 255, 255, 0.3)';
+
+  // draw stars on panel
+  for (var i = 0; i < starCount; i++) {
+    var starX = rand((size/2),canvas.width-(size/2));
+    var starY = rand((size/2),canvas.height-(size/2));
+
+    panel.context.beginPath();
+    panel.context.arc(starX, starY, starSize, 0, Math.PI*2, true);
+    panel.context.closePath();
+    panel.context.fillStyle = starColor;
+    panel.context.fill();
+  }
+  return panel;
 }
+
 
 function setupBackgroundStars() {
-  backgroundStars.canvas = document.createElement('canvas');
-  backgroundStars.canvas.width = canvas.width;
-  backgroundStars.canvas.height = canvas.height;
-  backgroundStars.context = backgroundStars.canvas.getContext('2d');
 
-  // Caculate how many stars should be on screen per 40px grid.
-  var area = (canvas.width*canvas.height)/(40*40);
-  backgroundStars.numStars = area*backgroundStars.starDensity;
+  var starPanel1 = createStarPanel(1,1);
+  starLayers.push({canvas:starPanel1,posZ:1,posX:0,posY:0});
+  starLayers.push({canvas:starPanel1,posZ:1,posX:0,posY:canvas.height});
+  starLayers.push({canvas:starPanel1,posZ:1,posX:canvas.width,posY:0});
+  starLayers.push({canvas:starPanel1,posZ:1,posX:canvas.width,posY:canvas.height});
 
-	// randomly calculate the positions and sf.sizes of the stars
-	// and store the positions in an array to be called / modified later.
-	var max = 3;
-	var med = 2;
-	var min = 1;
-
-	var starCount = 0;
-
-	// create stars
-	while(starCount <= backgroundStars.numStars) {
-		var size = rand(1,3);
-		var count = Math.round(max / size) * 5;
-
-		// render more stars far away than up close which should
-		// give a better feeling of depth
-		if (size == 1) {
-			size = max;
-			count = 1;
-		} else if (size == 2) {
-			size = med;
-			count = 24;
-		} else {
-			size = min;
-			count = 80;
-		}
-
-		// create the instances of the stars
-		createStar(size, count);
-		starCount += count;
-  }
-
-  // create a panel for each star set
-  // render stars to a layer
-  drawStars(backgroundStars.context);
-
-  // Panel 1
-  backgroundStars.layers.push({canvas:backgroundStars.canvas,posX:0,posY:0});
-  // Panel 2
-  backgroundStars.layers.push({canvas:backgroundStars.canvas,posX:0,posY:canvas.height});
-  // Panel 3
-  backgroundStars.layers.push({canvas:backgroundStars.canvas,posX:canvas.width,posY:0});
-  // Panel 4
-  backgroundStars.layers.push({canvas:backgroundStars.canvas,posX:canvas.width,posY:canvas.height});
-}
-
-// star creation
-function createStar(size, numberToCreate) {
-	for (var i = 0; i < numberToCreate; i++) {
-
-		var x = rand((size/2),canvas.width-(size/2));
-		var y = rand((size/2),canvas.height-(size/2));
-
-		backgroundStars.stars.push({
-			x: x,
-			y: y,
-			s: size
-		});
-	}
-}
-//
-function drawStars(context) {
-  backgroundStars.stars.forEach(function(star) {
-		var color;
-
-    // big star color
-		if (star.s == 3){
-			color = 'rgba(255, 255, 255, 0.6)';
-		}
-    // med star color
-		if (star.s == 2){
-			color = 'rgba(255, 255, 255, 0.4)';
-		}
-    // small star color
-		if (star.s == 1){
-			color = 'rgba(255, 255, 255, 0.3)';
-		}
-
-		context.beginPath();
-		context.arc(star.x, star.y, star.s, 0, Math.PI*2, true);
-		context.closePath();
-		context.fillStyle = color;
-		context.fill();
-	});
+  var starPanel2 = createStarPanel(0.2,2);
+  starLayers.push({canvas:starPanel2,posZ:1.2,posX:0,posY:0});
+  starLayers.push({canvas:starPanel2,posZ:1.2,posX:0,posY:canvas.height});
+  starLayers.push({canvas:starPanel2,posZ:1.2,posX:canvas.width,posY:0});
+  starLayers.push({canvas:starPanel2,posZ:1.2,posX:canvas.width,posY:canvas.height});
 }
 
 
+
+// Called by RAF
 function drawBackgroundStars() {
-  backgroundStars.layers.forEach(function(starPanel) {
-    starPanel.posX += moveCanvas.moveSpeed*0.4;
-    starPanel.posY += cameraY*0.02;
+  starLayers.forEach(function(starPanel) {
+
+    // organic move
+    starPanel.posX -= 0.05*starPanel.posZ;
+
+    // camera move
+    starPanel.posX += (moveCanvas.moveSpeed*0.2)*starPanel.posZ;
+    //starPanel.posY += (cameraY*0.01)*starPanel.posZ;
 
     // vertical
     if (starPanel.posY+canvas.height <= 0) {

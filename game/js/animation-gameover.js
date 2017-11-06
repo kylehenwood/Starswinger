@@ -25,27 +25,27 @@ function updateGameOverAnimation() {
       if (camMoved < camDown) {
         var move = animateEaseOut(camDown,camMoved,4);
         camMoved += move;
-        cameraY = -camMoved;
-        //character.centerY -= move;
-        //character.centerX = canvas.width/2;
+        cameraY -= move;
       }
       if (camMoved >= (camDown-1)) {
         camMoved = camDown;
         animateGameOver.state = 2;
       }
   }
+
   // state 2
   if (animateGameOver.state === 2) {
     if (camMoved > 0) {
       var move = animateEaseOut(0,camMoved,16);
       camMoved += move;
-      cameraY = -camMoved;
+      cameraY -= move;
     }
     if (camMoved <= 1) {
       camMoved = 0;
       animateGameOver.state = 3;
     }
   }
+
   // state 3
   if (animateGameOver.state === 3) {
     gameState = 'gameOver';
