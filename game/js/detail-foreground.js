@@ -21,9 +21,9 @@ function drawForeground(context,cameraX,cameraY,isAnimating) {
 
   //console.log('foreground animate')
 
-  var y3 = cameraY*1.3;
+  var y3 = cameraY*1.4;
   var y2 = cameraY*1.2;
-  var y1 = cameraY*1.1;
+  var y1 = cameraY;
 
   var x3 = cameraX*1.4;
   var x2 = cameraX*1.2;

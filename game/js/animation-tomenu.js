@@ -27,38 +27,61 @@ var menuCameraY = 0;
 // once complete it starts a new game.
 function animateToMenu() {
 
+  // set character to center of the screen;
   character.centerX = canvas.width/2;
 
   // ::Stage 1
   // push out current game state.
   if (menuStage === 1) {
+    var cameraTargetY = -canvas.height*1.5;
 
-    var progress = animateEaseOut(canvas.height,menuCameraY,60);
-    menuCameraY += progress;
-    cameraY += progress;
+    // actually move the camera
+    cameraY += animateEaseOut(cameraTargetY,cameraY,20);
+    starCameraY += animateEaseOut(-100,starCameraY,20);
 
-    if (menuCameraY <= canvas.height-10) {
+    if (cameraY <= cameraTargetY+10) {
       // create new game
+      moveCanvas.currentPos = 0;
       clearVariables();
       gameSetup();
-      moveCanvas.currentPos = 0;
+      //--
+      cameraY = canvas.height*1.2;
       menuStage = 2;
     }
   }
 
 
   // ::Stage 2
-  if (cameraY+(canvas.height*2) > 0 && menuStage === 2) {
-    menuSpeed  = cameraY/32;
-    cameraY -= menuSpeed ;
+  // fade in title
+  if (menuStage >= 2) {
+
+    // slow camera to stop over 32 frames
+    cameraY -= cameraY/32;
 
     if (logo.alpha < 1) {
-      logo.alpha += 0.015;
+      logo.alpha += 0.01;
     }
     if (menuAlpha < 1) {
       menuAlpha += 0.01;
     }
   }
+
+
+  if (menuStage === 2) {
+    // move the camera
+    cameraY += animateEaseOut(0,cameraY,20);
+    starCameraY += animateEaseOut(0,starCameraY,20);
+
+
+    if (cameraY <= 1.2) {
+      cameraY = 0;
+      starCameraY = 0;
+      menuStage = 3;
+    }
+  }
+
+
+
 
   if (menuStage >= 2) {
     var context = canvas.context;
@@ -82,7 +105,7 @@ function animateToMenu() {
 
   // ::Stage 3
   // include title sequence and raise character platform
-  if (cameraY <= 0.4 && menuStage === 2) {
+  if (cameraY <= 0.4 && menuStage === 3) {
     menuStage = 3;
     cameraY = 0;
     soundFalling();

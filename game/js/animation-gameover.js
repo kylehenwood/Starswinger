@@ -1,5 +1,6 @@
 function setupGameOverAnimation() {
   gameState = 'animateGameOver';
+  cameraMode = 'stop';
   animateGameOver = {
     state: 1,
   }
@@ -19,13 +20,16 @@ var camDown = 240;
 
 function updateGameOverAnimation() {
 
-  //console.log('state:'+animateGameOver.state+','+camMoved);
+
   // state 1
+  // Camera Move down
   if (animateGameOver.state === 1) {
       if (camMoved < camDown) {
         var move = animateEaseOut(camDown,camMoved,4);
         camMoved += move;
         cameraY -= move;
+        //cameraY += animateEaseOut(camDown,0,4)
+        starCameraY += animateEaseOut(-50,starCameraY,4);
       }
       if (camMoved >= (camDown-1)) {
         camMoved = camDown;
@@ -34,11 +38,16 @@ function updateGameOverAnimation() {
   }
 
   // state 2
+  // Camera Move up + slow;
   if (animateGameOver.state === 2) {
+
+    // slow camera pan to 0;
+
     if (camMoved > 0) {
       var move = animateEaseOut(0,camMoved,16);
       camMoved += move;
       cameraY -= move;
+      starCameraY += animateEaseOut(0,starCameraY,16);
     }
     if (camMoved <= 1) {
       camMoved = 0;

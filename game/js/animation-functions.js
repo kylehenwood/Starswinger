@@ -1,3 +1,4 @@
+// Ease Out
 function animateEaseOut(numHave,numWant,iterations) {
   var number = (numHave-numWant)/iterations;
   number = round2(number);
@@ -6,9 +7,12 @@ function animateEaseOut(numHave,numWant,iterations) {
   return number;
 }
 
+
+// Ease In
 function animateEaseIn(numHave,numWant,iterations) {
   var number = (numHave-numWant)/iterations;
-  number = Math.round(number);
+  number = round2(number);
+  number = numWant-number;
   //number = number-numWant;
   //console.log(number);
   return number;
