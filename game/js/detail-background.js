@@ -58,17 +58,30 @@ function createStarPanel(density,size) {
 
 function setupBackgroundStars() {
 
-  var starPanel1 = createStarPanel(1,1);
+  var starPanel0 = createStarPanel(1,0.5);
+  starLayers.push({canvas:starPanel0,posZ:0.5,posX:0,posY:0});
+  starLayers.push({canvas:starPanel0,posZ:0.5,posX:0,posY:canvas.height});
+  starLayers.push({canvas:starPanel0,posZ:0.5,posX:canvas.width,posY:0});
+  starLayers.push({canvas:starPanel0,posZ:0.5,posX:canvas.width,posY:canvas.height});
+
+  var starPanel1 = createStarPanel(0.5,1);
   starLayers.push({canvas:starPanel1,posZ:1,posX:0,posY:0});
   starLayers.push({canvas:starPanel1,posZ:1,posX:0,posY:canvas.height});
   starLayers.push({canvas:starPanel1,posZ:1,posX:canvas.width,posY:0});
   starLayers.push({canvas:starPanel1,posZ:1,posX:canvas.width,posY:canvas.height});
 
-  var starPanel2 = createStarPanel(0.2,2);
+  var starPanel2 = createStarPanel(0.1,2);
   starLayers.push({canvas:starPanel2,posZ:1.2,posX:0,posY:0});
   starLayers.push({canvas:starPanel2,posZ:1.2,posX:0,posY:canvas.height});
   starLayers.push({canvas:starPanel2,posZ:1.2,posX:canvas.width,posY:0});
   starLayers.push({canvas:starPanel2,posZ:1.2,posX:canvas.width,posY:canvas.height});
+
+  // var starPanel3 = createStarPanel(0.05,3);
+  // starLayers.push({canvas:starPanel3,posZ:1.4,posX:0,posY:0});
+  // starLayers.push({canvas:starPanel3,posZ:1.4,posX:0,posY:canvas.height});
+  // starLayers.push({canvas:starPanel3,posZ:1.4,posX:canvas.width,posY:0});
+  // starLayers.push({canvas:starPanel3,posZ:1.4,posX:canvas.width,posY:canvas.height});
+
 }
 
 
@@ -78,10 +91,10 @@ function drawBackgroundStars() {
   starLayers.forEach(function(starPanel) {
 
     // organic move
-    starPanel.posX -= 0.05*starPanel.posZ;
+    //starPanel.posX -= 0.05*starPanel.posZ;
 
     // camera move
-    starPanel.posX += (moveCanvas.moveSpeed*0.2)*starPanel.posZ;
+    starPanel.posX += (moveCanvas.moveSpeed*0.5)*starPanel.posZ;
     //starPanel.posY += (cameraY*0.01)*starPanel.posZ;
 
     // vertical

@@ -11,7 +11,7 @@ function updateCharacter() {
 
 
 // draw character
-function drawCharacter(context) {
+function drawCharacter(context,state) {
 
   updateCharacter();
 

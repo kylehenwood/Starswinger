@@ -60,7 +60,7 @@ var character = {
   ropeLength: 320,
   interations: 16, // times it takes for the character to catch the hook
   swinging: false,
-  grappelDelay:240, // ms (this should change based on the distance the character is from the hook)
+  grappelDelay:320, // ms (this should change based on the distance the character is from the hook)
   centerX: 0,
   centerY: 0,
 }

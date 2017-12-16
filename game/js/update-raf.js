@@ -158,7 +158,7 @@ function runGame() {
 
   }
 
-  console.log(cameraY);
+  //console.log(cameraY);
 
   // paint UI
   updateInterface();
