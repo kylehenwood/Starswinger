@@ -1,68 +1,83 @@
 function setupGameOverAnimation() {
   gameState = 'animateGameOver';
-  cameraMode = 'stop';
-  animateGameOver = {
-    state: 1,
-  }
+  animateGameOver.state = 1;
   soundFalling();
   updateGameOver();
 }
 
 var animateGameOver = {
   state: 1,
-  camY: 0,
-  overlayAlpha: 0
+  overlayAlpha: 0,
+  progress: 0,
+  set: false,
+  amount: null
 }
 
-// amount camera has moved so far
-var camMoved = 0;
-var camDown = 240;
+var stageOne;
 
 function updateGameOverAnimation() {
+  //console.log(cameraY);
+  //console.log(starCameraY);
 
 
-  // state 1
-  // Camera Move down
+  //::state 1
+  // Camera move up X amount
   if (animateGameOver.state === 1) {
-      if (camMoved < camDown) {
-        var move = animateEaseOut(camDown,camMoved,4);
-        camMoved += move;
-        cameraY -= move;
-        //cameraY += animateEaseOut(camDown,0,4)
-        starCameraY += animateEaseOut(-50,starCameraY,4);
-      }
-      if (camMoved >= (camDown-1)) {
-        camMoved = camDown;
-        animateGameOver.state = 2;
-      }
+
+    if (animateGameOver.set === false) {
+      animateGameOver.set = true;
+      var currentNum = cameraY;
+      var amountMove = -160;
+      var valueWant = cameraY-amountMove;
+    }
+
+    var duration = 20;
+    //var valueWant = -160;
+    var valueHave = cameraY;
+    var animProgress = animationProgress(duration,animateGameOver.progress);
+    var animation = EasingFunctions.easeOutQuad(animProgress.value/100);
+    var valueHave = valueWant*animation;
+
+    animateGameOver.progress = animProgress.value;
+
+    if (animProgress.complete === true) {
+      console.log('working as intended');
+      animateGameOver.progress = 0;
+      animateGameOver.state = 2;
+    }
+
+    cameraY = valueHave+currentNum;
+    starCameraMoveY = valueHave*0.2;
+
   }
 
-  // state 2
-  // Camera Move up + slow;
+  //::state 2
+  // Camera mode down + slow;
   if (animateGameOver.state === 2) {
 
-    // slow camera pan to 0;
+    var duration = 200;
+    var valueWant = 160;
+    var animProgress = animationProgress(duration,animateGameOver.progress);
+    var animation = EasingFunctions.easeInOutQuad(animProgress.value/100);
+    var valueHave = valueWant*animation;
 
-    if (camMoved > 0) {
-      var move = animateEaseOut(0,camMoved,16);
-      camMoved += move;
-      cameraY -= move;
-      starCameraY += animateEaseOut(0,starCameraY,16);
-    }
-    if (camMoved <= 1) {
-      camMoved = 0;
+    animateGameOver.progress = animProgress.value;
+
+    if (animProgress.complete === true) {
+      console.log('working as intended');
+      animateGameOver.progress = 0;
       animateGameOver.state = 3;
     }
+
+    cameraY = valueHave;
+    starCameraMoveY = valueHave*0.2;
   }
 
-  // state 3
+
+  //::state 3
   if (animateGameOver.state === 3) {
     gameState = 'gameOver';
-    animateGameOver = {
-      count: 0,
-      state: 1
-    }
-    camMoved = 0;
+    animateGameOver.state = 1;
     return;
   }
 }

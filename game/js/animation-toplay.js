@@ -41,7 +41,7 @@ function updateStart() {
     if (startMove < cloudUp-2) {
       var progress = animateEaseOut(cloudUp,startMove,12);
       startMove += progress;
-      moveCanvas.moveSpeed = -progress;
+      //moveCanvas.moveSpeed = -progress;
       moveCanvas.currentPos += moveCanvas.moveSpeed;
       platform.posX+=moveCanvas.moveSpeed;
     } else {

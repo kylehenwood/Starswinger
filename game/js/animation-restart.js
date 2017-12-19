@@ -1,3 +1,6 @@
+var restartStage = 1;
+var once = true;
+
 //restart game
 function restartGame() {
   gameState = "gameRestart";
@@ -5,11 +8,6 @@ function restartGame() {
   detach();
   //characterReset();
 }
-
-// end game
-var restartSpeed = 0;
-var restartStage = 1;
-var restartCameraY = 0;
 
 // gameState === 'restartAnimation'
 // once complete it starts a new game.
@@ -19,9 +17,10 @@ function restartAnimation() {
   if (restartStage === 1) {
     var cameraTargetY = -canvas.height*1.5;
 
+
     // actually move the camera
     cameraY += animateEaseOut(cameraTargetY,cameraY,20);
-    starCameraY += animateEaseOut(-100,starCameraY,20);
+    //starCameraMoveY += animateEaseOut(-100,starCameraMoveY,20);
 
 
     // when everything has mooved offscreen do below:
@@ -30,9 +29,11 @@ function restartAnimation() {
       moveCanvas.currentPos = 0;
       clearVariables();
       gameSetup();
+
       //--
       // move camera down, and set the stage below the canvas
       cameraY = canvas.height*1.2;
+      starCameraMove = 0;
       restartStage = 2;
       //console.log('stage 2');
     }
@@ -45,11 +46,10 @@ function restartAnimation() {
 
     // move the camera
     cameraY += animateEaseOut(0,cameraY,20);
-    starCameraY += animateEaseOut(0,starCameraY,20);
+    //starCameraMoveY += animateEaseOut(0,starCameraMoveY,20);
 
     if (cameraY <= 1.2) {
       cameraY = 0;
-      starCameraY = 0;
       restartStage = 3;
     }
   }
@@ -58,10 +58,10 @@ function restartAnimation() {
   // reset game over
   if (restartStage === 3) {
     //console.log('stage 3');
-    restartSpeed = 0;
     restartStage = 0;
     //cameraY = 0;
 
+    // position character and set gravity
     gravity = 0;
     character.centerY = -character.size;
     character.centerX = canvas.width/2;

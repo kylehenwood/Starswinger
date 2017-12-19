@@ -635,7 +635,7 @@ html {
 .layout {
   position: relative;
   height: 100%;
-  background: #b6b6b4;
+  background: #333333;
   padding: 48px 0; }
 
 .layout--sidebar {
@@ -832,7 +832,7 @@ html {
 
 .application-navigation {
   padding: 8px; }
-  
+
 .application-navigation__item {
   float: left;
   margin: 0 4px;

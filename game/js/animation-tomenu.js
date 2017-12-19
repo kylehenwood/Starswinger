@@ -17,11 +17,8 @@ function backToMenu() {
 }
 
 // end game
-var menuSpeed = 0;
 var menuStage = 1;
 var menuAlpha = 0;
-var menuCameraY = 0;
-
 
 // gameState === 'restartAnimation'
 // once complete it starts a new game.
@@ -37,9 +34,10 @@ function animateToMenu() {
 
     // actually move the camera
     cameraY += animateEaseOut(cameraTargetY,cameraY,20);
-    starCameraY += animateEaseOut(-100,starCameraY,20);
+    //starCameraMoveY += animateEaseOut(-100,starCameraMoveY,20);
 
-    if (cameraY <= cameraTargetY+10) {
+
+    if (cameraY <= cameraTargetY+1) {
       // create new game
       moveCanvas.currentPos = 0;
       clearVariables();
@@ -52,38 +50,20 @@ function animateToMenu() {
 
 
   // ::Stage 2
-  // fade in title
-  if (menuStage >= 2) {
+  if (menuStage === 2) {
 
-    // slow camera to stop over 32 frames
-    cameraY -= cameraY/32;
+    cameraY += animateEaseOut(0,cameraY,20);
+    //starCameraMoveY += animateEaseOut(0,starCameraMoveY,20);
 
+
+    // fade in title
     if (logo.alpha < 1) {
       logo.alpha += 0.01;
     }
     if (menuAlpha < 1) {
       menuAlpha += 0.01;
     }
-  }
 
-
-  if (menuStage === 2) {
-    // move the camera
-    cameraY += animateEaseOut(0,cameraY,20);
-    starCameraY += animateEaseOut(0,starCameraY,20);
-
-
-    if (cameraY <= 1.2) {
-      cameraY = 0;
-      starCameraY = 0;
-      menuStage = 3;
-    }
-  }
-
-
-
-
-  if (menuStage >= 2) {
     var context = canvas.context;
 
     // floating platform
@@ -100,30 +80,35 @@ function animateToMenu() {
     context.drawImage(settingsButton.canvas,settingsButton.posX,settingsButton.posY);
 
     canvas.context.restore();
+
+    // end
+    if (cameraY <= 1.2) {
+      cameraY = 0;
+      starCameraY = 0;
+      menuStage = 3;
+    }
+
   }
 
 
   // ::Stage 3
   // include title sequence and raise character platform
-  if (cameraY <= 0.4 && menuStage === 3) {
-    menuStage = 3;
-    cameraY = 0;
-    soundFalling();
-  }
-
   // character fall => play button visualised.
-  if (menuStage === 3 && playButton.alpha < 1) {
-    playButton.alpha += 0.1;
-  }
 
-
-  if (menuStage >= 3) {
-    var context = canvas.context;
+  if (menuStage === 3) {
+    // play button
     if (playButton.progress < 100) {
       updatePlayButton();
     }
-    context.drawImage(playButton.canvas,playButton.posX,playButton.posY);
+    if (playButton.alpha < 1) {
+      playButton.alpha += 0.1;
+    } else {
+      playButton.alpha = 1;
+    }
 
+
+    // Character fall
+    soundFalling();
     if (character.centerY < 368) {
       if (gravity < terminalVelocity) {
         gravity += gravityIncrease;
@@ -136,20 +121,28 @@ function animateToMenu() {
         character.centerY = 368;
       }
     }
-  }
-
-  if (menuStage === 3 && playButton.alpha >= 1 && playButton.progress >= 100 && character.centerY >= 368) {
-    menuStage = 4;
-    setPlayButton()
-  }
 
 
-  // ::Stage 4
-  if (menuStage === 4) {
-    menuStage = 0;
-    logo.alpha = 0;
+    var context = canvas.context;
+    // play button
+    context.drawImage(playButton.canvas,playButton.posX,playButton.posY);
+    // floating platform
+    context.drawImage(platform.canvas,platform.posX,platform.posY)
+    // game logo
+    context.drawImage(logo.canvas, logo.posX, logo.posY);
+    // intro buttons
+    context.drawImage(themeButton.canvas,themeButton.posX,themeButton.posY);
+    context.drawImage(soundButton.canvas,soundButton.posX,soundButton.posY);
+    context.drawImage(settingsButton.canvas,settingsButton.posX,settingsButton.posY);
 
-    // set state to intro
-    gameState = "gameMenu";
+    // end
+    if (playButton.alpha >= 1 && playButton.progress >= 100 && character.centerY >= 368) {
+      menuStage = 4;
+      setPlayButton();
+      menuStage = 0;
+      logo.alpha = 0;
+      // set state to intro
+      gameState = "gameMenu";
+    }
   }
 }

@@ -158,8 +158,9 @@ function runGame() {
 
   }
 
+  //console.log(starCameraY);
   //console.log(cameraY);
-
+  //console.log('-----');
   // paint UI
   updateInterface();
 }
@@ -167,10 +168,6 @@ function runGame() {
 
 // Set wether the camera follows character or snaps to a hookr
 function updateCamera() {
-  if (cameraMode === 'stop') {
-    moveCanvas.moveSpeed = moveCanvas.moveSpeed/10;
-  }
-
   if (cameraMode === 'hook') {
     moveCanvas.selectedPos = (selectedHook.posX-(canvas.width/2)+(selectedHook.size/2))*-1;
     moveCanvas.moveSpeed = ((moveCanvas.selectedPos - moveCanvas.currentPos)/moveCanvas.interations);
