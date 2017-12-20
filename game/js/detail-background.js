@@ -28,8 +28,7 @@ function drawBackground() {
 // aruroa?
 
 var starLayers = [];
-var starCameraY = 0;
-var starCameraMoveY = 0;
+var backgroundCameraY = 0;
 
 function createStarPanel(density,size) {
   var panel = document.createElement('canvas');
@@ -98,15 +97,15 @@ function drawBackgroundStars() {
     //starPanel.posX -= 0.05*starPanel.posZ;
     //console.log(starCameraY);
 
-    starCameraY = starCameraMoveY;
+    //backgroundCameraY;
 
     //console.log(starCameraMoveY);
 
     // camera move
-    var cameraReducer = 1;
+    var cameraReducer = 0.8;
 
     starPanel.posX += (moveCanvas.moveSpeed*cameraReducer)*starPanel.posZ;
-    starPanel.posY = (starCameraY*cameraReducer)*starPanel.posZ;
+    starPanel.posY = (backgroundCameraY*cameraReducer)*starPanel.posZ;
 
     // vertical
     if (starPanel.posY+canvas.height <= 0) {

@@ -1,3 +1,102 @@
+// Stores animation information while progressing
+let animateNumber;
+let animateSetup = false;
+
+
+// from, to, duration, easingMode
+function animateNum(from,to,duration,easing){
+
+  // setup
+  if (animateSetup === false) {
+    animateSetup = true;
+    animateNumber = {
+      progress: 0,
+      increment: 0,
+      animateAmount: 0,
+      from: from,
+      duration: duration,
+      easing: easing,
+      complete: false
+    }
+
+    // set variables
+    animateNumber.amount = to-from; // amount to animate
+    animateNumber.increment = 100/duration;
+
+    // Testing output
+    // console.log('increment:'+animateNumber.increment);
+    // console.log('amount:'+animateNumber.amount);
+    // console.log('easing:'+animateNumber.easing);
+  }
+
+  // increment animation progress from 0 to 1
+  animateNumber.progress += animateNumber.increment;
+
+  // check if complete
+  if (Math.round(animateNumber.progress) >= 100) {
+    animateNumber.progress = 100;
+    animateNumber.complete = true;
+  }
+
+  // animation easing types:: defaults to linear
+  switch (animateNumber.easing) {
+    case 'easeOutQuad':
+      animation = EasingFunctions.easeOutQuad(animateNumber.progress/100);
+      value = animateNumber.amount*animation;
+      break;
+
+    case 'easeInOutQuad':
+      animation = EasingFunctions.easeInOutQuad(animateNumber.progress/100);
+      value = animateNumber.amount*animation;
+      break;
+
+    default:
+      animation = EasingFunctions.linear(animateNumber.progress/100);
+      value = animateNumber.amount*animation;
+  };
+
+  // add amount to move to original postion.
+  value = value+animateNumber.from;
+  console.log(value);
+
+  // variables to return
+  var animationReturn = {
+    value: value,
+    complete: animateNumber.complete
+  }
+
+  // on complete
+  if (animateNumber.complete === true) {
+    console.log('animation-complete');
+    animateSetup = false;
+  }
+
+  return animationReturn;
+
+}
+
+
+
+
+
+// handles the calculating of animation profress based on duration
+function animationProgress(a,b) {
+  var progress = 100/a;
+  var value = b+progress;
+  var complete = false;
+
+  if (Math.round(value) >= 100) {
+    value: 100,
+    complete = true
+  }
+  return {
+    value:value,
+    complete:complete
+  };
+}
+
+
+
 // Ease Out
 function animateEaseOut(numWant,numHave,iterations) {
   var complete = false;
@@ -24,23 +123,6 @@ function round2(num) {
   num = Math.round(num);
   num = num/100;
   return num;
-}
-
-
-// handles the calculating of animation profress based on duration
-function animationProgress(a,b) {
-  var progress = 100/a;
-  var value = b+progress;
-  var complete = false;
-
-  if (Math.round(value) >= 100) {
-    value: 100,
-    complete = true
-  }
-  return {
-    value:value,
-    complete:complete
-  };
 }
 
 
