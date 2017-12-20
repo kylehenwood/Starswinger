@@ -15,27 +15,29 @@ function restartAnimation() {
 
   // Stage 1
   if (restartStage === 1) {
-    var cameraTargetY = -canvas.height*1.5;
 
+    var anim = {
+      from: cameraY,
+      to: -canvas.height*1.5,
+      duration: 60,
+      easing: 'easeInQuad'
+    }
 
-    // actually move the camera
-    cameraY += animateEaseOut(cameraTargetY,cameraY,20);
-    //starCameraMoveY += animateEaseOut(-100,starCameraMoveY,20);
+    // get new value
+    val = animateNum(anim.from,anim.to,anim.duration,anim.easing);
 
+    // updated animated value
+    cameraY = val.value;
 
-    // when everything has mooved offscreen do below:
-    if (cameraY <= cameraTargetY+10) {
-      // create new game
+    // if animation finished
+    if (val.complete === true) {
+
+      // start new game
       moveCanvas.currentPos = 0;
       clearVariables();
       gameSetup();
-
       //--
-      // move camera down, and set the stage below the canvas
-      cameraY = canvas.height*1.2;
-      starCameraMove = 0;
       restartStage = 2;
-      //console.log('stage 2');
     }
   }
 
@@ -44,12 +46,23 @@ function restartAnimation() {
   // bring the game level up from the bottom of the screen
   if (restartStage === 2) {
 
-    // move the camera
-    cameraY += animateEaseOut(0,cameraY,20);
-    //starCameraMoveY += animateEaseOut(0,starCameraMoveY,20);
 
-    if (cameraY <= 1.2) {
-      cameraY = 0;
+    var anim = {
+      from: canvas.height*1.5,
+      to: 0,
+      duration: 90,
+      easing: 'easeOutQuad'
+    }
+
+    // get new value
+    val = animateNum(anim.from,anim.to,anim.duration,anim.easing);
+
+    // updated animated value
+    cameraY = val.value;
+
+    // if animation finished
+    if (val.complete === true) {
+
       restartStage = 3;
     }
   }

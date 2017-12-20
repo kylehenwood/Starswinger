@@ -30,20 +30,28 @@ function animateToMenu() {
   // ::Stage 1
   // push out current game state.
   if (menuStage === 1) {
-    var cameraTargetY = -canvas.height*1.5;
 
-    // actually move the camera
-    cameraY += animateEaseOut(cameraTargetY,cameraY,20);
-    //starCameraMoveY += animateEaseOut(-100,starCameraMoveY,20);
+    var anim = {
+      from: cameraY,
+      to: -canvas.height*5,
+      duration: 100,
+      easing: 'easeInQuad'
+    }
 
+    // get new value
+    val = animateNum(anim.from,anim.to,anim.duration,anim.easing);
 
-    if (cameraY <= cameraTargetY+1) {
-      // create new game
+    // updated animated value
+    cameraY = val.value;
+
+    // if animation finished
+    if (val.complete === true) {
+
+      // start new game
       moveCanvas.currentPos = 0;
       clearVariables();
       gameSetup();
       //--
-      cameraY = canvas.height*1.2;
       menuStage = 2;
     }
   }
@@ -52,9 +60,23 @@ function animateToMenu() {
   // ::Stage 2
   if (menuStage === 2) {
 
-    cameraY += animateEaseOut(0,cameraY,20);
-    //starCameraMoveY += animateEaseOut(0,starCameraMoveY,20);
+    var anim = {
+      from: canvas.height*1.5,
+      to: 0,
+      duration: 80,
+      easing: 'easeOutQuad'
+    }
 
+    // get new value
+    val = animateNum(anim.from,anim.to,anim.duration,anim.easing);
+
+    // updated animated value
+    cameraY = val.value;
+
+    // if animation finished
+    if (val.complete === true) {
+      menuStage = 3;
+    }
 
     // fade in title
     if (logo.alpha < 1) {
@@ -82,12 +104,9 @@ function animateToMenu() {
     canvas.context.restore();
 
     // end
-    if (cameraY <= 1.2) {
-      cameraY = 0;
-      starCameraY = 0;
+    if (val.complete === true) {
       menuStage = 3;
     }
-
   }
 
 
@@ -137,10 +156,10 @@ function animateToMenu() {
 
     // end
     if (playButton.alpha >= 1 && playButton.progress >= 100 && character.centerY >= 368) {
-      menuStage = 4;
       setPlayButton();
       menuStage = 0;
       logo.alpha = 0;
+
       // set state to intro
       gameState = "gameMenu";
     }

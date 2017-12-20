@@ -23,7 +23,7 @@ function updateGameOverAnimation() {
     var anim = {
       from: cameraY,
       to: cameraY-200,
-      duration: 80,
+      duration: 16,
       easing: 'easeOutQuad'
     }
 
@@ -47,9 +47,9 @@ function updateGameOverAnimation() {
       // animation parameters
       var anim = {
         from: cameraY,
-        to: 0,
-        duration: 48,
-        easing: 'easeInOutQuad'
+        to: cameraY+200,
+        duration: 32,
+        easing: 'easeOutQuad'
       }
 
       // get new value

@@ -41,7 +41,12 @@ function animateNum(from,to,duration,easing){
   // animation easing types:: defaults to linear
   switch (animateNumber.easing) {
     case 'easeOutQuad':
-      animation = EasingFunctions.easeOutQuad(animateNumber.progress/100);
+      animation = EasingFunctions.easeOutQuint(animateNumber.progress/100);
+      value = animateNumber.amount*animation;
+      break;
+
+    case 'easeInQuad':
+      animation = EasingFunctions.easeInQuint(animateNumber.progress/100);
       value = animateNumber.amount*animation;
       break;
 
