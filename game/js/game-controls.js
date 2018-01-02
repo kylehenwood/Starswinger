@@ -1,13 +1,19 @@
 // each hook created also pushes its click area into this array
 var elements = [];
+var elem;
 
-// mouseTestSetup;
-function mouseTestSetup() {
-  var elem = canvas.id;
+function setMouseVariables() {
+  elem = canvas.id;
   var viewportOffset = elem.getBoundingClientRect();
   // the problem...
   elem.left = viewportOffset.left;
   elem.top = viewportOffset.top;
+}
+
+// mouseTestSetup;
+function mouseTestSetup() {
+
+  setMouseVariables();
 
   // add event listener for clicks on canvas.
   elem.addEventListener('click', function(event) {
