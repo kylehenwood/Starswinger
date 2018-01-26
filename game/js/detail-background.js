@@ -102,7 +102,7 @@ function drawBackgroundStars() {
     //console.log(starCameraMoveY);
 
     // camera move
-    var cameraReducer = 0.8;
+    var cameraReducer = 0.4;
 
     starPanel.posX += (moveCanvas.moveSpeed*cameraReducer)*starPanel.posZ;
     starPanel.posY = (backgroundCameraY*cameraReducer)*starPanel.posZ;

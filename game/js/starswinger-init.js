@@ -4,6 +4,7 @@
   // Create main canvases
   setupCanvas();
   setupGameCanvas();
+  setupCharacter();
   gameResizeSetup();
 
   // Base
