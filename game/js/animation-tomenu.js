@@ -32,7 +32,7 @@ function animateToMenu() {
   if (menuStage === 1) {
 
     var anim = {
-      from: cameraY,
+      from: cameraY,  // this gets constantly updated when animating... it shouldnt?
       to: -canvas.height*5,
       duration: 100,
       easing: 'easeInQuad'

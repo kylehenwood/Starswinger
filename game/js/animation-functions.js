@@ -62,7 +62,7 @@ function animateNum(from,to,duration,easing){
 
   // add amount to move to original postion.
   value = value+animateNumber.from;
-  console.log(value);
+  //console.log(value);
 
   // variables to return
   var animationReturn = {
