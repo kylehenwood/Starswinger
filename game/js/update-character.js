@@ -25,7 +25,7 @@ function setupCharacter() {
   image.onload = drawImageActualSize; // draw when image has loaded
 
   // load an image of intrinsic size 300x227 in CSS pixels
-  image.src = 'art/character/character-right.png';
+  //image.src = 'art/character/character-right.png';
 }
 
 

@@ -65,5 +65,5 @@ function initAudioFalling() {
   audioFalling.volume = gameAudio.volume;
 }
 function soundFalling() {
-  audioFalling.play();
+  //audioFalling.play();
 }
